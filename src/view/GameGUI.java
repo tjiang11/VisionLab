@@ -23,6 +23,9 @@ public class GameGUI {
     /** Height of the game window. */
     static final int SCREEN_HEIGHT = 400;
     
+    /** Controller for setting event handlers */
+    private LetterGameController LGC;
+    
     /** The subject. */
     private Player currentPlayer;
     /** The current AlphaPair being evaluated by the subject. */
@@ -57,7 +60,9 @@ public class GameGUI {
      * @throws IOException 
      */
     public GameGUI(Stage stage) {
+        
         this.setPrimaryStage(stage);
+        
         this.setLoginScreen(stage);
     }
     
@@ -73,12 +78,16 @@ public class GameGUI {
         
         this.start.setOnAction(
                 e -> this.setGameScreen(stage, this.enterId.getText()));
+        
+        
+        
         this.enterId.requestFocus();
         
         this.primaryStage.setResizable(false);
         this.primaryStage.setFullScreen(false);
         this.primaryStage.sizeToScene();
         this.scene = loginScene;
+        LGC = new LetterGameController(this);
         this.primaryStage.setScene(this.scene);
         
         this.primaryStage.show();
@@ -94,10 +103,15 @@ public class GameGUI {
         this.currentPlayer = new Player();
         try {
             Scene gameScene = SetUp.setUpGameScreen(
-                    this, stage, subjectID);        
+                    this, stage, subjectID);  
+            
             this.scene = gameScene;
+            
+            
             this.primaryStage.setScene(this.scene);
-            new LetterGameController(this);
+           
+            this.LGC.grabSetting(this);
+            this.LGC.setGameHandlers();
             
         } catch (NumberFormatException e) {
             System.out.println("Oops!");

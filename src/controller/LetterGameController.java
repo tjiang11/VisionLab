@@ -42,6 +42,8 @@ public class LetterGameController implements GameController {
     /** Current state of the game. */
     public static CurrentState state;
     
+    private LetterGameController gc;
+    
     /** 
      * Constructor for the controller. There is only meant
      * to be one instance of the controller. Attaches listener
@@ -51,7 +53,7 @@ public class LetterGameController implements GameController {
      */
     public LetterGameController(GameGUI view) {
         
-        LetterGameController gc = this;
+        gc = this;
         setApg(new AlphaPairGenerator());
         theView = view;
         theScene = view.getScene();
@@ -59,10 +61,13 @@ public class LetterGameController implements GameController {
         responseTimeMetric = System.nanoTime();
         state = CurrentState.WAITING_FOR_RESPONSE;
         this.dw = new DataWriter(theView);
-        
-        /** Event listener for when subject presses 'F' or 'J' key
-         * during a round. 
-         */
+    }
+    
+    /** 
+     * Sets event listener for when subject presses 'F' or 'J' key
+     * during a round. 
+     */
+    public void setGameHandlers() {
         theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -80,8 +85,8 @@ public class LetterGameController implements GameController {
                     AudioClip feedbackSound;
                     
                     if (GameLogic.checkValidity(event, 
-                            view.getCurrentAlphaPair(), 
-                            view.getCurrentPlayer())) {
+                            theView.getCurrentAlphaPair(), 
+                            theView.getCurrentPlayer())) {
                         feedbackSoundFileUrl = 
                                 getClass().getResource("/UI/sounds/Ping.aiff");
                     } else {
@@ -180,6 +185,13 @@ public class LetterGameController implements GameController {
         System.out.println("Your response time was: " 
                 + responseTimeSec + " seconds");
     }
+    
+    public void grabSetting(GameGUI theView) {
+        this.theView = theView;
+        this.theScene = theView.getScene();
+        this.thePlayer = theView.getCurrentPlayer();
+        this.dw = new DataWriter(theView);
+    }
 
     public AlphaPairGenerator getApg() {
         return apg;
@@ -192,8 +204,8 @@ public class LetterGameController implements GameController {
     public GameGUI getTheView() {
         return theView;
     }
-
-    public void setTheView(GameGUI theView) {
-        this.theView = theView;
+    
+    public void setTheScene(Scene scene) {
+        this.theScene = scene;
     }
 }

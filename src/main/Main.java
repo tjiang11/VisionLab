@@ -1,7 +1,7 @@
 package main;
 
+import controller.LetterGameController;
 import view.GameGUI;
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -22,7 +22,6 @@ public class Main extends Application {
     * @param args command line arguments
      */
     public static void main(String[] args) {
-        //Launches the JavaFX Application
         launch(args);
     }
 
