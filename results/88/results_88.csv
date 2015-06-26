@@ -1,0 +1,14 @@
+Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Distance,Response Time,Date/Time
+88,H,G,left,right,no,1,0.975479891,2015-06-25T20:10:58.668
+88,W,Q,left,left,yes,6,0.989077798,2015-06-25T20:11:01.149
+88,U,G,left,left,yes,14,0.664240984,2015-06-25T20:11:03.315
+88,Q,N,left,left,yes,3,0.477353356,2015-06-25T20:11:05.295
+88,R,Z,right,right,yes,8,0.458554135,2015-06-25T20:11:07.255
+88,G,C,left,right,no,4,0.486687324,2015-06-25T20:11:09.244
+88,M,Z,right,right,yes,13,0.58095241,2015-06-25T20:11:11.327
+88,Z,F,left,right,no,20,0.442505884,2015-06-25T20:11:13.273
+88,S,R,left,left,yes,1,0.797977976,2015-06-25T20:11:15.572
+88,O,M,left,left,yes,2,0.665628656,2015-06-25T20:11:17.740
+88,A,M,right,right,yes,12,0.453201012,2015-06-25T20:11:19.695
+88,V,N,left,left,yes,8,0.489708131,2015-06-25T20:11:21.688
+88,C,J,right,right,yes,7,0.744468554,2015-06-25T20:11:23.934

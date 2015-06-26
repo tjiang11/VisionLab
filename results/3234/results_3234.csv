@@ -1,0 +1,6 @@
+Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Distance,Response Time,Date/Time
+3234,I,F,left,left,yes,3,0.204667797,2015-06-25T17:27:19.621
+3234,Z,V,left,left,yes,4,0.444065465,2015-06-25T17:27:20.078
+3234,B,L,right,left,no,10,0.02169687,2015-06-25T17:27:20.111
+3234,Z,D,left,left,yes,22,0.017198586,2015-06-25T17:27:20.139
+3234,A,P,right,left,no,15,0.023307766,2015-06-25T17:27:20.174

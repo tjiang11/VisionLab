@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="500.0" style="-fx-background-color: green;" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.FXMLDocumentController">
+   <children>
+      <Button id="start" fx:id="start" layoutX="227.0" layoutY="207.0" mnemonicParsing="false" onAction="#handleButtonAction" prefHeight="11.0" prefWidth="47.0" text="Start" />
+      <Label layoutX="153.0" layoutY="148.0" text="What is your Subject ID?">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <TextField alignment="CENTER" layoutX="176.0" layoutY="175.0" />
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</AnchorPane>
