@@ -28,6 +28,7 @@ public class DataWriter {
     public static final String DIFFICULTY = "Distance";
     public static final String RESPONSE_TIME = "Response Time";
     public static final String DATE_TIME = "Date/Time";
+    public static final String CONSECUTIVE_ROUND = "Consecutive Rounds";
     
     /** The graphical user interface. */
     private GameGUI view;
@@ -114,7 +115,8 @@ public class DataWriter {
                 + IS_CORRECT + DELIMITER
                 + DIFFICULTY + DELIMITER
                 + RESPONSE_TIME + DELIMITER
-                + DATE_TIME + "\n";
+                + DATE_TIME + DELIMITER
+                + CONSECUTIVE_ROUND + "\n";
         return text;
     }
 
@@ -139,6 +141,7 @@ public class DataWriter {
         String difficulty;
         String responseTime;
         String dateTime;
+        String consecutiveRounds;
         
         if (this.view.getCurrentAlphaPair().isLeftCorrect()) {
             whichSideCorrect = "left";
@@ -168,6 +171,9 @@ public class DataWriter {
         
         dateTime = LocalDateTime.now().toString();
         
+        consecutiveRounds = Integer.toString(
+                this.view.getCurrentPlayer().getNumRounds());
+        
         String trialText = subjectID + DELIMITER
                 + leftChoice + DELIMITER
                 + rightChoice + DELIMITER
@@ -176,7 +182,8 @@ public class DataWriter {
                 + correct + DELIMITER
                 + difficulty + DELIMITER
                 + responseTime + DELIMITER
-                + dateTime + "\n";
+                + dateTime + DELIMITER
+                + consecutiveRounds + "\n";
         
         return trialText;
     }
