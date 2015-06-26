@@ -33,13 +33,15 @@ public class GameController {
     private DataWriter dw;
     
     /** AlphaPairGenerator to generate an AlphaPair */
-    private static AlphaPairGenerator apg;
+    private AlphaPairGenerator apg;
     /** The graphical user interface. */
-    private static GameGUI theView;
+    private GameGUI theView;
     /** The current scene. */
-    private static Scene theScene;
+    private Scene theScene;
+
+
     /** The subject. */
-    private static Player thePlayer;
+    private Player thePlayer;
     /** Used to measure response time. */
     private static long responseTimeMetric;
     /** Current state of the game. */
@@ -54,7 +56,8 @@ public class GameController {
      */
     public GameController(GameGUI view) {
         
-        apg = new AlphaPairGenerator();
+        GameController gc = this;
+        setApg(new AlphaPairGenerator());
         theView = view;
         theScene = view.getScene();
         thePlayer = view.getCurrentPlayer();
@@ -95,7 +98,7 @@ public class GameController {
                     feedbackSound.play();
                     
                     /** Prepare the next round */
-                    GameController.prepareNextRound(); 
+                    gc.prepareNextRound(); 
                     
                     /** Export data */
                     dw.writeToCSV();
@@ -117,7 +120,7 @@ public class GameController {
      * Prepares the next round be recording reponse time,
      * clearing the previous round, waiting, and creating the next round.
      */
-    private static void prepareNextRound() {
+    private void prepareNextRound() {
         recordResponseTime();
         clearRound();
         waitBeforeNextRoundAndUpdate();
@@ -126,15 +129,15 @@ public class GameController {
     /**
      * Clears the options.
      */
-    private static void clearRound() {
-        theView.getLeftOption().setText("");
-        theView.getRightOption().setText("");
+    private void clearRound() {
+        getTheView().getLeftOption().setText("");
+        getTheView().getRightOption().setText("");
     }
 
     /**
      * Wait for a certain time and then set the next round.
      */
-    private static void waitBeforeNextRoundAndUpdate() {
+    private void waitBeforeNextRoundAndUpdate() {
         Task<Void> sleeper = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
@@ -156,11 +159,11 @@ public class GameController {
     /**
      * Set the next round's choices.
      */
-    public static void setOptions() {
+    public void setOptions() {
         char letterOne, letterTwo;
         
         apg.getNewPair();
-        theView.setCurrentAlphaPair(apg.getAlphaPair());
+        theView.setCurrentAlphaPair(getApg().getAlphaPair());
         
         letterOne = theView.getCurrentAlphaPair().getLetterOne();
         letterTwo = theView.getCurrentAlphaPair().getLetterTwo();
@@ -173,7 +176,7 @@ public class GameController {
     /** 
      * Record the response time of the subject. 
      */
-    private static void recordResponseTime() {
+    private void recordResponseTime() {
         long responseTime = System.nanoTime() - responseTimeMetric;
         thePlayer.setResponseTime(responseTime);
         
@@ -181,5 +184,21 @@ public class GameController {
         double responseTimeSec = responseTime / 1000000000.0;
         System.out.println("Your response time was: " 
                 + responseTimeSec + " seconds");
+    }
+
+    public AlphaPairGenerator getApg() {
+        return apg;
+    }
+
+    public void setApg(AlphaPairGenerator apg) {
+        this.apg = apg;
+    }
+    
+    public GameGUI getTheView() {
+        return theView;
+    }
+
+    public void setTheView(GameGUI theView) {
+        this.theView = theView;
     }
 }
