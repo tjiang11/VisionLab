@@ -106,10 +106,9 @@ public class GameGUI {
                     this, stage, subjectID);  
             
             this.scene = gameScene;
-            
-            
             this.primaryStage.setScene(this.scene);
            
+            /** Set event handlers for gameplay */
             this.LGC.grabSetting(this);
             this.LGC.setGameHandlers();
             
