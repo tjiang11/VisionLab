@@ -9,12 +9,7 @@ import java.util.Random;
  * 6-25-2015
  *
  */
-public class AlphaPairGenerator {
-    
-    /**
-     * Max number of times the same side may be the correct choice.
-     */
-    static final int MAX_TIMES_SAME_ANSWER = 3;
+public class AlphaPairGenerator implements PairGenerator{
     
     /**
      * Number of characters to choose from. 
@@ -36,8 +31,11 @@ public class AlphaPairGenerator {
     private boolean lastWasLeft;
     
     /**
-     * Constructor.
+     * Constructor. 
      */
+//   (6-25-2015) sameChoice is set to 1 because the very first round
+//   is not handled by the same instance of AlphaPairGenerator as the
+//   following rounds. (This should be changed, though)
     public AlphaPairGenerator() {
         this.getNewPair();
         this.setSameChoice(1);
@@ -57,7 +55,42 @@ public class AlphaPairGenerator {
         do {
             letterTwo = this.randomGenerator.nextInt(NUM_LETTERS); 
         } while (letterOne == letterTwo);        
-        
+           
+        this.checkSameChoice(letterOne, letterTwo);
+
+        if (this.getSameChoice() >= MAX_TIMES_SAME_ANSWER) {
+            this.setReverseAlphaPair(letterOne, letterTwo);
+        } else {
+            this.setAlphaPair(new AlphaPair(letterOne, letterTwo));
+        }
+    }
+    
+    /**
+     * Occurs under the condition that the same side has been correct
+     * for MAX_TIMES_SAME_ANSWER times in a row.
+     * 
+     * Set the AlphaPair with the positions of the right and left letters
+     * flipped as to what it would have otherwise been.
+     * 
+     * Toggles the lastWasLeft property because we are toggling the side
+     * of which each component of the pair is being shown, so the opposite
+     * side will be correct after setting the alpha pair in reverse order.
+     * 
+     * @param letterOne 
+     * @param letterTwo
+     */
+    public void setReverseAlphaPair(int letterOne, int letterTwo) {
+        this.setAlphaPair(new AlphaPair(letterTwo, letterOne));
+        this.toggleLastWasLeft();
+        this.setSameChoice(0);
+    }
+
+    /**
+     * Check if the same side is correct as the last round.
+     * @param letterOne Position of first letter of current round.
+     * @param letterTwo Position of right letter of current round.
+     */
+    public void checkSameChoice(int letterOne, int letterTwo) {
         if (letterOne > letterTwo) {
             if (this.lastWasLeft) {
                 this.incrementSameChoice();
@@ -72,17 +105,9 @@ public class AlphaPairGenerator {
                 this.setSameChoice(0);
             }
             this.lastWasLeft = false;
-        }
-        
-        if (this.getSameChoice() >= MAX_TIMES_SAME_ANSWER) {
-            this.setAlphaPair(new AlphaPair(letterTwo, letterOne));
-            this.toggleLastWasLeft();
-            this.setSameChoice(0);
-        } else {
-            this.setAlphaPair(new AlphaPair(letterOne, letterTwo));
-        }
+        }   
     }
-    
+
     /**
      * Toggles which of the last choices was correct.
      */

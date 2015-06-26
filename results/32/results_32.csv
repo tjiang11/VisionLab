@@ -1,0 +1,7 @@
+Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Distance,Response Time,Date/Time
+32,A,G,right,left,no,6,0.159747405,2015-06-26T13:25:09.212
+32,H,X,right,left,no,16,0.27908724,2015-06-26T13:25:10.732
+32,L,D,left,left,yes,8,0.051399047,2015-06-26T13:25:12.035
+32,Q,S,right,left,no,2,0.368052657,2015-06-26T13:25:13.655
+32,M,U,right,left,no,8,0.292814294,2015-06-26T13:25:15.199
+32,U,J,left,left,yes,11,1.097135365,2015-06-26T13:25:17.548

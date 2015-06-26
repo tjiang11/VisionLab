@@ -1,6 +1,6 @@
 package view;
 
-import controller.GameController;
+import controller.LetterGameController;
 import model.AlphaPair;
 import model.Player;
 import javafx.scene.Scene;
@@ -97,7 +97,7 @@ public class GameGUI {
                     this, stage, subjectID);        
             this.scene = gameScene;
             this.primaryStage.setScene(this.scene);
-            new GameController(this);
+            new LetterGameController(this);
             
         } catch (NumberFormatException e) {
             System.out.println("Oops!");

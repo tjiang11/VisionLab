@@ -58,3 +58,5 @@ Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Distance,Re
 2,A,T,right,left,no,19,1.5395E-5,2015-06-25T21:18:16.978
 2,C,H,right,left,no,5,1.2401E-5,2015-06-25T21:18:18.435
 2,X,K,left,left,yes,13,1.625E-5,2015-06-25T21:18:21.284
+2,Q,P,left,left,yes,1,0.221613652,2015-06-26T13:25:46.946
+2,R,N,left,left,yes,4,0.337515309,2015-06-26T13:26:25.052

@@ -3,7 +3,7 @@ package controller;
 /**
  * Enum describing the current point in time of the game.
  * 
- * Currently the prime use of this Enum is to prevent the possibility
+ * (06-25-2015) The prime use of this Enum is to prevent the possibility
  * of mass input caused by subject holding down 'F' or 'J' key.
  * 
  * @author Tony Jiang
