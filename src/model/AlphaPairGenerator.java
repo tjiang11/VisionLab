@@ -33,12 +33,9 @@ public class AlphaPairGenerator implements PairGenerator{
     /**
      * Constructor. 
      */
-//   (6-25-2015) sameChoice is set to 1 because the very first round
-//   is not handled by the same instance of AlphaPairGenerator as the
-//   following rounds. (This should be changed, though)
     public AlphaPairGenerator() {
         this.getNewPair();
-        this.setSameChoice(1);
+        this.setSameChoice(0);
         this.setLastWasLeft(false);
     }
     

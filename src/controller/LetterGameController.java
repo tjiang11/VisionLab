@@ -53,12 +53,12 @@ public class LetterGameController implements GameController {
      */
     public LetterGameController(GameGUI view) {
         
-        gc = this;
-        gl = new GameLogic();
-        setApg(new AlphaPairGenerator());
-        theView = view;
-        theScene = view.getScene();
-        thePlayer = view.getCurrentPlayer();
+        this.gc = this;
+        this.gl = new GameLogic();
+        this.setApg(new AlphaPairGenerator());
+        this.theView = view;
+        this.theScene = view.getScene();
+        this.thePlayer = view.getCurrentPlayer();
         state = CurrentState.WAITING_FOR_RESPONSE;
         this.dw = new DataWriter(theView);
     }
@@ -104,7 +104,7 @@ public class LetterGameController implements GameController {
             }
         });
     }
-    
+
     /**
      * Prepares the next round be recording reponse time,
      * clearing the previous round, waiting, and creating the next round.
@@ -175,6 +175,10 @@ public class LetterGameController implements GameController {
                 + responseTimeSec + " seconds");
     }
     
+    /**
+     * Reorients the Controller to the current scene and player.
+     * @param theView The current view.
+     */
     public void grabSetting(GameGUI theView) {
         this.theView = theView;
         this.theScene = theView.getScene();

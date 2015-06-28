@@ -1,6 +1,5 @@
 package view;
 
-import model.AlphaPairGenerator;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -158,20 +157,10 @@ public final class SetUp {
     }
     
     /**
-     * Setup the content and style of the letters as the
-     * two options.
+     * Setup the style of the two options.
      * @param view The graphical user interface.
      */
     public static void initialButtonSetUp(GameGUI view) {
-        AlphaPairGenerator apg = new AlphaPairGenerator();
-        char letterOne, letterTwo;
-        
-        view.setCurrentAlphaPair(apg.getAlphaPair());
-        letterOne = view.getCurrentAlphaPair().getLetterOne();
-        letterTwo = view.getCurrentAlphaPair().getLetterTwo();
-        
-        view.getLeftOption().setText(String.valueOf(letterOne));
-        view.getRightOption().setText(String.valueOf(letterTwo));
         view.getLeftOption().setFont(new Font("Tahoma", LETTER_SIZE));
         view.getRightOption().setFont(new Font("Tahoma", LETTER_SIZE));
         view.getLeftOption().setStyle("-fx-background-color: transparent;");

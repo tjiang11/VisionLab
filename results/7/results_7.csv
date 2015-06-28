@@ -39,3 +39,8 @@ Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Distance,Re
 7,P,A,left,left,yes,15,0.022451216,2015-06-27T22:52:57.821,38
 7,K,I,left,right,no,2,0.946325084,2015-06-27T22:52:58.780,39
 7,F,E,left,left,yes,1,0.208070481,2015-06-27T22:52:58.997,40
+7,G,U,right,right,yes,14,0.493384074,2015-06-28T16:40:20.145,1
+7,G,U,right,right,yes,14,0.015537229,2015-06-28T16:40:21.154,2
+7,Q,H,left,right,no,9,0.01747997,2015-06-28T16:40:22.173,3
+7,L,C,left,right,no,9,0.276170349,2015-06-28T16:40:43.388,1
+7,O,S,right,right,yes,4,0.013756988,2015-06-28T16:40:44.395,2

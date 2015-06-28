@@ -180,3 +180,9 @@ Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Distance,Re
 9,K,Q,right,right,yes,6,0.58458516,2015-06-28T16:10:39.017,4
 9,S,P,left,right,no,3,1.44191746,2015-06-28T16:10:41.462,5
 9,L,Z,right,right,yes,14,0.567204402,2015-06-28T16:10:43.031,6
+9,N,H,left,right,no,6,1.334998683,2015-06-28T16:39:53.439,1
+9,L,E,left,right,no,7,0.231353017,2015-06-28T16:39:54.664,2
+9,Z,B,left,right,no,24,0.161198795,2015-06-28T16:39:55.828,3
+9,D,F,right,right,yes,2,0.719397224,2015-06-28T16:39:57.550,4
+9,X,N,left,right,no,10,0.290476846,2015-06-28T16:40:55.314,1
+9,A,K,right,right,yes,10,0.014988574,2015-06-28T16:40:56.323,2

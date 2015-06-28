@@ -81,9 +81,7 @@ public class GameGUI {
         
         this.start.setOnAction(
                 e -> this.setGameScreen(stage, this.enterId.getText()));
-        
-        
-        
+
         this.enterId.requestFocus();
         
         this.primaryStage.setResizable(false);
@@ -111,7 +109,10 @@ public class GameGUI {
             this.scene = gameScene;
             this.primaryStage.setScene(this.scene);
            
+            this.LGC.setOptions();
+            
             /** Set event handlers for gameplay */
+            
             this.LGC.grabSetting(this);
             this.LGC.setGameHandlers();
             
