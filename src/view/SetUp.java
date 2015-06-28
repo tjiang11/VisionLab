@@ -1,11 +1,11 @@
 package view;
 
 import model.AlphaPairGenerator;
-
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -14,6 +14,8 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.text.Font;
+import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 /**
@@ -55,6 +57,8 @@ public final class SetUp {
     static final int LEFT_OPTION_Y = 90;
     static final int RIGHT_OPTION_X = 270;
     static final int RIGHT_OPTION_Y = 90;
+    static final int PROGRESS_BAR_X = 20;
+    static final int PROGRESS_BAR_Y = 20;
     /** Font size of the letter options. */
     static final int LETTER_SIZE = 100;
     
@@ -121,6 +125,15 @@ public final class SetUp {
         System.out.println(view.getCurrentPlayer().getSubjectID());
         setUpOptions(view);
         initialButtonSetUp(view);
+        
+        view.setProgressBar(new ProgressBar(0.0));
+        view.getProgressBar().setLayoutX(PROGRESS_BAR_X);
+        view.getProgressBar().setLayoutY(PROGRESS_BAR_Y);
+        view.getProgressBar().getTransforms().setAll(
+                new Rotate(-90, 0, 0),
+                new Translate(-100, 0));
+        
+        layout.getChildren().add(view.getProgressBar());
         layout.getChildren().add(view.getLeftOption());
         layout.getChildren().add(view.getRightOption());
         setBackground(view, layout);
@@ -203,7 +216,7 @@ public final class SetUp {
     public static void setBackground(GameGUI view, AnchorPane layout) {
         BackgroundImage bg = new BackgroundImage(
                 new Image(
-                        "UI/images/sky.png", 
+                        "res/images/sky.png", 
                         GameGUI.SCREEN_WIDTH,
                         GameGUI.SCREEN_HEIGHT, 
                         false, true),

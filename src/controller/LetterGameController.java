@@ -1,6 +1,6 @@
 package controller;
 
-import java.net.URL;
+
 
 import model.AlphaPairGenerator;
 import model.GameLogic;
@@ -11,7 +11,6 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.media.AudioClip;
 import view.GameGUI;
 
 /**
@@ -43,6 +42,7 @@ public class LetterGameController implements GameController {
     public static CurrentState state;
     
     private LetterGameController gc;
+    private GameLogic gl;
     
     /** 
      * Constructor for the controller. There is only meant
@@ -54,6 +54,7 @@ public class LetterGameController implements GameController {
     public LetterGameController(GameGUI view) {
         
         gc = this;
+        gl = new GameLogic();
         setApg(new AlphaPairGenerator());
         theView = view;
         theScene = view.getScene();
@@ -79,23 +80,11 @@ public class LetterGameController implements GameController {
                      * 'F' or 'J' key. */
                     state = CurrentState.WAITING_BETWEEN_ROUNDS;
                     
-                    /** If user inputs correct answer play positive feedback sound,
-                     * if not then play negative feedback sound.*/
-                    URL feedbackSoundFileUrl;
-                    AudioClip feedbackSound;
-                    
-                    if (GameLogic.checkValidity(event, 
-                            theView.getCurrentAlphaPair(), 
-                            theView.getCurrentPlayer())) {
-                        feedbackSoundFileUrl = 
-                                getClass().getResource("/UI/sounds/Ping.aiff");
-                    } else {
-                        feedbackSoundFileUrl = 
-                                getClass().getResource("/UI/sounds/Basso.aiff");
-                    }
-                    feedbackSound = new AudioClip(
-                            feedbackSoundFileUrl.toString());
-                    feedbackSound.play();
+                    /** Update models and view appropriately according to correctness
+                     * of subject's response.
+                     */
+                    gl.responseAndUpdate(event, 
+                            theView);
                     
                     /** Prepare the next round */
                     gc.prepareNextRound(); 

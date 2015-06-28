@@ -39,3 +39,4 @@ Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Distance,Re
 132,O,H,left,right,no,7,0.022641085,2015-06-26T23:31:16.154,38
 132,O,Y,right,right,yes,10,0.022377662,2015-06-26T23:31:16.187,39
 132,T,U,right,right,yes,1,0.02145996,2015-06-26T23:31:16.219,40
+132,T,F,left,left,yes,14,0.350987065,2015-06-28T15:32:00.490,1

@@ -6,6 +6,7 @@ import model.Player;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
@@ -49,6 +50,8 @@ public class GameGUI {
     private Button leftOption;
     /** Game Screen - The right choice. */
     private Button rightOption;
+    /** Game Screen - Progress Bar. */
+    private ProgressBar progressBar;
     
     /** End Screen - message informing the user has finished. */
     private Label congratulations;
@@ -204,6 +207,14 @@ public class GameGUI {
 
     public void setPrimaryStage(Stage primaryStage) {
         this.primaryStage = primaryStage;
+    }
+
+    public ProgressBar getProgressBar() {
+        return progressBar;
+    }
+
+    public void setProgressBar(ProgressBar progressBar) {
+        this.progressBar = progressBar;
     }
 
 }
