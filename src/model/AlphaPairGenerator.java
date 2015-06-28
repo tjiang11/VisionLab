@@ -59,7 +59,7 @@ public class AlphaPairGenerator implements PairGenerator{
         this.checkSameChoice(letterOne, letterTwo);
 
         if (this.getSameChoice() >= MAX_TIMES_SAME_ANSWER) {
-            this.setReverseAlphaPair(letterOne, letterTwo);
+            this.setReversePair(letterOne, letterTwo);
         } else {
             this.setAlphaPair(new AlphaPair(letterOne, letterTwo));
         }
@@ -79,7 +79,7 @@ public class AlphaPairGenerator implements PairGenerator{
      * @param letterOne 
      * @param letterTwo
      */
-    public void setReverseAlphaPair(int letterOne, int letterTwo) {
+    public void setReversePair(int letterOne, int letterTwo) {
         this.setAlphaPair(new AlphaPair(letterTwo, letterOne));
         this.toggleLastWasLeft();
         this.setSameChoice(0);

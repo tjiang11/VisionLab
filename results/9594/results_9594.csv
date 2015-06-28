@@ -1,0 +1,7 @@
+Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Distance,Response Time,Date/Time,Consecutive Rounds
+9594,J,F,left,left,yes,4,9.418116631,2015-06-27T22:45:24.303,1
+9594,Y,R,left,left,yes,7,1.263639388,2015-06-27T22:45:26.553,2
+9594,H,P,right,left,no,8,3.676099276,2015-06-27T22:45:31.231,3
+9594,N,Q,right,right,yes,3,0.521119135,2015-06-27T22:45:32.755,4
+9594,O,M,left,right,no,2,0.227015524,2015-06-27T22:45:33.983,5
+9594,Q,N,left,left,yes,3,0.062709113,2015-06-27T22:45:35.048,6

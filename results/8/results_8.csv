@@ -1,0 +1,4 @@
+Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Distance,Response Time,Date/Time,Consecutive Rounds
+8,X,O,left,left,yes,9,2.705251945,2015-06-27T21:20:27.855,1
+8,I,L,right,right,yes,3,0.771763152,2015-06-27T21:20:28.641,2
+8,L,S,right,left,no,7,2.280573696,2015-06-27T21:21:16.099,1

@@ -58,7 +58,6 @@ public class LetterGameController implements GameController {
         theView = view;
         theScene = view.getScene();
         thePlayer = view.getCurrentPlayer();
-        responseTimeMetric = System.nanoTime();
         state = CurrentState.WAITING_FOR_RESPONSE;
         this.dw = new DataWriter(theView);
     }
@@ -68,6 +67,7 @@ public class LetterGameController implements GameController {
      * during a round. 
      */
     public void setGameHandlers() {
+        responseTimeMetric = System.nanoTime();
         theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {

@@ -30,7 +30,7 @@ interface PairGenerator {
      * Set the Pair with the positions of the right and left letters
      * flipped as to what it would have otherwise been.
      */
-    void setReverseAlphaPair(int ChoiceOne, int ChoiceTwo);
+    void setReversePair(int ChoiceOne, int ChoiceTwo);
     
     /**
      * Check if the same side is correct as the last round.
