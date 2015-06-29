@@ -29,7 +29,7 @@ public interface GameController {
     /**
      * Wait for a certain time and then set the next round.
      */
-    void waitBeforeNextRoundAndUpdate();
+    void waitBeforeNextRoundAndUpdate(int waitTime);
     
     /**
      * Set the next round's choices.

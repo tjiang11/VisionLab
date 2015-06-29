@@ -58,6 +58,10 @@ public final class SetUp {
     static final int RIGHT_OPTION_Y = 90;
     static final int PROGRESS_BAR_X = 20;
     static final int PROGRESS_BAR_Y = 20;
+    static final int GET_READY_X = 132;
+    static final int GET_READY_Y = 150;
+    static final int GET_READY_BAR_X = 105;
+    static final int GET_READY_BAR_Y = 220;
     /** Font size of the letter options. */
     static final int LETTER_SIZE = 100;
     
@@ -132,9 +136,17 @@ public final class SetUp {
                 new Rotate(-90, 0, 0),
                 new Translate(-100, 0));
         
-        layout.getChildren().add(view.getProgressBar());
-        layout.getChildren().add(view.getLeftOption());
-        layout.getChildren().add(view.getRightOption());
+        view.setGetReadyBar(new ProgressBar(0.0));
+        view.getGetReadyBar().setLayoutX(GET_READY_BAR_X);
+        view.getGetReadyBar().setLayoutY(GET_READY_BAR_Y);
+        view.getGetReadyBar().setPrefWidth(300.0);
+        
+        view.setGetReady(new Label("Get Ready!"));
+        view.getGetReady().setLayoutX(GET_READY_X);
+        view.getGetReady().setLayoutY(GET_READY_Y);
+        view.getGetReady().setFont(new Font("Tahoma", 50));
+        
+        layout.getChildren().addAll(view.getGetReadyBar(), view.getGetReady(), view.getProgressBar(), view.getLeftOption(), view.getRightOption());
         setBackground(view, layout);
         //primaryStage.setFullScreen(true);
         return new Scene(layout, GameGUI.SCREEN_WIDTH, GameGUI.SCREEN_HEIGHT);

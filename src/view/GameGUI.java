@@ -52,6 +52,10 @@ public class GameGUI {
     private Button rightOption;
     /** Game Screen - Progress Bar. */
     private ProgressBar progressBar;
+    /** Game Screen - Get Ready */
+    private Label getReady;
+    /** Game Screen - Get Ready Bar */
+    private ProgressBar getReadyBar;
     
     /** End Screen - message informing the user has finished. */
     private Label congratulations;
@@ -109,7 +113,8 @@ public class GameGUI {
             this.scene = gameScene;
             this.primaryStage.setScene(this.scene);
            
-            this.LGC.setOptions();
+            
+            this.LGC.prepareFirstRound();
             
             /** Set event handlers for gameplay */
             
@@ -216,6 +221,22 @@ public class GameGUI {
 
     public void setProgressBar(ProgressBar progressBar) {
         this.progressBar = progressBar;
+    }
+
+    public Label getGetReady() {
+        return getReady;
+    }
+
+    public void setGetReady(Label getReady) {
+        this.getReady = getReady;
+    }
+
+    public ProgressBar getGetReadyBar() {
+        return getReadyBar;
+    }
+
+    public void setGetReadyBar(ProgressBar getReadyBar) {
+        this.getReadyBar = getReadyBar;
     }
 
 }

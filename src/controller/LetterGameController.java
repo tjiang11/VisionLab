@@ -59,7 +59,6 @@ public class LetterGameController implements GameController {
         this.theView = view;
         this.theScene = view.getScene();
         this.thePlayer = view.getCurrentPlayer();
-        state = CurrentState.WAITING_FOR_RESPONSE;
         this.dw = new DataWriter(theView);
     }
     
@@ -68,7 +67,6 @@ public class LetterGameController implements GameController {
      * during a round. 
      */
     public void setGameHandlers() {
-        responseTimeMetric = System.nanoTime();
         theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -103,8 +101,34 @@ public class LetterGameController implements GameController {
                 }
             }
         });
+    }  
+    
+    public void prepareFirstRound() {
+        
+        Task<Void> sleeper = new Task<Void>() {   
+            @Override
+            protected Void call() throws Exception {
+                for (int i = 0; i < 2000; i++) {
+                    this.updateProgress(i, 2000); 
+                    Thread.sleep(1);
+                }
+                return null;
+            }
+        };
+        theView.getGetReadyBar().progressProperty().bind(sleeper.progressProperty());
+        sleeper.setOnSucceeded(new EventHandler<WorkerStateEvent>() {
+            @Override
+            public void handle(WorkerStateEvent e) {
+                setOptions();
+                state = CurrentState.WAITING_FOR_RESPONSE;
+                responseTimeMetric = System.nanoTime();
+                getTheView().getGetReady().setText("");
+                theView.getGetReadyBar().setOpacity(0.0);
+            }
+        });
+        new Thread(sleeper).start();
     }
-
+    
     /**
      * Prepares the next round be recording reponse time,
      * clearing the previous round, waiting, and creating the next round.
@@ -112,7 +136,7 @@ public class LetterGameController implements GameController {
     public void prepareNextRound() {
         recordResponseTime();
         clearRound();
-        waitBeforeNextRoundAndUpdate();
+        waitBeforeNextRoundAndUpdate(TIME_BETWEEN_ROUNDS);
     }
     
     /**
@@ -126,11 +150,15 @@ public class LetterGameController implements GameController {
     /**
      * Wait for a certain time and then set the next round.
      */
-    public void waitBeforeNextRoundAndUpdate() {
+    public void waitBeforeNextRoundAndUpdate(int waitTime) {
+        
         Task<Void> sleeper = new Task<Void>() {
             @Override
             protected Void call() throws Exception {
-                Thread.sleep(TIME_BETWEEN_ROUNDS);
+                for (int i = 0; i < waitTime; i++) {
+                    this.updateProgress(i, waitTime); 
+                    Thread.sleep(1);
+                }
                 return null;
             }
         };
@@ -140,6 +168,7 @@ public class LetterGameController implements GameController {
                 setOptions();
                 state = CurrentState.WAITING_FOR_RESPONSE;
                 responseTimeMetric = System.nanoTime();
+                getTheView().getGetReady().setText("");
             }
         });
         new Thread(sleeper).start();
