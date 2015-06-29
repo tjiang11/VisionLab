@@ -94,6 +94,11 @@ public final class GameLogic {
             int starToReveal = view.getCurrentPlayer().getNumStars();
             view.getStarNodes()[starToReveal].setVisible(true);
             view.getCurrentPlayer().incrementNumStars();
+            
+            if (view.getCurrentPlayer().getNumStars() > 2) {
+                
+                view.changeBackground(1);
+            }
         }
         view.getProgressBar().setProgress(view.getProgressBar().getProgress() + .2);
     }

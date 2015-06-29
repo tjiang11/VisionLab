@@ -144,6 +144,14 @@ public class GameGUI {
         this.scene = finishScene;
         this.primaryStage.setScene(this.scene);
     }
+    
+    /**
+     * Change the background in real time.
+     */
+    public void changeBackground(int level) { 
+        SetUp.setBackground(this.layout, level);
+        this.scene.setRoot(this.layout);
+    }
 
     public Player getCurrentPlayer() {
         return this.currentPlayer;

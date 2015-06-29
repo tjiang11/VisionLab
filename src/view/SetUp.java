@@ -27,6 +27,9 @@ import javafx.stage.Stage;
  */
 public final class SetUp {
     
+    /** Background */
+    static final String BACKGROUNDS[] = {"sky", "journey"};
+    
     /** 
      * Login Screen Element Positions. 
      *
@@ -63,9 +66,10 @@ public final class SetUp {
     static final int GET_READY_Y = 150;
     static final int GET_READY_BAR_X = 105;
     static final int GET_READY_BAR_Y = 220;
-    static final int FIRST_STAR_X = 350;
-    static final int STAR_Y = -105;
+    static final int FIRST_STAR_X = 415;
+    static final int STAR_Y = -35;
     static final int STAR_SHIFT = 30;
+    static final double STAR_SCALE = .23;
     /** Font size of the letter options. */
     static final int LETTER_SIZE = 100;
     
@@ -93,10 +97,6 @@ public final class SetUp {
      */
     public static Scene setUpLoginScreen(GameGUI view, Stage primaryStage) {
         
-        
-
-        
-        
         Label label = new Label("Enter your Subject ID");
         label.setLayoutY(LABEL_POSITION_Y);
         label.setLayoutX(LABEL_POSITION_X);
@@ -117,7 +117,7 @@ public final class SetUp {
         Scene scene = new Scene(view.getLayout(), 
                 GameGUI.SCREEN_WIDTH, GameGUI.SCREEN_HEIGHT);
 
-        setBackground(view.getLayout());
+        setBackground(view.getLayout(), 0);
         
         
         
@@ -134,7 +134,7 @@ public final class SetUp {
     public static Scene setUpGameScreen(GameGUI view, 
             Stage primaryStage, String subjectID) {
         
-        AnchorPane layout = new AnchorPane();
+        view.setLayout(new AnchorPane());
         view.getCurrentPlayer().setSubjectID(Integer.parseInt(subjectID));
         System.out.println(view.getCurrentPlayer().getSubjectID());
         setUpOptions(view);
@@ -158,12 +158,12 @@ public final class SetUp {
         view.getGetReady().setLayoutY(GET_READY_Y);
         view.getGetReady().setFont(new Font("Tahoma", 50));
         
-        setStars(view, layout);
+        setStars(view, view.getLayout());
         
-        layout.getChildren().addAll(view.getGetReadyBar(), view.getGetReady(), view.getProgressBar(), view.getLeftOption(), view.getRightOption());
-        setBackground(layout);
+        view.getLayout().getChildren().addAll(view.getGetReadyBar(), view.getGetReady(), view.getProgressBar(), view.getLeftOption(), view.getRightOption());
+        setBackground(view.getLayout(), 0);
         //primaryStage.setFullScreen(true);
-        return new Scene(layout, GameGUI.SCREEN_WIDTH, GameGUI.SCREEN_HEIGHT);
+        return new Scene(view.getLayout(), GameGUI.SCREEN_WIDTH, GameGUI.SCREEN_HEIGHT);
     }
     
     private static void setStars(GameGUI view, AnchorPane layout) {
@@ -172,10 +172,10 @@ public final class SetUp {
         view.setStarNodes(new ImageView[NUM_STARS]);
         
         for (int i = 0; i < NUM_STARS; i++) {
-            stars[i] = new Image("/res/images/star.png");
+            stars[i] = new Image("/res/images/star2.png");
             view.getStarNodes()[i] = new ImageView(stars[i]);
-            view.getStarNodes()[i].setScaleX(.1);
-            view.getStarNodes()[i].setScaleY(.1);
+            view.getStarNodes()[i].setScaleX(STAR_SCALE);
+            view.getStarNodes()[i].setScaleY(STAR_SCALE);
             view.getStarNodes()[i].setLayoutY(STAR_Y);
             view.getStarNodes()[i].setLayoutX(FIRST_STAR_X - (i * STAR_SHIFT));
             view.getStarNodes()[i].setVisible(false);
@@ -235,7 +235,7 @@ public final class SetUp {
         
         layout.getChildren().addAll(view.getCongratulations(), score);
         
-        setBackground(layout);
+        setBackground(layout, 0);
         
         return new Scene(layout, GameGUI.SCREEN_WIDTH, GameGUI.SCREEN_HEIGHT);
     }
@@ -245,10 +245,13 @@ public final class SetUp {
      * @param view The graphical user interface.
      * @param layout The layout.
      */
-    public static void setBackground(AnchorPane layout) {
+    public static void setBackground(AnchorPane layout, int level) {
+        
+        String backgroundName = BACKGROUNDS[level];
+        
         BackgroundImage bg = new BackgroundImage(
                 new Image(
-                        "res/images/sky.png", 
+                        "res/images/" + backgroundName + ".png", 
                         GameGUI.SCREEN_WIDTH,
                         GameGUI.SCREEN_HEIGHT, 
                         false, true),
@@ -257,12 +260,6 @@ public final class SetUp {
                 BackgroundPosition.CENTER,
                 BackgroundSize.DEFAULT);
         layout.setBackground(new Background(bg));
-    }
-
-    public static void addStar(AnchorPane layout) {
-        
-
-        
     }
     
 }

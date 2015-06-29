@@ -85,8 +85,7 @@ public class LetterGameController implements GameController {
                     /** Update models and view appropriately according to correctness
                      * of subject's response.
                      */
-                    gl.responseAndUpdate(event, 
-                            theView);
+                    gl.responseAndUpdate(event, theView);
                     
                     /** Prepare the next round */
                     gc.prepareNextRound(); 
