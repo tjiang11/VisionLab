@@ -27,6 +27,9 @@ public class Player {
     /** Whether the subject was correct for the most recent question. */
     private boolean isRight;
     
+    /** (NON-DATA-RELATED; GAMEPLAY PURPOSES ONLY) */
+    private int numStars;
+    
     /** 
      * Constructor.
      */
@@ -35,6 +38,7 @@ public class Player {
         this.numCorrect = new SimpleIntegerProperty(0);
         this.numRounds = new SimpleIntegerProperty(0);
         this.setResponseTime(0);
+        this.setNumStars(0);
     }
 
     public double getRT() {
@@ -83,5 +87,17 @@ public class Player {
 
     public void setRight(boolean isRight) {
         this.isRight = isRight;
+    }
+
+    public int getNumStars() {
+        return numStars;
+    }
+
+    public void setNumStars(int numStars) {
+        this.numStars = numStars;
+    }
+    
+    public void incrementNumStars() {
+        this.numStars++;
     }
 }

@@ -11,6 +11,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import view.GameGUI;
 
 /**
@@ -23,6 +24,8 @@ import view.GameGUI;
  */
 public class LetterGameController implements GameController {
     
+    final static int GET_READY_TIME = 100;
+    
     /** DataWriter to export data to CSV. */
     private DataWriter dw;
     
@@ -32,6 +35,7 @@ public class LetterGameController implements GameController {
     private GameGUI theView;
     /** The current scene. */
     private Scene theScene;
+
 
 
     /** The subject. */
@@ -108,8 +112,8 @@ public class LetterGameController implements GameController {
         Task<Void> sleeper = new Task<Void>() {   
             @Override
             protected Void call() throws Exception {
-                for (int i = 0; i < 2000; i++) {
-                    this.updateProgress(i, 2000); 
+                for (int i = 0; i < GET_READY_TIME; i++) {
+                    this.updateProgress(i, GET_READY_TIME); 
                     Thread.sleep(1);
                 }
                 return null;
@@ -122,7 +126,7 @@ public class LetterGameController implements GameController {
                 setOptions();
                 state = CurrentState.WAITING_FOR_RESPONSE;
                 responseTimeMetric = System.nanoTime();
-                getTheView().getGetReady().setText("");
+                theView.getGetReady().setText("");
                 theView.getGetReadyBar().setOpacity(0.0);
             }
         });

@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 /**
@@ -36,6 +38,8 @@ public class GameGUI {
     private Stage primaryStage;
     /** The current scene of the game. */
     private Scene scene;
+    /** The pane of the game */
+    private AnchorPane layout;
     
     /** Login Screen - start button. */
     private Button start;
@@ -56,6 +60,8 @@ public class GameGUI {
     private Label getReady;
     /** Game Screen - Get Ready Bar */
     private ProgressBar getReadyBar;
+    /** Game Screen - Stars */
+    private ImageView starNodes[];
     
     /** End Screen - message informing the user has finished. */
     private Label congratulations;
@@ -237,6 +243,22 @@ public class GameGUI {
 
     public void setGetReadyBar(ProgressBar getReadyBar) {
         this.getReadyBar = getReadyBar;
+    }
+
+    public AnchorPane getLayout() {
+        return layout;
+    }
+
+    public void setLayout(AnchorPane layout) {
+        this.layout = layout;
+    }
+
+    public ImageView[] getStarNodes() {
+        return starNodes;
+    }
+
+    public void setStarNodes(ImageView starNodes[]) {
+        this.starNodes = starNodes;
     }
 
 }

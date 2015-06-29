@@ -3,7 +3,11 @@ package model;
 import java.net.URL;
 
 import view.GameGUI;
+import view.SetUp;
+import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
@@ -36,7 +40,7 @@ public final class GameLogic {
         
         correct = this.checkAnswerCorrect(e, ap);
         
-        if (correct) { this.updateProgressBar(pb); }
+        if (correct) { this.updateProgressBar(view); }
         
         this.updatePlayer(currentPlayer, correct);   
         
@@ -79,14 +83,19 @@ public final class GameLogic {
      * Update the progressbar. Resets to zero if progress bar is full.
      * @param pb The view's progress bar.
      */
-    private void updateProgressBar(ProgressBar pb) {
-        if (pb.getProgress() >= .99) {
-            pb.setProgress(0.0);
+    private void updateProgressBar(GameGUI view) {
+        if (view.getProgressBar().getProgress() >= .99) {
+            view.getProgressBar().setProgress(0.0);
             
             URL powerUpSound = getClass().getResource("/res/sounds/Powerup.wav");
             new AudioClip(powerUpSound.toString()).play();
+            
+            
+            int starToReveal = view.getCurrentPlayer().getNumStars();
+            view.getStarNodes()[starToReveal].setVisible(true);
+            view.getCurrentPlayer().incrementNumStars();
         }
-        pb.setProgress(pb.getProgress() + .2);
+        view.getProgressBar().setProgress(view.getProgressBar().getProgress() + .2);
     }
     
     

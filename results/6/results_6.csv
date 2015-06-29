@@ -1,9 +1,0 @@
-Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Distance,Response Time,Date/Time,Consecutive Rounds
-6,F,R,right,right,yes,12,0.335870629,2015-06-28T16:40:11.375,1
-6,L,P,right,right,yes,4,0.008319621,2015-06-28T16:40:12.376,2
-6,D,B,left,right,no,2,0.012770008,2015-06-28T16:40:13.390,3
-6,C,J,right,right,yes,7,0.011695792,2015-06-28T16:40:14.403,4
-6,N,Y,right,right,yes,11,0.341556023,2015-06-28T16:40:27.999,1
-6,L,P,right,right,yes,4,0.035596259,2015-06-28T16:40:29.029,2
-6,S,B,left,right,no,17,0.009973282,2015-06-28T16:40:30.039,3
-6,B,Z,right,right,yes,24,0.012504447,2015-06-28T16:40:31.055,4
