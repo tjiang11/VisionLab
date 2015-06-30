@@ -2,6 +2,9 @@ package controller;
 
 
 
+import java.net.URL;
+
+import model.AlphaPair;
 import model.AlphaPairGenerator;
 import model.GameLogic;
 import model.Player;
@@ -11,7 +14,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.AudioClip;
 import view.GameGUI;
 
 /**
@@ -24,7 +27,8 @@ import view.GameGUI;
  */
 public class LetterGameController implements GameController {
     
-    final static int GET_READY_TIME = 100;
+    /** Time for the player to get ready after pressing start */
+    final static int GET_READY_TIME = 2000;
     
     /** DataWriter to export data to CSV. */
     private DataWriter dw;
@@ -36,8 +40,6 @@ public class LetterGameController implements GameController {
     /** The current scene. */
     private Scene theScene;
 
-
-
     /** The subject. */
     private Player thePlayer;
     /** Used to measure response time. */
@@ -46,7 +48,6 @@ public class LetterGameController implements GameController {
     public static CurrentState state;
     
     private LetterGameController gc;
-    private GameLogic gl;
     
     /** 
      * Constructor for the controller. There is only meant
@@ -58,7 +59,6 @@ public class LetterGameController implements GameController {
     public LetterGameController(GameGUI view) {
         
         this.gc = this;
-        this.gl = new GameLogic();
         this.setApg(new AlphaPairGenerator());
         this.theView = view;
         this.theScene = view.getScene();
@@ -85,7 +85,7 @@ public class LetterGameController implements GameController {
                     /** Update models and view appropriately according to correctness
                      * of subject's response.
                      */
-                    gl.responseAndUpdate(event, theView);
+                    gc.responseAndUpdate(event, theView);
                     
                     /** Prepare the next round */
                     gc.prepareNextRound(); 
@@ -106,6 +106,87 @@ public class LetterGameController implements GameController {
         });
     }  
     
+    /**
+     * Update models and view appropriately according to correctness
+     * of subject's response.  
+     * @param e The key event to check which key the user pressed.
+     * @param ap The current AlphaPair being evaluated.
+     * @param currentPlayer The subject.
+     * @param pb the ProgressBar to update.
+     * @return True if the player is correct. False otherwise.
+     */
+    public void responseAndUpdate (
+            KeyEvent e, GameGUI view) {
+        boolean correct;
+        AlphaPair ap = view.getCurrentAlphaPair();
+        Player currentPlayer = view.getCurrentPlayer();
+        URL feedbackSoundFileUrl = null;
+        
+        correct = GameLogic.checkAnswerCorrect(e, ap);
+        
+        if (correct) { this.updateProgressBar(view); }
+        
+        this.updatePlayer(currentPlayer, correct);   
+        
+        this.feedbackSound(feedbackSoundFileUrl, correct); 
+    }
+    
+    /** Update the player appropriately.
+     * 
+     * @param currentPlayer The current player.
+     * @param correct True if subject's reponse is correct. False otherwise.
+     */
+    private void updatePlayer(Player currentPlayer, boolean correct) {
+        if (correct) {
+            currentPlayer.addPoint();
+            currentPlayer.setRight(true);
+        } else {
+            currentPlayer.setRight(false);
+        }
+        currentPlayer.incrementNumRounds();
+    }
+    
+    /**
+     * Update the progressbar. Resets to zero if progress bar is full.
+     * @param pb The view's progress bar.
+     */
+    private void updateProgressBar(GameGUI view) {
+        if (view.getProgressBar().getProgress() >= .99) {
+            view.getProgressBar().setProgress(0.0);
+            
+            URL powerUpSound = getClass().getResource("/res/sounds/Powerup.wav");
+            new AudioClip(powerUpSound.toString()).play();
+            
+            
+            int starToReveal = view.getCurrentPlayer().getNumStars();
+            view.getStarNodes()[starToReveal].setVisible(true);
+            view.getCurrentPlayer().incrementNumStars();
+            
+            if (view.getCurrentPlayer().getNumStars() > 2) {
+                
+                view.changeBackground(1);
+            }
+        }
+        view.getProgressBar().setProgress(view.getProgressBar().getProgress() + .2);
+    }
+    
+    /** If user inputs correct answer play positive feedback sound,
+     * if not then play negative feedback sound.*/
+    private void feedbackSound(URL feedbackSoundFileUrl, boolean correct) {
+        if (correct) {
+            feedbackSoundFileUrl = 
+                    getClass().getResource("/res/sounds/Ping.aiff");
+        } else {
+            feedbackSoundFileUrl = 
+                    getClass().getResource("/res/sounds/Basso.aiff");
+        }
+        new AudioClip(feedbackSoundFileUrl.toString()).play();
+    }
+    
+    /**
+     * Prepare the first round by making a load bar to 
+     * let the subject prepare for the first question.
+     */
     public void prepareFirstRound() {
         
         Task<Void> sleeper = new Task<Void>() {   
