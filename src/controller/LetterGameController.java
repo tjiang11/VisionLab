@@ -31,7 +31,7 @@ public class LetterGameController implements GameController {
     final static int GET_READY_TIME = 2000;
     
     /** DataWriter to export data to CSV. */
-    private DataWriter dw;
+    private DataWriter dataWriter;
     
     /** AlphaPairGenerator to generate an AlphaPair */
     private AlphaPairGenerator apg;
@@ -42,6 +42,9 @@ public class LetterGameController implements GameController {
 
     /** The subject. */
     private Player thePlayer;
+    /** The current AlphaPair being evaluated by the subject. */
+    private AlphaPair currentAlphaPair;
+    
     /** Used to measure response time. */
     private static long responseTimeMetric;
     /** Current state of the game. */
@@ -59,11 +62,17 @@ public class LetterGameController implements GameController {
     public LetterGameController(GameGUI view) {
         
         this.gc = this;
-        this.setApg(new AlphaPairGenerator());
+        this.apg = new AlphaPairGenerator();
+        this.currentAlphaPair = null;
         this.theView = view;
         this.theScene = view.getScene();
-        this.thePlayer = view.getCurrentPlayer();
-        this.dw = new DataWriter(theView);
+        this.thePlayer = new Player();
+        this.dataWriter = new DataWriter(this);
+    }
+    
+    public void setLoginHandlers() {
+        theView.getStart().setOnAction(e -> theView.setGameScreen(
+                theView.getPrimaryStage(), theView.getEnterId().getText(), this));
     }
     
     /** 
@@ -71,6 +80,7 @@ public class LetterGameController implements GameController {
      * during a round. 
      */
     public void setGameHandlers() {
+        this.theScene = theView.getScene();
         theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -90,8 +100,8 @@ public class LetterGameController implements GameController {
                     /** Prepare the next round */
                     gc.prepareNextRound(); 
                     
-                    /** Export data */
-                    dw.writeToCSV();
+                    /** Export data to CSV file in folder 'results/<subject_id>' */
+                    dataWriter.writeToCSV();
                 }
                 /**
                  * If subject has completed the total number of rounds specified,
@@ -100,7 +110,7 @@ public class LetterGameController implements GameController {
                 if (thePlayer.getNumRounds() >= NUM_ROUNDS) {
                     state = CurrentState.FINISHED;
                     System.out.println("Done");
-                    theView.setFinishScreen(theView.getPrimaryStage());
+                    theView.setFinishScreen(theView.getPrimaryStage(), gc);
                 }
             }
         });
@@ -118,8 +128,8 @@ public class LetterGameController implements GameController {
     public void responseAndUpdate (
             KeyEvent e, GameGUI view) {
         boolean correct;
-        AlphaPair ap = view.getCurrentAlphaPair();
-        Player currentPlayer = view.getCurrentPlayer();
+        AlphaPair ap = this.currentAlphaPair;
+        Player currentPlayer = this.thePlayer;
         URL feedbackSoundFileUrl = null;
         
         correct = GameLogic.checkAnswerCorrect(e, ap);
@@ -129,6 +139,8 @@ public class LetterGameController implements GameController {
         this.updatePlayer(currentPlayer, correct);   
         
         this.feedbackSound(feedbackSoundFileUrl, correct); 
+        
+        this.dataWriter.grabData(this);
     }
     
     /** Update the player appropriately.
@@ -158,11 +170,11 @@ public class LetterGameController implements GameController {
             new AudioClip(powerUpSound.toString()).play();
             
             
-            int starToReveal = view.getCurrentPlayer().getNumStars();
+            int starToReveal = this.thePlayer.getNumStars();
             view.getStarNodes()[starToReveal].setVisible(true);
-            view.getCurrentPlayer().incrementNumStars();
+            this.thePlayer.incrementNumStars();
             
-            if (view.getCurrentPlayer().getNumStars() > 2) {
+            if (this.thePlayer.getNumStars() > 2) {
                 
                 view.changeBackground(1);
             }
@@ -171,7 +183,10 @@ public class LetterGameController implements GameController {
     }
     
     /** If user inputs correct answer play positive feedback sound,
-     * if not then play negative feedback sound.*/
+     * if not then play negative feedback sound.
+     * @param feedbackSoundFileUrl the File Url of the Sound to be played.
+     * @param correct whether the subject answered correctly or not.
+     */
     private void feedbackSound(URL feedbackSoundFileUrl, boolean correct) {
         if (correct) {
             feedbackSoundFileUrl = 
@@ -265,10 +280,10 @@ public class LetterGameController implements GameController {
         char letterOne, letterTwo;
         
         apg.getNewPair();
-        theView.setCurrentAlphaPair(getApg().getAlphaPair());
+        this.currentAlphaPair = apg.getAlphaPair();
         
-        letterOne = theView.getCurrentAlphaPair().getLetterOne();
-        letterTwo = theView.getCurrentAlphaPair().getLetterTwo();
+        letterOne = this.currentAlphaPair.getLetterOne();
+        letterTwo = this.currentAlphaPair.getLetterTwo();
         
         theView.getLeftOption().setText(String.valueOf(letterOne));
         theView.getRightOption().setText(String.valueOf(letterTwo));
@@ -289,14 +304,27 @@ public class LetterGameController implements GameController {
     }
     
     /**
-     * Reorients the Controller to the current scene and player.
-     * @param theView The current view.
+     * Reorients the Controller to the current scene and reorients the DataWriter to current data (Player and AlphaPair)
+     * @param theView The graphical user interface.
      */
     public void grabSetting(GameGUI theView) {
-        this.theView = theView;
         this.theScene = theView.getScene();
-        this.thePlayer = theView.getCurrentPlayer();
-        this.dw = new DataWriter(theView);
+    }
+
+    public Player getThePlayer() {
+        return thePlayer;
+    }
+
+    public void setThePlayer(Player thePlayer) {
+        this.thePlayer = thePlayer;
+    }
+
+    public AlphaPair getCurrentAlphaPair() {
+        return currentAlphaPair;
+    }
+
+    public void setCurrentAlphaPair(AlphaPair currentAlphaPair) {
+        this.currentAlphaPair = currentAlphaPair;
     }
 
     public AlphaPairGenerator getApg() {

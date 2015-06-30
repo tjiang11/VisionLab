@@ -1,5 +1,6 @@
 package view;
 
+import controller.LetterGameController;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -132,11 +133,11 @@ public final class SetUp {
      * @return The game scene.
      */
     public static Scene setUpGameScreen(GameGUI view, 
-            Stage primaryStage, String subjectID) {
+            Stage primaryStage, String subjectID, LetterGameController lgc) {
         
         view.setLayout(new AnchorPane());
-        view.getCurrentPlayer().setSubjectID(Integer.parseInt(subjectID));
-        System.out.println(view.getCurrentPlayer().getSubjectID());
+        lgc.getThePlayer().setSubjectID(Integer.parseInt(subjectID));
+        System.out.println(lgc.getThePlayer().getSubjectID());
         setUpOptions(view);
         initialButtonSetUp(view);
         
@@ -216,13 +217,13 @@ public final class SetUp {
      * @param primaryStage The stage.
      * @return The finishing scene.
      */
-    public static Scene setUpFinishScreen(GameGUI view, Stage primaryStage) {
+    public static Scene setUpFinishScreen(GameGUI view, Stage primaryStage, LetterGameController lgc) {
         
         AnchorPane layout = new AnchorPane();
         
         Label score = new Label();
         score.setText("You scored " 
-                + view.getCurrentPlayer().getNumCorrect() + " points!");
+                + lgc.getThePlayer().getNumCorrect() + " points!");
         view.setCongratulations(new Label("You did it!"));
         view.getCongratulations().setFont(Font.font("Verdana", 20));
         score.setFont(Font.font("Tahoma", 16));

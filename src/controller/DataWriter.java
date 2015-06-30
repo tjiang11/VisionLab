@@ -6,8 +6,9 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
 
-import view.GameGUI;
+import model.AlphaPair;
 import model.Player;
+
 
 /**
  * Class for grabbing and exporting data to a CSV file.
@@ -30,27 +31,24 @@ public class DataWriter {
     public static final String DATE_TIME = "Date/Time";
     public static final String CONSECUTIVE_ROUND = "Consecutive Rounds";
     
-    /** The graphical user interface. */
-    private GameGUI view;
     /** The subject to grab data from. */
     private Player player;
+    /** AlphaPair to grab data from. */
+    private AlphaPair alphaPair;
     
     /**
-     * Constructor for data writer.
-     */
-    public DataWriter() {
-        this.view = null;
-        this.player = null;
-    }
-    
-    /**
-     * Constructor for data writer that takes in a view
-     * and grabs the player.
+     * Constructor for data writer that takes in a controller
+     * and grabs the player and alpha pair.
      * @param view
      */
-    public DataWriter(GameGUI view) {
-        this.view = view;
-        this.player = view.getCurrentPlayer();
+    public DataWriter(LetterGameController lgc) {
+        this.player = lgc.getThePlayer();
+        this.alphaPair = lgc.getCurrentAlphaPair();
+    }
+    
+    public void grabData(LetterGameController lgc) {
+        this.player = lgc.getThePlayer();
+        this.alphaPair = lgc.getCurrentAlphaPair();
     }
     
     /**
@@ -128,13 +126,13 @@ public class DataWriter {
         
         String subjectID = 
                 Integer.toString(
-                        this.view.getCurrentPlayer().getSubjectID());
+                        this.player.getSubjectID());
         String leftChoice = 
                 String.valueOf(
-                        this.view.getCurrentAlphaPair().getLetterOne());
+                        this.alphaPair.getLetterOne());
         String rightChoice = 
                 String.valueOf(
-                        this.view.getCurrentAlphaPair().getLetterTwo());
+                        this.alphaPair.getLetterTwo());
         String whichSideCorrect;
         String whichSidePicked;
         String correct;
@@ -143,7 +141,7 @@ public class DataWriter {
         String dateTime;
         String consecutiveRounds;
         
-        if (this.view.getCurrentAlphaPair().isLeftCorrect()) {
+        if (this.alphaPair.isLeftCorrect()) {
             whichSideCorrect = "left";
         } else {
             whichSideCorrect = "right";
@@ -164,7 +162,7 @@ public class DataWriter {
         difficulty = 
             Integer.toString(
                 Math.abs(
-                    this.view.getCurrentAlphaPair().getDifference()));
+                    this.alphaPair.getDifference()));
         
         /** Convert from nanoseconds to seconds */
         responseTime = String.valueOf(this.player.getRT() / 1000000000.0);
@@ -172,7 +170,7 @@ public class DataWriter {
         dateTime = LocalDateTime.now().toString();
         
         consecutiveRounds = Integer.toString(
-                this.view.getCurrentPlayer().getNumRounds());
+                this.player.getNumRounds());
         
         String trialText = subjectID + DELIMITER
                 + leftChoice + DELIMITER

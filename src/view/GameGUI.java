@@ -1,8 +1,6 @@
 package view;
 
 import controller.LetterGameController;
-import model.AlphaPair;
-import model.Player;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -29,10 +27,10 @@ public class GameGUI {
     /** Controller for setting event handlers */
     private LetterGameController LGC;
     
-    /** The subject. */
-    private Player currentPlayer;
-    /** The current AlphaPair being evaluated by the subject. */
-    private AlphaPair currentAlphaPair;
+//    /** The subject. */
+//    private Player currentPlayer;
+//    /** The current AlphaPair being evaluated by the subject. */
+//    private AlphaPair currentAlphaPair;
 
     /** The JavaFX stage for the game. */
     private Stage primaryStage;
@@ -88,9 +86,8 @@ public class GameGUI {
         this.primaryStage.setTitle("Game");
         this.enterId = new TextField();
         Scene loginScene = SetUp.setUpLoginScreen(this, this.primaryStage);
-        
-        this.start.setOnAction(
-                e -> this.setGameScreen(stage, this.enterId.getText()));
+        LGC = new LetterGameController(this);
+        LGC.setLoginHandlers();
 
         this.enterId.requestFocus();
         
@@ -98,7 +95,7 @@ public class GameGUI {
         this.primaryStage.setFullScreen(false);
         this.primaryStage.sizeToScene();
         this.scene = loginScene;
-        LGC = new LetterGameController(this);
+        
         this.primaryStage.setScene(this.scene);
         
         this.primaryStage.show();
@@ -110,11 +107,10 @@ public class GameGUI {
      * @param stage The user interface stage.
      * @param subjectID The subject's ID number.
      */
-    private void setGameScreen(Stage stage, String subjectID) {
-        this.currentPlayer = new Player();
+    public void setGameScreen(Stage stage, String subjectID, LetterGameController lgc) {
         try {
             Scene gameScene = SetUp.setUpGameScreen(
-                    this, stage, subjectID);  
+                    this, stage, subjectID, lgc);  
             
             this.scene = gameScene;
             this.primaryStage.setScene(this.scene);
@@ -124,7 +120,6 @@ public class GameGUI {
             
             /** Set event handlers for gameplay */
             
-            this.LGC.grabSetting(this);
             this.LGC.setGameHandlers();
             
         } catch (NumberFormatException e) {
@@ -139,8 +134,8 @@ public class GameGUI {
      * Sets the ending screen informing the subject of their completion.
      * @param stage The user interface stage.
      */
-    public void setFinishScreen(Stage stage) {
-        Scene finishScene = SetUp.setUpFinishScreen(this, stage);
+    public void setFinishScreen(Stage stage, LetterGameController lgc) {
+        Scene finishScene = SetUp.setUpFinishScreen(this, stage, lgc);
         this.scene = finishScene;
         this.primaryStage.setScene(this.scene);
     }
@@ -151,18 +146,6 @@ public class GameGUI {
     public void changeBackground(int level) { 
         SetUp.setBackground(this.layout, level);
         this.scene.setRoot(this.layout);
-    }
-
-    public Player getCurrentPlayer() {
-        return this.currentPlayer;
-    }
-    
-    public AlphaPair getCurrentAlphaPair() {
-        return this.currentAlphaPair;
-    }
-    
-    public void setCurrentAlphaPair(AlphaPair ap) {
-        this.currentAlphaPair = ap;
     }
     
     public Scene getScene() {

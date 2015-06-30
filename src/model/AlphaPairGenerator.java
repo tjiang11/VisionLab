@@ -9,12 +9,19 @@ import java.util.Random;
  * 6-25-2015
  *
  */
-public class AlphaPairGenerator implements PairGenerator{
+public class AlphaPairGenerator implements PairGenerator {
     
     /**
      * Number of characters to choose from. 
      */
     static final int NUM_LETTERS = 26;
+    
+    /**
+     * Map from each difficulty mode to an integer representation.
+     */
+    static final int EASY_MODE = 0;
+    static final int MEDIUM_MODE = 1;
+    static final int HARD_MODE = 2;
     
     /**
      * Random number generator.
@@ -23,6 +30,10 @@ public class AlphaPairGenerator implements PairGenerator{
 
     /** The most recent AlphaPair produced by AlphaPairGenerator. */
     private AlphaPair alphaPair; 
+    
+    /** The difficulty setting 
+     * EASY, MEDIUM, HARD */
+    private int difficultyMode;
     
     /** A measure of how many times the same side has been correct. */
     private int sameChoice;
@@ -37,6 +48,7 @@ public class AlphaPairGenerator implements PairGenerator{
         this.getNewPair();
         this.setSameChoice(0);
         this.setLastWasLeft(false);
+        this.setDifficultyMode(EASY_MODE);
     }
     
     /**
@@ -166,6 +178,14 @@ public class AlphaPairGenerator implements PairGenerator{
 
     public void setLastWasLeft(boolean lastWasLeft) {
         this.lastWasLeft = lastWasLeft;
+    }
+
+    public int getDifficultyMode() {
+        return difficultyMode;
+    }
+
+    public void setDifficultyMode(int difficultyMode) {
+        this.difficultyMode = difficultyMode;
     }
     
 }

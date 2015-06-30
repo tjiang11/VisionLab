@@ -1,0 +1,4 @@
+Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Distance,Response Time,Date/Time,Consecutive Rounds
+34444,B,E,right,right,yes,3,0.238664276,2015-06-30T13:54:36.485,1
+34444,U,Y,right,right,yes,4,1.13272521,2015-06-30T13:54:38.773,2
+34444,O,G,left,right,no,8,1.32804963,2015-06-30T13:54:41.259,3
