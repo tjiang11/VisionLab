@@ -1,7 +1,5 @@
 package controller;
 
-
-
 import java.net.URL;
 
 import model.AlphaPair;
@@ -50,7 +48,7 @@ public class LetterGameController implements GameController {
     /** Current state of the game. */
     public static CurrentState state;
     
-    private LetterGameController gc;
+    private LetterGameController gameController;
     
     /** 
      * Constructor for the controller. There is only meant
@@ -60,8 +58,7 @@ public class LetterGameController implements GameController {
      * @param view The graphical user interface.
      */
     public LetterGameController(GameGUI view) {
-        
-        this.gc = this;
+        this.gameController = this;
         this.apg = new AlphaPairGenerator();
         this.currentAlphaPair = null;
         this.theView = view;
@@ -70,9 +67,26 @@ public class LetterGameController implements GameController {
         this.dataWriter = new DataWriter(this);
     }
     
+    /**
+     * Sets event listener for when subject clicks the start button OR presses Enter.
+     * Pass in the subject's ID number entered.
+     */
     public void setLoginHandlers() {
-        theView.getStart().setOnAction(e -> theView.setGameScreen(
-                theView.getPrimaryStage(), theView.getEnterId().getText(), this));
+        
+        this.theScene = theView.getScene();
+        
+        this.theView.getStart().setOnAction(e -> theView.setGameScreen(
+                theView.getPrimaryStage(), theView.getEnterId().getText(), gameController));
+        
+        this.theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) {
+                    theView.setGameScreen(
+                            theView.getPrimaryStage(), theView.getEnterId().getText(), gameController);
+                }
+            }
+        });
     }
     
     /** 
@@ -81,7 +95,7 @@ public class LetterGameController implements GameController {
      */
     public void setGameHandlers() {
         this.theScene = theView.getScene();
-        theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+        this.theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 if ((event.getCode() == KeyCode.F 
@@ -95,10 +109,10 @@ public class LetterGameController implements GameController {
                     /** Update models and view appropriately according to correctness
                      * of subject's response.
                      */
-                    gc.responseAndUpdate(event, theView);
+                    gameController.responseAndUpdate(event, theView);
                     
                     /** Prepare the next round */
-                    gc.prepareNextRound(); 
+                    gameController.prepareNextRound(); 
                     
                     /** Export data to CSV file in folder 'results/<subject_id>' */
                     dataWriter.writeToCSV();
@@ -110,7 +124,7 @@ public class LetterGameController implements GameController {
                 if (thePlayer.getNumRounds() >= NUM_ROUNDS) {
                     state = CurrentState.FINISHED;
                     System.out.println("Done");
-                    theView.setFinishScreen(theView.getPrimaryStage(), gc);
+                    theView.setFinishScreen(theView.getPrimaryStage(), gameController);
                 }
             }
         });

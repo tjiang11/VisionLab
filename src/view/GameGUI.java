@@ -85,7 +85,10 @@ public class GameGUI {
     private void setLoginScreen(Stage stage) {
         this.primaryStage.setTitle("Game");
         this.enterId = new TextField();
+        
         Scene loginScene = SetUp.setUpLoginScreen(this, this.primaryStage);
+        this.scene = loginScene;
+        
         LGC = new LetterGameController(this);
         LGC.setLoginHandlers();
 
@@ -94,12 +97,8 @@ public class GameGUI {
         this.primaryStage.setResizable(false);
         this.primaryStage.setFullScreen(false);
         this.primaryStage.sizeToScene();
-        this.scene = loginScene;
-        
         this.primaryStage.setScene(this.scene);
-        
-        this.primaryStage.show();
-        
+        this.primaryStage.show();  
     }
     
     /**
