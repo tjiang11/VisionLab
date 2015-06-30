@@ -1,0 +1,7 @@
+Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Distance,Response Time,Date/Time,Consecutive Rounds
+555,E,U,right,right,yes,16,0.987861608,2015-06-30T16:16:20.543,1
+555,Y,E,left,left,yes,20,2.980211234,2015-06-30T16:16:24.672,2
+555,W,M,left,left,yes,10,0.541812348,2015-06-30T16:16:26.435,3
+555,I,M,right,right,yes,4,1.962635047,2015-06-30T16:16:29.589,4
+555,I,H,left,left,yes,1,2.339932297,2015-06-30T16:16:33.129,5
+555,J,D,left,left,yes,6,2.079314571,2015-06-30T16:16:36.401,6

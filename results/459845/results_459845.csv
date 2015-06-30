@@ -1,0 +1,5 @@
+Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Difficulty,Distance,Response Time,Date/Time,Consecutive Rounds
+459845,K,Z,right,right,yes,HARD,15,0.576916827,2015-06-30T17:44:13.678,1
+459845,K,F,left,left,yes,MEDIUM,5,1.369861549,2015-06-30T17:44:16.212,2
+459845,N,D,left,left,yes,MEDIUM,10,0.060435383,2015-06-30T17:44:17.406,3
+459845,B,M,right,left,no,MEDIUM,11,0.297992515,2015-06-30T17:44:18.868,4

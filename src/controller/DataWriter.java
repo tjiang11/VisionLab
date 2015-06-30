@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 
 import model.AlphaPair;
+import model.AlphaPairGenerator;
 import model.Player;
 
 
@@ -30,7 +31,8 @@ public class DataWriter {
     public static final String WHICH_SIDE_CORRECT = "Side Correct";
     public static final String WHICH_SIDE_PICKED = "Side Picked";
     public static final String IS_CORRECT = "Correct";
-    public static final String DIFFICULTY = "Distance";
+    public static final String DIFFICULTY = "Difficulty";
+    public static final String DISTANCE = "Distance";
     public static final String RESPONSE_TIME = "Response Time";
     public static final String DATE_TIME = "Date/Time";
     public static final String CONSECUTIVE_ROUND = "Consecutive Rounds";
@@ -39,6 +41,8 @@ public class DataWriter {
     private Player player;
     /** AlphaPair to grab data from. */
     private AlphaPair alphaPair;
+    /** AlphaPairGenerator to grab data from */
+    private AlphaPairGenerator alphaPairGenerator;
     
     /**
      * Constructor for data writer that takes in a controller
@@ -48,6 +52,7 @@ public class DataWriter {
     public DataWriter(LetterGameController lgc) {
         this.player = lgc.getThePlayer();
         this.alphaPair = lgc.getCurrentAlphaPair();
+        this.alphaPairGenerator = lgc.getApg();
     }
     
     /**
@@ -57,6 +62,7 @@ public class DataWriter {
     public void grabData(LetterGameController lgc) {
         this.player = lgc.getThePlayer();
         this.alphaPair = lgc.getCurrentAlphaPair();
+        this.alphaPairGenerator = lgc.getApg();
     }
     
     /**
@@ -120,6 +126,7 @@ public class DataWriter {
                 + WHICH_SIDE_PICKED + DELIMITER
                 + IS_CORRECT + DELIMITER
                 + DIFFICULTY + DELIMITER
+                + DISTANCE + DELIMITER
                 + RESPONSE_TIME + DELIMITER
                 + DATE_TIME + DELIMITER
                 + CONSECUTIVE_ROUND + "\n";
@@ -138,6 +145,7 @@ public class DataWriter {
         String whichSidePicked = this.generateWhichSidePickedText(whichSideCorrect);
         String correct = this.generateCorrectText();
         String difficulty = this.generateDifficultyText();
+        String distance = this.generateDistanceText();
         String responseTime = this.generateResponseTimeText();
         String dateTime = this.generateDateTimeText();
         String consecutiveRounds = this.generateConsecutiveRoundsText();
@@ -149,6 +157,7 @@ public class DataWriter {
                 + whichSidePicked + DELIMITER
                 + correct + DELIMITER
                 + difficulty + DELIMITER
+                + distance + DELIMITER
                 + responseTime + DELIMITER
                 + dateTime + DELIMITER
                 + consecutiveRounds + "\n";
@@ -200,6 +209,18 @@ public class DataWriter {
     }
     
     private String generateDifficultyText() {
+        int difficulty = this.alphaPairGenerator.getDifficultyMode();
+        if (difficulty == 0) {
+            return "EASY";
+        } else if (difficulty == 1) {
+            return "MEDIUM";
+        } else if (difficulty == 2) {
+            return "HARD";
+        } 
+        return "";
+    }
+    
+    private String generateDistanceText() {
         return Integer.toString(Math.abs(
                     this.alphaPair.getDifference()));
     }

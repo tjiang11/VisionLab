@@ -40,7 +40,7 @@ import view.GameGUI;
  */
 public class LetterGameController implements GameController {
     
-    /** Time for the player to get ready after pressing start */
+    /** Time in milliseconds for the player to get ready after pressing start */
     final static int GET_READY_TIME = 2000;
     
     /** DataWriter to export data to CSV. */
@@ -60,9 +60,11 @@ public class LetterGameController implements GameController {
     
     /** Used to measure response time. */
     private static long responseTimeMetric;
+    
     /** Current state of the game. */
     public static CurrentState state;
     
+    /** Alternate reference to "this" to be used in inner methods */
     private LetterGameController gameController;
     
     /** 
@@ -91,7 +93,7 @@ public class LetterGameController implements GameController {
         this.theScene = theView.getScene();
         
         this.theView.getStart().setOnAction(e -> theView.setGameScreen(
-                theView.getPrimaryStage(), theView.getEnterId().getText(), gameController));
+                theView.getPrimaryStage(), theView.getEnterId().getText(), this));
         
         this.theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
@@ -131,6 +133,9 @@ public class LetterGameController implements GameController {
                     
                     /** Export data to CSV file in folder 'results/<subject_id>' */
                     dataWriter.writeToCSV();
+                    
+                    /** Set difficulty of AlphaPairGenerator */
+                    gameController.apg.setRandomDifficulty();       
                 }
                 /**
                  * If subject has completed the total number of rounds specified,
@@ -170,6 +175,7 @@ public class LetterGameController implements GameController {
         this.feedbackSound(feedbackSoundFileUrl, correct); 
         
         this.dataWriter.grabData(this);
+
     }
     
     /** Update the player appropriately.
@@ -195,16 +201,14 @@ public class LetterGameController implements GameController {
         if (view.getProgressBar().getProgress() >= .99) {
             view.getProgressBar().setProgress(0.0);
             
-            URL powerUpSound = getClass().getResource("../res/sounds/Powerup.wav");
+            URL powerUpSound = getClass().getResource("/res/sounds/Powerup.wav");
             new AudioClip(powerUpSound.toString()).play();
-            
             
             int starToReveal = this.thePlayer.getNumStars();
             view.getStarNodes()[starToReveal].setVisible(true);
             this.thePlayer.incrementNumStars();
             
             if (this.thePlayer.getNumStars() > 2) {
-                
                 view.changeBackground(1);
             }
         }
@@ -258,7 +262,7 @@ public class LetterGameController implements GameController {
     }
     
     /**
-     * Prepares the next round be recording reponse time,
+     * Prepares the next round by recording reponse time,
      * clearing the previous round, waiting, and creating the next round.
      */
     public void prepareNextRound() {
@@ -267,6 +271,15 @@ public class LetterGameController implements GameController {
         waitBeforeNextRoundAndUpdate(TIME_BETWEEN_ROUNDS);
     }
     
+//    /**
+//     * Increase the difficulty if the number of rounds has reached an integer multiple of ROUNDS_PER_DIFFICULTY.
+//     */
+//    private void setDifficulty() {
+//        if (this.thePlayer.getNumRounds() == (ROUNDS_PER_DIFFICULTY * (this.apg.getDifficultyMode() + 1))) {
+//            this.apg.increaseDifficulty();
+//        }
+//    }
+
     /**
      * Clears the options.
      */
@@ -308,7 +321,7 @@ public class LetterGameController implements GameController {
     public void setOptions() {
         char letterOne, letterTwo;
         
-        apg.getNewPair();
+        apg.getNewDifficultyPair();
         this.currentAlphaPair = apg.getAlphaPair();
         
         letterOne = this.currentAlphaPair.getLetterOne();

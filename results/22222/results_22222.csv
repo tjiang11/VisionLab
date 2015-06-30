@@ -1,0 +1,7 @@
+Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Difficulty,Distance,Response Time,Date/Time,Consecutive Rounds
+22222,U,E,left,left,yes,EASY,16,0.355863376,2015-06-30T17:46:24.814,1
+22222,S,C,left,left,yes,EASY,16,0.308428924,2015-06-30T17:46:26.271,2
+22222,Y,O,left,left,yes,MEDIUM,10,0.246075603,2015-06-30T17:46:27.688,3
+22222,X,G,left,left,yes,EASY,17,0.105207386,2015-06-30T17:46:28.958,4
+22222,O,J,left,left,yes,HARD,5,0.811279105,2015-06-30T17:46:30.910,5
+22222,I,W,right,left,no,EASY,14,0.082003534,2015-06-30T17:46:32.187,6

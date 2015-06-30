@@ -14,28 +14,32 @@ import java.util.Random;
  */
 public class AlphaPairGenerator implements PairGenerator {
     
-    /**
-     * Number of characters to choose from. 
-     */
+    /** Number of characters to choose from. */
     static final int NUM_LETTERS = 26;
     
-    /**
-     * Map from each difficulty mode to an integer representation.
-     */
+    /** Map from each difficulty mode to an integer representation. */
     static final int EASY_MODE = 0;
     static final int MEDIUM_MODE = 1;
     static final int HARD_MODE = 2;
     
-    /**
-     * Random number generator.
-     */
+    /** Number of difficulty modes. */
+    static final int NUM_MODES = 3;
+    
+    /** Define the lowest distance (in number of letters) each difficulty can have. */
+    static final int EASY_MODE_MIN = 14;
+    static final int MEDIUM_MODE_MIN = 8;
+    static final int HARD_MODE_MIN = 2;
+    
+    /** The highest distance each difficulty can have is their minimum plus NUM_CHOICES_IN_MODE. */
+    static final int NUM_CHOICES_IN_MODE = 4;
+    
+    /** Random number generator. */
     Random randomGenerator = new Random();
 
     /** The most recent AlphaPair produced by AlphaPairGenerator. */
     private AlphaPair alphaPair; 
     
-    /** The difficulty setting 
-     * EASY, MEDIUM, HARD */
+    /** The difficulty setting: EASY, MEDIUM, HARD */
     private int difficultyMode;
     
     /** A measure of how many times the same side has been correct. */
@@ -68,8 +72,52 @@ public class AlphaPairGenerator implements PairGenerator {
             letterTwo = this.randomGenerator.nextInt(NUM_LETTERS); 
         } while (letterOne == letterTwo);        
            
+        this.checkAndSet(letterOne, letterTwo);
+    }
+    
+    /**
+     * Get a new pair based on the current difficulty.
+     */
+    public void getNewDifficultyPair() {
+        int difference = 0;
+        if (this.getDifficultyMode() == EASY_MODE) {
+            difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + EASY_MODE_MIN;
+        } else if (this.getDifficultyMode() == MEDIUM_MODE) {
+            difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + MEDIUM_MODE_MIN;
+        } else if (this.getDifficultyMode() == HARD_MODE) {
+            difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + HARD_MODE_MIN;
+        }
+        this.getNewPair(difference);
+    }
+    
+    /**
+     * Gets a new AlphaPair with letters a certain distance apart.
+     * @param difference distance between the letters.
+     */
+    public void getNewPair(int difference) {
+        int letterOne, letterTwo;
+        letterOne = this.randomGenerator.nextInt(NUM_LETTERS - difference);
+        letterTwo = letterOne + difference;
+        
+        //Swap the order
+        int x = this.randomGenerator.nextInt(2);
+        if (x == 1) {
+            int temp = letterTwo;
+            letterTwo = letterOne;
+            letterOne = temp;
+        }
+        this.checkAndSet(letterOne, letterTwo);
+    }
+    
+    /**
+     * Check if choices are the same and set the reverse if the same side has been
+     * correct for MAX_TIMES_SAME_ANSWER times in a row.
+     * @param letterOne
+     * @param letterTwo
+     */
+    private void checkAndSet(int letterOne, int letterTwo) {
         this.checkSameChoice(letterOne, letterTwo);
-
+        
         if (this.getSameChoice() >= MAX_TIMES_SAME_ANSWER) {
             this.setReversePair(letterOne, letterTwo);
         } else {
@@ -100,7 +148,7 @@ public class AlphaPairGenerator implements PairGenerator {
     /**
      * Check if the same side is correct as the last round.
      * @param letterOne Position of first letter of current round.
-     * @param letterTwo Position of right letter of current round.
+     * @param letterTwo Position of second letter of current round.
      */
     public void checkSameChoice(int letterOne, int letterTwo) {
         if (letterOne > letterTwo) {
@@ -131,28 +179,22 @@ public class AlphaPairGenerator implements PairGenerator {
         }
         
     }
-
-    /**
-     * Gets a new AlphaPair with letters a certain distance apart.
-     * @param difference distance between the letters.
-     */
-    public void getNewPair(int difference) {
-        int letterOne, letterTwo;
-        letterOne = this.randomGenerator.nextInt(NUM_LETTERS - difference);
-        letterTwo = letterOne + difference;
-        
-        //Swap the order
-        int x = this.randomGenerator.nextInt(2);
-        switch (x) {
-            case 0: 
-                this.setAlphaPair(new AlphaPair(letterTwo, letterOne));
-                break;
-            case 1:
-                this.setAlphaPair(new AlphaPair(letterOne, letterTwo));
-                break;
-            default:
-                break;
+    
+    public void setRandomDifficulty() {
+        this.difficultyMode = this.randomGenerator.nextInt(NUM_MODES);
+        if (this.difficultyMode == 0) {
+            System.out.println("EASY");
+        } else if (this.difficultyMode == 1) {
+            System.out.println("MEDIUM"); 
+        } else if (this.difficultyMode == 2) {
+            System.out.println("HARD");
+        } else {
+            System.out.println("Uhh..");
         }
+    }
+    
+    public void increaseDifficulty() {
+        this.difficultyMode++;
     }
 
     public AlphaPair getAlphaPair() {
@@ -190,5 +232,4 @@ public class AlphaPairGenerator implements PairGenerator {
     public void setDifficultyMode(int difficultyMode) {
         this.difficultyMode = difficultyMode;
     }
-    
 }
