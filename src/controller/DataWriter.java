@@ -13,6 +13,10 @@ import model.Player;
 /**
  * Class for grabbing and exporting data to a CSV file.
  * 
+ * Classes Related to:
+ *  -LetterGameController.java
+ *      -Grabs AlphaPair and Player from the controller to record and export their data.
+ * 
  * @author Tony Jiang
  * 6-25-2015
  *
@@ -39,13 +43,17 @@ public class DataWriter {
     /**
      * Constructor for data writer that takes in a controller
      * and grabs the player and alpha pair.
-     * @param view
+     * @param lgc Controller to grab data from
      */
     public DataWriter(LetterGameController lgc) {
         this.player = lgc.getThePlayer();
         this.alphaPair = lgc.getCurrentAlphaPair();
     }
     
+    /**
+     * Regrab the current subject and alphapair from the controller.
+     * @param lgc Controller to grab data from
+     */
     public void grabData(LetterGameController lgc) {
         this.player = lgc.getThePlayer();
         this.alphaPair = lgc.getCurrentAlphaPair();
@@ -119,58 +127,20 @@ public class DataWriter {
     }
 
     /**
-     * Generate the CSV text data for the round.
+     * Generate the CSV text data for the round (one pair).
      * @return String CSV text data
      */
     public String generateTrialText() {
-        
-        String subjectID = 
-                Integer.toString(
-                        this.player.getSubjectID());
-        String leftChoice = 
-                String.valueOf(
-                        this.alphaPair.getLetterOne());
-        String rightChoice = 
-                String.valueOf(
-                        this.alphaPair.getLetterTwo());
-        String whichSideCorrect;
-        String whichSidePicked;
-        String correct;
-        String difficulty;
-        String responseTime;
-        String dateTime;
-        String consecutiveRounds;
-        
-        if (this.alphaPair.isLeftCorrect()) {
-            whichSideCorrect = "left";
-        } else {
-            whichSideCorrect = "right";
-        }
-        
-        if (this.player.isRight()) {
-            whichSidePicked = whichSideCorrect;
-            correct = "yes";
-        } else {
-            if (whichSideCorrect.equals("left")) {
-                whichSidePicked = "right";
-            } else {
-                whichSidePicked = "left";
-            }
-            correct = "no";
-        }
-        
-        difficulty = 
-            Integer.toString(
-                Math.abs(
-                    this.alphaPair.getDifference()));
-        
-        /** Convert from nanoseconds to seconds */
-        responseTime = String.valueOf(this.player.getRT() / 1000000000.0);
-        
-        dateTime = LocalDateTime.now().toString();
-        
-        consecutiveRounds = Integer.toString(
-                this.player.getNumRounds());
+        String subjectID = this.generateSubjectIdText();
+        String leftChoice = this.generateLeftChoiceText();       
+        String rightChoice = this.generateRightChoiceText();
+        String whichSideCorrect = this.generateWhichSideCorrectText();
+        String whichSidePicked = this.generateWhichSidePickedText(whichSideCorrect);
+        String correct = this.generateCorrectText();
+        String difficulty = this.generateDifficultyText();
+        String responseTime = this.generateResponseTimeText();
+        String dateTime = this.generateDateTimeText();
+        String consecutiveRounds = this.generateConsecutiveRoundsText();
         
         String trialText = subjectID + DELIMITER
                 + leftChoice + DELIMITER
@@ -184,5 +154,66 @@ public class DataWriter {
                 + consecutiveRounds + "\n";
         
         return trialText;
+    }
+    
+    private String generateSubjectIdText() {
+        return Integer.toString(
+                this.player.getSubjectID());
+    }
+    
+    private String generateLeftChoiceText() {
+        return String.valueOf(
+                this.alphaPair.getLetterOne());
+    }
+    
+    private String generateRightChoiceText() {
+        return String.valueOf(
+                this.alphaPair.getLetterTwo());
+    }
+    
+    private String generateWhichSideCorrectText() {
+        if (this.alphaPair.isLeftCorrect()) {
+            return "left";
+        } else {
+            return "right";
+        }
+    }
+    
+    private String generateWhichSidePickedText(String whichSideCorrect) {
+        if (this.player.isRight()) {
+            return whichSideCorrect;
+        } else {
+            if (whichSideCorrect.equals("left")) {
+                return "right";
+            } else {
+                return "left";
+            }
+        }
+    }
+    
+    private String generateCorrectText() {
+        if (this.player.isRight()) {
+            return "yes";
+        } else {
+            return "no";
+        }
+    }
+    
+    private String generateDifficultyText() {
+        return Integer.toString(Math.abs(
+                    this.alphaPair.getDifference()));
+    }
+    
+    private String generateResponseTimeText() {
+        return String.valueOf(this.player.getRT() / 1000000000.0);
+    }
+    
+    private String generateDateTimeText() {
+        return LocalDateTime.now().toString();
+    }
+    
+    private String generateConsecutiveRoundsText() {
+        return Integer.toString(
+                this.player.getNumRounds());
     }
 }

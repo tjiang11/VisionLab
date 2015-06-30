@@ -20,8 +20,15 @@ import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 /**
- * Functions to set up the GameGUI.
+ * Functions to set up various scenes of the GameGUI.
  * 
+ * Classes Related To:
+ *  -GameGUI.java
+ *      -This class is a support class for GameGUI.java
+ *  -LetterGameController.java
+ *      -Used to read in and display information contained in the models, 
+ *      which can be modified/accessed through LetterGameController.java.
+ *      
  * @author Tony Jiang
  * 6-25-2015
  * 
@@ -252,7 +259,7 @@ public final class SetUp {
         
         BackgroundImage bg = new BackgroundImage(
                 new Image(
-                        "res/images/" + backgroundName + ".png", 
+                        "/res/images/" + backgroundName + ".png", 
                         GameGUI.SCREEN_WIDTH,
                         GameGUI.SCREEN_HEIGHT, 
                         false, true),

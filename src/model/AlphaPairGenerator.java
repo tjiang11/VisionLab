@@ -5,6 +5,9 @@ import java.util.Random;
 /**
  * Generates AlphaPairs with random letters.
  * 
+ * Classes Related To:
+ *  -AlphaPair.java
+ * 
  * @author Tony Jiang
  * 6-25-2015
  *

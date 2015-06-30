@@ -13,6 +13,13 @@ import javafx.stage.Stage;
 /**
  * The graphical user interface of the game.
  * 
+ * Classes Related to:
+ *  -SetUp.java (utility/support)
+ *      -SetUp is a utility class that contains functions that support the setup of GameGUI.
+ *  -LetterGameController.java
+ *      -The controller is created in this class. As the game progresses, the controller 
+ *      adopts to the scenes of the GameGUI and sets their event handlers appropriately.
+ *  
  * @author Tony Jiang
  * 6-25-2015
  * 
@@ -26,11 +33,6 @@ public class GameGUI {
     
     /** Controller for setting event handlers */
     private LetterGameController LGC;
-    
-//    /** The subject. */
-//    private Player currentPlayer;
-//    /** The current AlphaPair being evaluated by the subject. */
-//    private AlphaPair currentAlphaPair;
 
     /** The JavaFX stage for the game. */
     private Stage primaryStage;

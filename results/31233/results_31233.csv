@@ -1,0 +1,5 @@
+Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Distance,Response Time,Date/Time,Consecutive Rounds
+31233,H,D,left,left,yes,4,0.308165501,2015-06-30T15:16:15.199,1
+31233,B,D,right,left,no,2,0.077434691,2015-06-30T15:16:16.428,2
+31233,Z,I,left,left,yes,17,0.453041504,2015-06-30T15:16:18.053,3
+31233,D,L,right,right,yes,8,0.93125526,2015-06-30T15:16:20.161,4

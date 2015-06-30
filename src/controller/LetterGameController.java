@@ -16,9 +16,24 @@ import javafx.scene.media.AudioClip;
 import view.GameGUI;
 
 /**
- * The controller class for the game; interface between
- * models and the view.
  * 
+ * The center of the program; interface between the
+ * models and the view. 
+ * 
+ * Classes Related to:
+ *  -GameGUI.java (view)
+ *      -Updates elements of the GUI as the game progresses and responds.
+ *  -AlphaPairGenerator.java (model)
+ *      -Calls on AlphaPairGenerator to generate new AlphaPairs.
+ *  -AlphaPair.java (model)
+ *      -LetterGameController keeps track of the most recent AlphaPair created in variable currentAlphaPair.
+ *  -Player.java (model)
+ *      -Updates Player information as the game progresses and responds.
+ *  -GameLogic.java (model)
+ *      -Calls on GameLogic to evaluate the correctness of a response from the subject.
+ *  -DataWriter.java
+ *      -Passes information (Player and AlphaPair) to DataWriter to be exported.
+ *      
  * @author Tony Jiang
  * 6-25-2015
  * 
@@ -180,7 +195,7 @@ public class LetterGameController implements GameController {
         if (view.getProgressBar().getProgress() >= .99) {
             view.getProgressBar().setProgress(0.0);
             
-            URL powerUpSound = getClass().getResource("/res/sounds/Powerup.wav");
+            URL powerUpSound = getClass().getResource("../res/sounds/Powerup.wav");
             new AudioClip(powerUpSound.toString()).play();
             
             
