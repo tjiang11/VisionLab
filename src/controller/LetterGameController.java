@@ -44,6 +44,9 @@ import view.GameGUI;
  */
 public class LetterGameController implements GameController {
     
+    /** Punish for wrong answers */
+    static final boolean PUNISH = true;
+    
     /** Time in milliseconds for the player to get ready after pressing start */
     final static int GET_READY_TIME = 2000;
     
@@ -139,17 +142,9 @@ public class LetterGameController implements GameController {
                     dataWriter.writeToCSV();
                     
                     /** Set difficulty of AlphaPairGenerator */
-                    gameController.apg.setRandomDifficulty();       
+                    gameController.apg.setDifficulty();       
                 }
-                /**
-                 * If subject has completed the total number of rounds specified,
-                 * then change the scene to the finish screen.
-                 */
-                if (thePlayer.getNumRounds() >= NUM_ROUNDS) {
-                    state = CurrentState.FINISHED;
-                    System.out.println("Done");
-                    theView.setFinishScreen(theView.getPrimaryStage(), gameController);
-                }
+
             }
         });
     }  
@@ -172,7 +167,7 @@ public class LetterGameController implements GameController {
         
         correct = GameLogic.checkAnswerCorrect(e, ap);
         
-        if (correct) { this.updateProgressBar(view); }
+        this.updateProgressBar(view, correct);
         
         this.updatePlayer(currentPlayer, correct);   
         
@@ -201,26 +196,37 @@ public class LetterGameController implements GameController {
      * Update the progressbar. Resets to zero if progress bar is full.
      * @param pb The view's progress bar.
      */
-    private void updateProgressBar(GameGUI view) {
-        view.getProgressBar().setProgress(view.getProgressBar().getProgress() + .25);
-        if (view.getProgressBar().getProgress() >= 1.25) {
-//            view.getProgressBar().setStyle(""
-//                    + "-fx-accent: green; "
-//                    + "-fx-control-inner-background: #0094C5 ;");
-            view.getProgressBar().setProgress(0.5);
-            
-            URL powerUpSound = getClass().getResource("/res/sounds/Powerup.wav");
-            new AudioClip(powerUpSound.toString()).play();
-            
-            int starToReveal = this.thePlayer.getNumStars();
-            view.getStarNodes()[starToReveal].setVisible(true);
-            this.thePlayer.incrementNumStars();
-            
-            if (this.thePlayer.getNumStars() > 2) {
-                view.changeBackground(1);
+    private void updateProgressBar(GameGUI view, boolean correct) {
+        if (correct) {
+            if (view.getProgressBar().isIndeterminate()) {
+                view.getProgressBar().setProgress(0.0);
+                view.getProgressBar().setStyle("-fx-accent: #0094C5;");
+            }
+            view.getProgressBar().setProgress(view.getProgressBar().getProgress() + .25);
+            if (view.getProgressBar().getProgress() >= 1.00) {
+                view.getProgressBar().setProgress(0.25);
+                
+                URL powerUpSound = getClass().getResource("/res/sounds/Powerup.wav");
+                new AudioClip(powerUpSound.toString()).play();
+                
+                int starToReveal = this.thePlayer.getNumStars();
+                view.getStarNodes()[starToReveal].setVisible(true);
+                this.thePlayer.incrementNumStars();
+                
+                if (this.thePlayer.getNumStars() > 2) {
+                    view.changeBackground(1);
+                }
+            }
+        } else {
+            view.getProgressBar().setStyle("-fx-accent: #0094C5;");
+            if (PUNISH) {
+                view.getProgressBar().setProgress(view.getProgressBar().getProgress() - .125);
+                if (view.getProgressBar().isIndeterminate()) {
+                    view.getProgressBar().setStyle("-fx-accent: red;");
+                    
+                }
             }
         }
-        
     }
     
     /** If user inputs correct answer play positive feedback sound,
@@ -277,6 +283,20 @@ public class LetterGameController implements GameController {
         recordResponseTime();
         clearRound();
         waitBeforeNextRoundAndUpdate(TIME_BETWEEN_ROUNDS);
+
+        if (thePlayer.getNumRounds() >= NUM_ROUNDS) {
+            this.finishGame();
+        }
+    }
+    
+    /**
+     * If subject has completed the total number of rounds specified,
+     * then change the scene to the finish screen.
+     */
+    private void finishGame() {
+        state = CurrentState.FINISHED;
+        System.out.println("Done");
+        theView.setFinishScreen(theView.getPrimaryStage(), gameController);
     }
     
 //    /**

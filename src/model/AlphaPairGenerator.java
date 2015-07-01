@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -33,6 +34,11 @@ public class AlphaPairGenerator implements PairGenerator {
     /** The highest distance each difficulty can have is their minimum plus NUM_CHOICES_IN_MODE. */
     static final int NUM_CHOICES_IN_MODE = 4;
     
+    /**
+     * Number of triplets of modes per set. See fillDifficultySet().
+     */
+    static final int NUM_MODE_TRIPLETS = 2;
+    
     /** Random number generator. */
     Random randomGenerator = new Random();
 
@@ -41,6 +47,9 @@ public class AlphaPairGenerator implements PairGenerator {
     
     /** The difficulty setting: EASY, MEDIUM, HARD */
     private int difficultyMode;
+    
+    /** The list containing the difficulties. */
+    private ArrayList<Integer> difficultySet;
     
     /** A measure of how many times the same side has been correct. */
     private int sameChoice;
@@ -55,9 +64,40 @@ public class AlphaPairGenerator implements PairGenerator {
         this.getNewPair();
         this.setSameChoice(0);
         this.setLastWasLeft(false);
-        this.setDifficultyMode(EASY_MODE);
+        this.difficultyMode = EASY_MODE;
+        this.difficultySet = new ArrayList<Integer>();
+        this.fillDifficultySet();
     }
     
+    /**
+     * This is how the difficulty is pseudo-randomly decided:
+     * 
+     * There will be a list (difficultySet) containing triplets of modes, 
+     * where each triplet would contain one of each difficulty mode.
+     * NUM_MODE_SETS is the number of triplets that the difficultySet contains.
+     * 
+     * When resetting the difficulty <setDifficulty()>, one mode will be randomly selected
+     * from the difficultySet and removed. This repeats until difficultySet
+     * is empty where it will then refill.
+     * 
+     */
+    private void fillDifficultySet() {
+        for (int i = 0; i < NUM_MODE_TRIPLETS; i++) {
+            this.difficultySet.add(EASY_MODE);
+            this.difficultySet.add(MEDIUM_MODE);
+            this.difficultySet.add(HARD_MODE);
+        }
+    }
+    
+    public void setDifficulty() {
+        this.difficultyMode = 
+                this.difficultySet.remove(
+                        randomGenerator.nextInt(this.difficultySet.size()));
+        if (this.difficultySet.isEmpty()) {
+            this.fillDifficultySet();
+        }
+    }
+
     /**
      * Gets a new AlphaPair with random letters while
      * checking to make sure that the same choice will
@@ -80,11 +120,11 @@ public class AlphaPairGenerator implements PairGenerator {
      */
     public void getNewDifficultyPair() {
         int difference = 0;
-        if (this.getDifficultyMode() == EASY_MODE) {
+        if (this.difficultyMode == EASY_MODE) {
             difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + EASY_MODE_MIN;
-        } else if (this.getDifficultyMode() == MEDIUM_MODE) {
+        } else if (this.difficultyMode == MEDIUM_MODE) {
             difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + MEDIUM_MODE_MIN;
-        } else if (this.getDifficultyMode() == HARD_MODE) {
+        } else if (this.difficultyMode == HARD_MODE) {
             difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + HARD_MODE_MIN;
         }
         this.getNewPair(difference);
@@ -180,19 +220,6 @@ public class AlphaPairGenerator implements PairGenerator {
         
     }
     
-    public void setRandomDifficulty() {
-        this.difficultyMode = this.randomGenerator.nextInt(NUM_MODES);
-        if (this.difficultyMode == 0) {
-            System.out.println("EASY");
-        } else if (this.difficultyMode == 1) {
-            System.out.println("MEDIUM"); 
-        } else if (this.difficultyMode == 2) {
-            System.out.println("HARD");
-        } else {
-            System.out.println("Uhh..");
-        }
-    }
-    
     public void increaseDifficulty() {
         this.difficultyMode++;
     }
@@ -224,12 +251,8 @@ public class AlphaPairGenerator implements PairGenerator {
     public void setLastWasLeft(boolean lastWasLeft) {
         this.lastWasLeft = lastWasLeft;
     }
-
+    
     public int getDifficultyMode() {
-        return difficultyMode;
-    }
-
-    public void setDifficultyMode(int difficultyMode) {
-        this.difficultyMode = difficultyMode;
+        return this.difficultyMode;
     }
 }
