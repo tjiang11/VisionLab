@@ -6,6 +6,9 @@ import model.AlphaPair;
 import model.AlphaPairGenerator;
 import model.GameLogic;
 import model.Player;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -13,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
+import javafx.util.Duration;
 import view.GameGUI;
 
 /**
@@ -198,8 +202,12 @@ public class LetterGameController implements GameController {
      * @param pb The view's progress bar.
      */
     private void updateProgressBar(GameGUI view) {
-        if (view.getProgressBar().getProgress() >= .99) {
-            view.getProgressBar().setProgress(0.0);
+        view.getProgressBar().setProgress(view.getProgressBar().getProgress() + .25);
+        if (view.getProgressBar().getProgress() >= 1.25) {
+//            view.getProgressBar().setStyle(""
+//                    + "-fx-accent: green; "
+//                    + "-fx-control-inner-background: #0094C5 ;");
+            view.getProgressBar().setProgress(0.5);
             
             URL powerUpSound = getClass().getResource("/res/sounds/Powerup.wav");
             new AudioClip(powerUpSound.toString()).play();
@@ -212,7 +220,7 @@ public class LetterGameController implements GameController {
                 view.changeBackground(1);
             }
         }
-        view.getProgressBar().setProgress(view.getProgressBar().getProgress() + .2);
+        
     }
     
     /** If user inputs correct answer play positive feedback sound,
@@ -343,6 +351,27 @@ public class LetterGameController implements GameController {
         double responseTimeSec = responseTime / 1000000000.0;
         System.out.println("Your response time was: " 
                 + responseTimeSec + " seconds");
+    }
+    
+    /**
+     * Slowly drains the progress bar to encourage the user not to spend too much time thinking.
+     */
+    public void beginProgressBarDrainage() {
+        theView.getProgressBar().setProgress(0.6);
+        
+        Timeline drainer = new Timeline(
+                new KeyFrame(Duration.seconds(0), evt -> {
+                    if (gameController.theView.getProgressBar().getProgress() > 1.0) {
+                        gameController.theView.getProgressBar().setStyle("-fx-accent: #00CC00;");
+                    } else {
+                        gameController.theView.getProgressBar().setStyle("-fx-accent: #0094C5;");
+                    }
+                    if (gameController.theView.getProgressBar().getProgress() > .005) {
+                        gameController.theView.getProgressBar().setProgress(theView.getProgressBar().getProgress() - .0035);
+                    }
+                }), new KeyFrame(Duration.seconds(0.065)));
+        drainer.setCycleCount(Animation.INDEFINITE);
+        drainer.play();
     }
     
     /**

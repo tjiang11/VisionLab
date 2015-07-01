@@ -1,7 +1,0 @@
-Subject ID,Left Choice,Right Choice,Side Correct,Side Picked,Correct,Difficulty,Distance,Response Time,Date/Time,Consecutive Rounds
-333232,Y,K,left,right,no,EASY,14,0.203202722,2015-06-30T18:21:44.907,1
-333232,M,D,left,right,no,MEDIUM,9,0.015818183,2015-06-30T18:21:46.139,2
-333232,A,D,right,right,yes,HARD,3,0.026825484,2015-06-30T18:21:47.412,3
-333232,I,T,right,right,yes,MEDIUM,11,0.01669184,2015-06-30T18:21:48.683,4
-333232,S,J,left,right,no,MEDIUM,9,0.028808851,2015-06-30T18:21:49.944,5
-333232,R,W,right,right,yes,HARD,5,0.006863099,2015-06-30T18:21:51.175,6

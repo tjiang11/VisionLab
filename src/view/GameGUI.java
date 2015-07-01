@@ -121,6 +121,7 @@ public class GameGUI {
             
             /** Set event handlers for gameplay */
             
+            this.LGC.beginProgressBarDrainage();
             this.LGC.setGameHandlers();
             
         } catch (NumberFormatException e) {
