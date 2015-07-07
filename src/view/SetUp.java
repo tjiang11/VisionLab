@@ -37,60 +37,63 @@ public final class SetUp {
     
     /** Background */
     static final String BACKGROUNDS[] = {"sky", "journey"};
+
     
     /** 
      * Login Screen Element Positions. 
      *
      * Position of the label prompting the subject
      * to enter her subject ID. */
-    static final int LABEL_POSITION_X = 200;
-    static final int LABEL_POSITION_Y = 150;
+    static final int LABEL_POSITION_X = 345;
+    static final int LABEL_POSITION_Y = 230;
     
     /** Position of text field where subject will enter
      * her subject ID. */
-    static final int ENTER_ID_POSITION_X = 180;
-    static final int ENTER_ID_POSITION_Y = 170;
+    static final int ENTER_ID_POSITION_X = 325;
+    static final int ENTER_ID_POSITION_Y = 250;
     
     /** Position of feedback telling subject to re-enter
      * their subject ID. */
-    static final int FEEDBACK_POSITION_X = 190;
-    static final int FEEDBACK_POSITION_Y = 250;
+    static final int FEEDBACK_POSITION_X = 335;
+    static final int FEEDBACK_POSITION_Y = 330;
     
     /** Position of start button to start the trials. */
-    static final int START_POSITION_X = 235;
-    static final int START_POSITION_Y = 200;
-    
+    static final int START_POSITION_X = 380;
+    static final int START_POSITION_Y = 280;
+
     /**
      * Game Screen. */
     static final int NUM_STARS = 100;
     /** Positions of the choices the subject can pick. */
-    static final int LEFT_OPTION_X = 30;
-    static final int LEFT_OPTION_Y = 90;
-    static final int RIGHT_OPTION_X = 270;
-    static final int RIGHT_OPTION_Y = 90;
+    static final int LEFT_OPTION_X = 0;
+    static final int LEFT_OPTION_Y = 80;
+    static final int RIGHT_OPTION_X = 400;
+    static final int RIGHT_OPTION_Y = 80;
+    static final int OPTION_WIDTH = 300;
+    static final int OPTION_HEIGHT = 450;
     static final int PROGRESS_BAR_X = 20;
     static final int PROGRESS_BAR_Y = 20;
-    static final int GET_READY_X = 132;
-    static final int GET_READY_Y = 150;
-    static final int GET_READY_BAR_X = 105;
-    static final int GET_READY_BAR_Y = 220;
-    static final int FIRST_STAR_X = 415;
-    static final int STAR_Y = -35;
-    static final int STAR_SHIFT = 30;
-    static final double STAR_SCALE = .23;
+    static final int GET_READY_X = 277;
+    static final int GET_READY_Y = 230;
+    static final int GET_READY_BAR_X = GET_READY_X - 27;
+    static final int GET_READY_BAR_Y = GET_READY_Y + 70;
+    static final int FIRST_STAR_X = 705;
+    static final int STAR_Y = -25;
+    static final int STAR_SHIFT = 35;
+    static final double STAR_SCALE = .28;
     /** Font size of the letter options. */
-    static final int LETTER_SIZE = 100;
+    static final int INITIAL_LETTER_SIZE = 150;
     
     /**
      * Finish Screen Element Positions.
      */
     /** Position of message congratulating subject on completing
      * the experiment. */
-    static final int CONGRATS_X = 203;
-    static final int CONGRATS_Y = 170;
+    static final int CONGRATS_X = 348;
+    static final int CONGRATS_Y = 270;
     /** Position of message with subject's score. */
-    static final int SCORE_X = 183;
-    static final int SCORE_Y = 200;
+    static final int SCORE_X = 328;
+    static final int SCORE_Y = 300;
     
     /** Disable constructing of an object. */
     private SetUp() {
@@ -200,6 +203,8 @@ public final class SetUp {
         view.setLeftOption(new Button());
         view.setRightOption(new Button());
 
+       
+        
       //Set absolute positions of each leftOption
         view.getLeftOption().setLayoutX(LEFT_OPTION_X);
         view.getLeftOption().setLayoutY(LEFT_OPTION_Y);
@@ -212,10 +217,21 @@ public final class SetUp {
      * @param view The graphical user interface.
      */
     public static void initialButtonSetUp(GameGUI view) {
-        view.getLeftOption().setFont(new Font("Tahoma", LETTER_SIZE));
-        view.getRightOption().setFont(new Font("Tahoma", LETTER_SIZE));
+        view.getLeftOption().setFont(new Font("Tahoma", INITIAL_LETTER_SIZE));
+        view.getRightOption().setFont(new Font("Tahoma", INITIAL_LETTER_SIZE));
         view.getLeftOption().setStyle("-fx-background-color: transparent;");
         view.getRightOption().setStyle("-fx-background-color: transparent;");
+        view.getLeftOption().setMinWidth(400);
+        view.getLeftOption().setMaxWidth(400);
+        view.getLeftOption().setMaxHeight(400);
+        view.getLeftOption().setMinHeight(400);
+        
+        view.getRightOption().setMinWidth(400);
+        view.getRightOption().setMinHeight(400);
+        view.getRightOption().setMaxHeight(400);
+        view.getRightOption().setMaxWidth(400);
+        view.getLeftOption().setAlignment(Pos.CENTER);
+        view.getRightOption().setAlignment(Pos.CENTER);
     }
 
     /**

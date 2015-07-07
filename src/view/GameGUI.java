@@ -31,9 +31,9 @@ public class GameGUI {
 
     
     /** Width of the game window. */
-    static final int SCREEN_WIDTH = 500;
+    static final int SCREEN_WIDTH = 800;
     /** Height of the game window. */
-    static final int SCREEN_HEIGHT = 400;
+    static final int SCREEN_HEIGHT = 600;
     
     /** Controller for setting event handlers */
     private LetterGameController LGC;

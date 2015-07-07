@@ -89,6 +89,9 @@ public class AlphaPairGenerator implements PairGenerator {
         }
     }
     
+    /** 
+     * Sets the difficulty by picking out a random difficulty from the difficultySet and removing it.
+     */
     public void setDifficulty() {
         this.difficultyMode = 
                 this.difficultySet.remove(
