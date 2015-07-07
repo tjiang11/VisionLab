@@ -55,9 +55,9 @@ public class GameGUI {
     private TextField enterId;
     
     /** Game Screen - The left choice. */
-    private Button leftOption;
+    private Label leftOption;
     /** Game Screen - The right choice. */
-    private Button rightOption;
+    private Label rightOption;
     /** Game Screen - Progress Bar. */
     private ProgressBar progressBar;
     /** Game Screen - Get Ready */
@@ -162,19 +162,19 @@ public class GameGUI {
         this.scene = s;
     }
     
-    public Button getLeftOption() {
+    public Label getLeftOption() {
         return this.leftOption;
     }
     
-    public void setLeftOption(Button b) {
-        this.leftOption = b;
+    public void setLeftOption(Label label) {
+        this.leftOption = label;
     }
     
-    public void setRightOption(Button b) {
-        this.rightOption = b;
+    public void setRightOption(Label l) {
+        this.rightOption = l;
     }
     
-    public Button getRightOption() {
+    public Label getRightOption() {
         return this.rightOption;
     }
 

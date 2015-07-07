@@ -82,7 +82,7 @@ public final class SetUp {
     static final int STAR_SHIFT = 35;
     static final double STAR_SCALE = .28;
     /** Font size of the letter options. */
-    static final int INITIAL_LETTER_SIZE = 150;
+    static final int INITIAL_LETTER_SIZE = 300;
     
     /**
      * Finish Screen Element Positions.
@@ -200,8 +200,8 @@ public final class SetUp {
      */
     static void setUpOptions(GameGUI view) {
         //Create buttons and set text
-        view.setLeftOption(new Button());
-        view.setRightOption(new Button());
+        view.setLeftOption(new Label());
+        view.setRightOption(new Label());
 
        
         
