@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Random;
+
 /** 
  * Object to represent a pair of capital alphabetical letters.
  * 
@@ -12,17 +14,30 @@ public class AlphaPair {
     /** Number added to get the proper ASCII capital letter. */
     static final int ASCII_DIFF = 65;
     
+//    static final int SMALL_LETTER = 0;
+//    static final int MEDIUM_LETTER = 1;
+//    static final int BIG_LETTER = 2;
+//    
+//    static final int SMALL_LETTER_FONT_SIZE = 100;
+//    static final int MEDIUM_LETTER_FONT_SIZE = 200;
+//    static final int BIG_LETTER_FONT_SIZE = 300;
+    
     /** The first letter. */
     private char letterOne;
     
     /** The second letter. */
     private char letterTwo;
     
+    private int letterSizeOne;
+    private int letterSizeTwo;
+    
     /** The distance between the letters. */
     private int difference;
     
     /** Whether the left answer is correct or not. */
     private boolean leftCorrect;
+    
+    private Random randomGenerator = new Random();
     
     /** 
      * Constructor for AlphaPair.
@@ -38,6 +53,11 @@ public class AlphaPair {
         } else if (this.difference < 0) {
             this.setLeftCorrect(false);
         }
+        
+        //SIZE VARIATION
+        
+        this.letterSizeOne = 100 * (randomGenerator.nextInt(3) + 1);
+        this.letterSizeTwo = 100 * (randomGenerator.nextInt(3) + 1);
     }
     
     /**
@@ -83,6 +103,22 @@ public class AlphaPair {
 
     public void setLeftCorrect(boolean leftCorrect) {
         this.leftCorrect = leftCorrect;
+    }
+
+    public int getLetterSizeOne() {
+        return letterSizeOne;
+    }
+
+    public void setLetterSizeOne(int letterSizeOne) {
+        this.letterSizeOne = letterSizeOne;
+    }
+
+    public int getLetterSizeTwo() {
+        return letterSizeTwo;
+    }
+
+    public void setLetterSizeTwo(int letterSizeTwo) {
+        this.letterSizeTwo = letterSizeTwo;
     }
     
 }

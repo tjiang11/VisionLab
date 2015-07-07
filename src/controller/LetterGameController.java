@@ -16,6 +16,7 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
+import javafx.scene.text.Font;
 import javafx.util.Duration;
 import view.GameGUI;
 
@@ -355,7 +356,12 @@ public class LetterGameController implements GameController {
         letterOne = this.currentAlphaPair.getLetterOne();
         letterTwo = this.currentAlphaPair.getLetterTwo();
         
+        int letterSizeOne = this.currentAlphaPair.getLetterSizeOne();
+        int letterSizeTwo = this.currentAlphaPair.getLetterSizeTwo();
+        
+        theView.getLeftOption().setFont(new Font("Tahoma", letterSizeOne));
         theView.getLeftOption().setText(String.valueOf(letterOne));
+        theView.getRightOption().setFont(new Font("Tahoma", letterSizeTwo));
         theView.getRightOption().setText(String.valueOf(letterTwo));
 
     }
