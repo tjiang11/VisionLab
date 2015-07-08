@@ -52,6 +52,9 @@ public class LetterGameController implements GameController {
     /** Time in milliseconds for the player to get ready after pressing start */
     final static int GET_READY_TIME = 2000;
     
+    /** True if choices should vary in physical size */
+    public static boolean SIZE_VARIATION;
+    
     /** Time between rounds in milliseconds. */
     public static int TIME_BETWEEN_ROUNDS;
     
@@ -105,6 +108,7 @@ public class LetterGameController implements GameController {
     private void loadConfig() {
         new Config();
         TIME_BETWEEN_ROUNDS = Config.getPropertyInt("time.between.rounds");
+        SIZE_VARIATION = Config.getPropertyBoolean("size.variation");
     }
     
     
@@ -372,14 +376,16 @@ public class LetterGameController implements GameController {
         letterOne = this.currentAlphaPair.getLetterOne();
         letterTwo = this.currentAlphaPair.getLetterTwo();
         
-        int letterSizeOne = this.currentAlphaPair.getLetterSizeOne();
-        int letterSizeTwo = this.currentAlphaPair.getLetterSizeTwo();
-        
-        theView.getLeftOption().setFont(new Font("Tahoma", letterSizeOne));
         theView.getLeftOption().setText(String.valueOf(letterOne));
-        theView.getRightOption().setFont(new Font("Tahoma", letterSizeTwo));
         theView.getRightOption().setText(String.valueOf(letterTwo));
-
+        
+        if (SIZE_VARIATION) {
+            int letterSizeOne = this.currentAlphaPair.getLetterSizeOne();
+            int letterSizeTwo = this.currentAlphaPair.getLetterSizeTwo();
+            
+            theView.getLeftOption().setFont(new Font("Tahoma", letterSizeOne));
+            theView.getRightOption().setFont(new Font("Tahoma", letterSizeTwo));
+        }
     }
     
     /** 

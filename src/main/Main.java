@@ -1,6 +1,5 @@
 package main;
 
-import controller.LetterGameController;
 import view.GameGUI;
 import javafx.application.Application;
 import javafx.stage.Stage;
