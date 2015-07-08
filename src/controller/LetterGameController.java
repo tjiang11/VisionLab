@@ -2,6 +2,7 @@ package controller;
 
 import java.net.URL;
 
+import config.Config;
 import model.AlphaPair;
 import model.AlphaPairGenerator;
 import model.GameLogic;
@@ -51,6 +52,9 @@ public class LetterGameController implements GameController {
     /** Time in milliseconds for the player to get ready after pressing start */
     final static int GET_READY_TIME = 2000;
     
+    /** Time between rounds in milliseconds. */
+    public static int TIME_BETWEEN_ROUNDS;
+    
     /** DataWriter to export data to CSV. */
     private DataWriter dataWriter;
     
@@ -83,6 +87,9 @@ public class LetterGameController implements GameController {
      * @param view The graphical user interface.
      */
     public LetterGameController(GameGUI view) {
+        
+        loadConfig();
+        
         this.gameController = this;
         this.apg = new AlphaPairGenerator();
         this.currentAlphaPair = null;
@@ -91,6 +98,15 @@ public class LetterGameController implements GameController {
         this.thePlayer = new Player();
         this.dataWriter = new DataWriter(this);
     }
+    
+    /** 
+     * Load configuration settings. 
+     */
+    private void loadConfig() {
+        new Config();
+        TIME_BETWEEN_ROUNDS = Config.getPropertyInt("time.between.rounds");
+    }
+    
     
     /**
      * Sets event listener for when subject clicks the start button OR presses Enter.
