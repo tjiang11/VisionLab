@@ -289,8 +289,7 @@ public class LetterGameController implements GameController {
                 setOptions();
                 state = CurrentState.WAITING_FOR_RESPONSE;
                 responseTimeMetric = System.nanoTime();
-                theView.getGetReady().setText("");
-                theView.getGetReadyBar().setOpacity(0.0);
+                theView.getGetReadyBox().setVisible(false);
             }
         });
         new Thread(sleeper).start();
@@ -319,15 +318,6 @@ public class LetterGameController implements GameController {
         System.out.println("Done");
         theView.setFinishScreen(theView.getPrimaryStage(), gameController);
     }
-    
-//    /**
-//     * Increase the difficulty if the number of rounds has reached an integer multiple of ROUNDS_PER_DIFFICULTY.
-//     */
-//    private void setDifficulty() {
-//        if (this.thePlayer.getNumRounds() == (ROUNDS_PER_DIFFICULTY * (this.apg.getDifficultyMode() + 1))) {
-//            this.apg.increaseDifficulty();
-//        }
-//    }
 
     /**
      * Clears the options.
@@ -358,7 +348,6 @@ public class LetterGameController implements GameController {
                 setOptions();
                 state = CurrentState.WAITING_FOR_RESPONSE;
                 responseTimeMetric = System.nanoTime();
-                getTheView().getGetReady().setText("");
             }
         });
         new Thread(sleeper).start();
