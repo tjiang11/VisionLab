@@ -33,6 +33,8 @@ public class DataWriter {
     public static final String IS_CORRECT = "Correct";
     public static final String DIFFICULTY = "Difficulty";
     public static final String DISTANCE = "Distance";
+    public static final String LEFT_CHOICE_SIZE = "Left Choice Size";
+    public static final String RIGHT_CHOICE_SIZE = "Right Choice Size";
     public static final String RESPONSE_TIME = "Response Time";
     public static final String DATE_TIME = "Date/Time";
     public static final String CONSECUTIVE_ROUND = "Consecutive Rounds";
@@ -127,6 +129,8 @@ public class DataWriter {
                 + IS_CORRECT + DELIMITER
                 + DIFFICULTY + DELIMITER
                 + DISTANCE + DELIMITER
+                + LEFT_CHOICE_SIZE + DELIMITER
+                + RIGHT_CHOICE_SIZE + DELIMITER
                 + RESPONSE_TIME + DELIMITER
                 + DATE_TIME + DELIMITER
                 + CONSECUTIVE_ROUND + "\n";
@@ -146,6 +150,8 @@ public class DataWriter {
         String correct = this.generateCorrectText();
         String difficulty = this.generateDifficultyText();
         String distance = this.generateDistanceText();
+        String leftChoiceSize = this.generateLeftChoiceSizeText();
+        String rightChoiceSize = this.generateRightChoiceSizeText();
         String responseTime = this.generateResponseTimeText();
         String dateTime = this.generateDateTimeText();
         String consecutiveRounds = this.generateConsecutiveRoundsText();
@@ -158,6 +164,8 @@ public class DataWriter {
                 + correct + DELIMITER
                 + difficulty + DELIMITER
                 + distance + DELIMITER
+                + leftChoiceSize + DELIMITER
+                + rightChoiceSize + DELIMITER
                 + responseTime + DELIMITER
                 + dateTime + DELIMITER
                 + consecutiveRounds + "\n";
@@ -223,6 +231,16 @@ public class DataWriter {
     private String generateDistanceText() {
         return Integer.toString(Math.abs(
                     this.alphaPair.getDifference()));
+    }
+    
+    private String generateLeftChoiceSizeText() {
+        return Integer.toString(
+                this.alphaPair.getLetterSizeOne());
+    }
+    
+    private String generateRightChoiceSizeText() {
+        return Integer.toString(
+                this.alphaPair.getLetterSizeTwo());
     }
     
     private String generateResponseTimeText() {
