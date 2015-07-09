@@ -62,11 +62,10 @@ public class GameGUI {
     private Label getReady;
     /** Game Screen - Get Ready Bar */
     private ProgressBar getReadyBar;
-    /** Game Screen - Stars */
-    
     private VBox getReadyBox;
-    
+    /** Game Screen - Stars */
     private ImageView starNodes[];
+
     
     /** End Screen - message informing the user has finished. */
     private Label congratulations;
@@ -100,8 +99,6 @@ public class GameGUI {
         
         LGC = new LetterGameController(this);
         LGC.setLoginHandlers();
-
-        this.enterId.requestFocus();
         
         this.primaryStage.setResizable(false);
         
@@ -118,7 +115,6 @@ public class GameGUI {
         
         this.primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         this.primaryStage.setFullScreen(true);
-        
     }
     
     /**

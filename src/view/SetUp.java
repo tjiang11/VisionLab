@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -45,29 +46,6 @@ public final class SetUp {
     static final Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
     static final double SCREEN_WIDTH = primaryScreenBounds.getWidth();
     static final double SCREEN_HEIGHT = primaryScreenBounds.getHeight();
-    
-    /** 
-     * Login Screen Element Positions. 
-     *
-     * Position of the label prompting the subject
-     * to enter her subject ID. */
-    static final int LABEL_POSITION_X = (int) (SCREEN_WIDTH * .444);
-
-    static final int LABEL_POSITION_Y = (int) (SCREEN_HEIGHT * .383);
-    
-    /** Position of text field where subject will enter
-     * her subject ID. */
-    static final int ENTER_ID_POSITION_X = 325;
-    static final int ENTER_ID_POSITION_Y = 250;
-    
-    /** Position of feedback telling subject to re-enter
-     * their subject ID. */
-    static final int FEEDBACK_POSITION_X = 335;
-    static final int FEEDBACK_POSITION_Y = 330;
-    
-    /** Position of start button to start the trials. */
-    static final int START_POSITION_X = 380;
-    static final int START_POSITION_Y = 280;
 
     /**
      * Game Screen. */
@@ -77,14 +55,8 @@ public final class SetUp {
     static final int LEFT_OPTION_Y = (int) (SCREEN_HEIGHT * .1);
     static final int RIGHT_OPTION_X = (int) SCREEN_WIDTH / 2;
     static final int RIGHT_OPTION_Y = (int) (SCREEN_HEIGHT * .1);
-    static final int OPTION_WIDTH = 300;
-    static final int OPTION_HEIGHT = 450;
-    static final int PROGRESS_BAR_X = 20;
-    static final int PROGRESS_BAR_Y = 20;
-    static final int GET_READY_X = 277;
-    static final int GET_READY_Y = 230;
-    static final int GET_READY_BAR_X = GET_READY_X - 27;
-    static final int GET_READY_BAR_Y = GET_READY_Y + 70;
+    static final int PROGRESS_BAR_X = (int) (SCREEN_WIDTH * .02);
+    static final int PROGRESS_BAR_Y = (int) (SCREEN_HEIGHT * .05);
     static final int FIRST_STAR_X = (int) (SCREEN_WIDTH * .93);
     static final int STAR_Y = -25;
     static final int STAR_SHIFT = 35;
@@ -92,16 +64,6 @@ public final class SetUp {
     /** Font size of the letter options. */
     static final int INITIAL_LETTER_SIZE = 300;
     
-    /**
-     * Finish Screen Element Positions.
-     */
-    /** Position of message congratulating subject on completing
-     * the experiment. */
-    static final int CONGRATS_X = 348;
-    static final int CONGRATS_Y = 270;
-    /** Position of message with subject's score. */
-    static final int SCORE_X = 328;
-    static final int SCORE_Y = 300;
     
     /** Disable constructing of an object. */
     private SetUp() {
@@ -118,7 +80,7 @@ public final class SetUp {
         Label label = new Label("Enter your Subject ID");
 
         view.setStart(new Button("Start"));
-
+        view.setEnterId(new TextField());
         view.setFeedback(new Label());
 
         view.setLayout(new AnchorPane());
@@ -133,6 +95,8 @@ public final class SetUp {
         Scene scene = new Scene(view.getLayout(), 
                 SCREEN_WIDTH, SCREEN_HEIGHT);
 
+        view.getEnterId().requestFocus();
+        
         setBackground(view.getLayout(), 0);
         
         return scene;
@@ -207,8 +171,6 @@ public final class SetUp {
         view.setLeftOption(new Label());
         view.setRightOption(new Label());
 
-       
-        
       //Set absolute positions of each leftOption
         view.getLeftOption().setLayoutX(LEFT_OPTION_X);
         view.getLeftOption().setLayoutY(LEFT_OPTION_Y);
@@ -255,13 +217,7 @@ public final class SetUp {
         view.setCongratulations(new Label("You did it!"));
         view.getCongratulations().setFont(Font.font("Verdana", 20));
         score.setFont(Font.font("Tahoma", 16));
-        
-        view.getCongratulations().setLayoutX(CONGRATS_X);
-        view.getCongratulations().setLayoutY(CONGRATS_Y);
-        
-        score.setLayoutX(SCORE_X);
-        score.setLayoutY(SCORE_Y);
-        
+
         view.setFinishMessage(new VBox(6));
         view.getFinishMessage().getChildren().addAll(view.getCongratulations(), score);
         view.getFinishMessage().setAlignment(Pos.CENTER);
