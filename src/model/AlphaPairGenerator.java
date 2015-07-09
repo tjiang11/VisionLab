@@ -98,9 +98,9 @@ public class AlphaPairGenerator implements PairGenerator {
                         randomGenerator.nextInt(this.difficultySet.size()));
         if (this.difficultySet.isEmpty()) {
             this.fillDifficultySet();
-        }
+        }   
     }
-
+    
     /**
      * Gets a new AlphaPair with random letters while
      * checking to make sure that the same choice will
@@ -153,7 +153,7 @@ public class AlphaPairGenerator implements PairGenerator {
     }
     
     /**
-     * Check if choices are the same and set the reverse if the same side has been
+     * Check if the same side is correct as last round and set the reverse if the same side has been
      * correct for MAX_TIMES_SAME_ANSWER times in a row.
      * @param letterOne
      * @param letterTwo
@@ -164,7 +164,7 @@ public class AlphaPairGenerator implements PairGenerator {
         if (this.getSameChoice() >= MAX_TIMES_SAME_ANSWER) {
             this.setReversePair(letterOne, letterTwo);
         } else {
-            this.setAlphaPair(new AlphaPair(letterOne, letterTwo));
+            this.setAlphaPair(new AlphaPair(letterOne, letterTwo, this.difficultyMode));
         }
     }
     
@@ -183,7 +183,7 @@ public class AlphaPairGenerator implements PairGenerator {
      * @param letterTwo
      */
     public void setReversePair(int letterOne, int letterTwo) {
-        this.setAlphaPair(new AlphaPair(letterTwo, letterOne));
+        this.setAlphaPair(new AlphaPair(letterTwo, letterOne, this.difficultyMode));
         this.toggleLastWasLeft();
         this.setSameChoice(0);
     }

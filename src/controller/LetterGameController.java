@@ -160,10 +160,7 @@ public class LetterGameController implements GameController {
                     gameController.prepareNextRound(); 
                     
                     /** Export data to CSV file in folder 'results/<subject_id>' */
-                    dataWriter.writeToCSV();
-                    
-                    /** Set difficulty of AlphaPairGenerator */
-                    gameController.apg.setDifficulty();       
+                    dataWriter.writeToCSV();  
                 }
 
             }
@@ -303,7 +300,8 @@ public class LetterGameController implements GameController {
         recordResponseTime();
         clearRound();
         waitBeforeNextRoundAndUpdate(TIME_BETWEEN_ROUNDS);
-
+        gameController.apg.setDifficulty();     
+        
         if (thePlayer.getNumRounds() >= NUM_ROUNDS) {
             this.finishGame();
         }

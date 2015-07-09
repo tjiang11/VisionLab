@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.time.LocalDateTime;
 
 import model.AlphaPair;
-import model.AlphaPairGenerator;
 import model.Player;
 
 
@@ -43,8 +42,6 @@ public class DataWriter {
     private Player player;
     /** AlphaPair to grab data from. */
     private AlphaPair alphaPair;
-    /** AlphaPairGenerator to grab data from */
-    private AlphaPairGenerator alphaPairGenerator;
     
     /**
      * Constructor for data writer that takes in a controller
@@ -54,7 +51,6 @@ public class DataWriter {
     public DataWriter(LetterGameController lgc) {
         this.player = lgc.getThePlayer();
         this.alphaPair = lgc.getCurrentAlphaPair();
-        this.alphaPairGenerator = lgc.getApg();
     }
     
     /**
@@ -64,7 +60,6 @@ public class DataWriter {
     public void grabData(LetterGameController lgc) {
         this.player = lgc.getThePlayer();
         this.alphaPair = lgc.getCurrentAlphaPair();
-        this.alphaPairGenerator = lgc.getApg();
     }
     
     /**
@@ -217,7 +212,7 @@ public class DataWriter {
     }
     
     private String generateDifficultyText() {
-        int difficulty = this.alphaPairGenerator.getDifficultyMode();
+        int difficulty = this.alphaPair.getDifficulty();
         if (difficulty == 0) {
             return "EASY";
         } else if (difficulty == 1) {

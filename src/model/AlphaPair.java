@@ -14,13 +14,17 @@ public class AlphaPair {
     /** Number added to get the proper ASCII capital letter. */
     static final int ASCII_DIFF = 65;
     
-//    static final int SMALL_LETTER = 0;
-//    static final int MEDIUM_LETTER = 1;
-//    static final int BIG_LETTER = 2;
-//    
-//    static final int SMALL_LETTER_FONT_SIZE = 100;
-//    static final int MEDIUM_LETTER_FONT_SIZE = 200;
-//    static final int BIG_LETTER_FONT_SIZE = 300;
+    static final int SMALL_CHOICE = 0;
+    static final int MEDIUM_CHOICE = 1;
+    static final int BIG_CHOICE = 2;
+    
+    static final int SMALL_CHOICE_FONT_SIZE = 150;
+    static final int MEDIUM_CHOICE_FONT_SIZE = 200;
+    static final int BIG_CHOICE_FONT_SIZE = 300;
+    
+    static final double EASY_MODE_FONT_RATIO = .4;
+    static final double MEDIUM_MODE_FONT_RATIO = .7;
+    static final double HARD_MODE_FONT_RATIO = .85;
     
     /** The first letter. */
     private char letterOne;
@@ -34,30 +38,40 @@ public class AlphaPair {
     /** The distance between the letters. */
     private int difference;
     
+    /** Difficulty of this pair, determined by distance */
+    private int difficulty;
+    
+    public int getDifficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(int difficulty) {
+        this.difficulty = difficulty;
+    }
+
     /** Whether the left answer is correct or not. */
     private boolean leftCorrect;
     
+    /** Random number generator */
     private Random randomGenerator = new Random();
     
     /** 
      * Constructor for AlphaPair.
      * @param posLetterOne The index of the first letter. A is 0, Z is 25.
      * @param posLetterTwo The index of the second letter.
+     * @param difficultyMode the difficulty of this pair, used to determine font sizes.
      */
-    public AlphaPair(int posLetterOne, int posLetterTwo) {
+    public AlphaPair(int posLetterOne, int posLetterTwo, int difficultyMode) {
+        this.difficulty = difficultyMode;
         this.letterOne = this.numToAlpha(posLetterOne);
         this.letterTwo = this.numToAlpha(posLetterTwo);
+        this.setChoiceSizes(this.difficulty);
         this.difference = posLetterOne - posLetterTwo;
         if (this.difference > 0) {
             this.setLeftCorrect(true);
         } else if (this.difference < 0) {
             this.setLeftCorrect(false);
         }
-        
-        //SIZE VARIATION
-        
-        this.letterSizeOne = 100 * (randomGenerator.nextInt(3) + 1);
-        this.letterSizeTwo = 100 * (randomGenerator.nextInt(3) + 1);
     }
     
     /**
@@ -69,6 +83,55 @@ public class AlphaPair {
         posLetter += ASCII_DIFF;
         char letter = Character.toChars(posLetter)[0];
         return letter;
+    }
+    
+    /**
+     * Set the font size for each letter based on the difficulty (which
+     * is determined by the distance between the choices). Higher distances
+     *  --> higher font ratio. Smaller distances --> smaller font ratio.
+     * @param difficultyMode
+     */
+    public void setChoiceSizes(int difficultyMode) {
+        int baseSize = this.chooseBaseSize();
+        System.out.println("BASE: " + baseSize);
+        this.letterSizeOne = baseSize;
+        switch (difficultyMode) {
+        case AlphaPairGenerator.EASY_MODE:
+            this.letterSizeTwo = (int) (EASY_MODE_FONT_RATIO * baseSize);
+            break;
+        case AlphaPairGenerator.MEDIUM_MODE:
+            this.letterSizeTwo = (int) (MEDIUM_MODE_FONT_RATIO * baseSize);
+            break;
+        case AlphaPairGenerator.HARD_MODE:
+            this.letterSizeTwo = (int) (HARD_MODE_FONT_RATIO * baseSize);
+            break;
+        }
+        
+        int switchSizes = randomGenerator.nextInt(2);
+        System.out.println(switchSizes);
+        if (switchSizes == 0) {
+            int tempSize = this.letterSizeOne;
+            this.letterSizeOne = this.letterSizeTwo;
+            this.letterSizeTwo = tempSize;
+        }
+    }
+    
+    /**
+     * Determine the base font size to build the font ratio off of. The other
+     * font size choice will be scaled down from this font size.
+     * @return int The base font size.
+     */
+    public int chooseBaseSize() {
+        int choiceOfSize = randomGenerator.nextInt(3);
+        switch (choiceOfSize) {
+        case SMALL_CHOICE:
+            return SMALL_CHOICE_FONT_SIZE;
+        case MEDIUM_CHOICE:
+            return MEDIUM_CHOICE_FONT_SIZE;
+        case BIG_CHOICE:
+            return BIG_CHOICE_FONT_SIZE;
+        }
+        return 0;
     }
 
     public char getLetterOne() {

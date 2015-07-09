@@ -85,7 +85,7 @@ public final class SetUp {
     static final int GET_READY_Y = 230;
     static final int GET_READY_BAR_X = GET_READY_X - 27;
     static final int GET_READY_BAR_Y = GET_READY_Y + 70;
-    static final int FIRST_STAR_X = 705;
+    static final int FIRST_STAR_X = (int) (SCREEN_WIDTH * .93);
     static final int STAR_Y = -25;
     static final int STAR_SHIFT = 35;
     static final double STAR_SCALE = .28;
@@ -156,6 +156,7 @@ public final class SetUp {
         initialOptionSetUp(view);
         
         view.setProgressBar(new ProgressBar(0.0));
+        view.getProgressBar().setScaleY(2.0);
         view.getProgressBar().setLayoutX(PROGRESS_BAR_X);
         view.getProgressBar().setLayoutY(PROGRESS_BAR_Y);
         view.getProgressBar().getTransforms().setAll(
