@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.apache.log4j.Logger;
+
 /**
  * Generates AlphaPairs with random letters.
  * 
@@ -14,6 +16,8 @@ import java.util.Random;
  *
  */
 public class AlphaPairGenerator implements PairGenerator {
+    
+    private static final Logger logger = Logger.getLogger("Global");
     
     /** Number of characters to choose from. */
     static final int NUM_LETTERS = 26;
@@ -122,12 +126,16 @@ public class AlphaPairGenerator implements PairGenerator {
      * Get a new pair based on the current difficulty.
      */
     public void getNewDifficultyPair() {
+        
         int difference = 0;
         if (this.difficultyMode == EASY_MODE) {
+            logger.info("Easy mode");
             difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + EASY_MODE_MIN;
         } else if (this.difficultyMode == MEDIUM_MODE) {
+            logger.info("Medium mode");
             difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + MEDIUM_MODE_MIN;
         } else if (this.difficultyMode == HARD_MODE) {
+            logger.info("Hard mode");
             difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + HARD_MODE_MIN;
         }
         this.getNewPair(difference);

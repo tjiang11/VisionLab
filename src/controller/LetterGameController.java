@@ -1,6 +1,7 @@
 package controller;
 
 import java.net.URL;
+import java.util.logging.Logger;
 
 import config.Config;
 import model.AlphaPair;
@@ -45,6 +46,7 @@ import view.GameGUI;
  * 
  */
 public class LetterGameController implements GameController {
+    private static Logger logger = Logger.getLogger("mylog");
     
     /** Punish for wrong answers */
     static final boolean PUNISH = true;
@@ -384,7 +386,8 @@ public class LetterGameController implements GameController {
         
         //Convert from nanoseconds to seconds.
         double responseTimeSec = responseTime / 1000000000.0;
-        System.out.println("Your response time was: " 
+
+        logger.info("Your response time was: " 
                 + responseTimeSec + " seconds");
     }
     

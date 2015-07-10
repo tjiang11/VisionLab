@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.time.LocalDateTime;
+import java.util.logging.Logger;
 
 import model.AlphaPair;
 import model.Player;
@@ -22,7 +23,8 @@ import model.Player;
  *
  */
 public class DataWriter {
-
+    private static Logger logger = Logger.getLogger("mylog");
+    
     public static final String DELIMITER = ",";
     public static final String SUBJECT_ID = "Subject ID";
     public static final String LEFT_CHOICE = "Left Choice";
@@ -89,7 +91,7 @@ public class DataWriter {
             /** Create new csv file for subject if doesn't exist */
             File file = new File(path + "\\results\\" + subjectId 
                     + "\\results_" + subjectId + ".csv");            
-            System.out.println(file.getPath());
+            logger.info(file.getPath());
             String text = "";
             
             /** Write data to new file or append to old file */

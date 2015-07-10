@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Random;
-
 /** 
  * Object to represent a pair of capital alphabetical letters.
  * 
@@ -10,7 +9,7 @@ import java.util.Random;
  * 
  */
 public class AlphaPair {
-    
+
     /** Number added to get the proper ASCII capital letter. */
     static final int ASCII_DIFF = 65;
     
@@ -93,7 +92,6 @@ public class AlphaPair {
      */
     public void setChoiceSizes(int difficultyMode) {
         int baseSize = this.chooseBaseSize();
-        System.out.println("BASE: " + baseSize);
         this.letterSizeOne = baseSize;
         switch (difficultyMode) {
         case AlphaPairGenerator.EASY_MODE:
@@ -108,7 +106,6 @@ public class AlphaPair {
         }
         
         int switchSizes = randomGenerator.nextInt(2);
-        System.out.println(switchSizes);
         if (switchSizes == 0) {
             int tempSize = this.letterSizeOne;
             this.letterSizeOne = this.letterSizeTwo;
