@@ -13,10 +13,10 @@ import java.util.Properties;
  */
 
 public class Config {
- 
+    
+    /** Default properties to be loaded from defaultconfig.properties */
     private static Properties defaultProperties;
     private final static String DEFAULT_CONFIG_FILE_NAME = "defaultconfig.properties";
-    
     
     public Config() {
         defaultLoad();
@@ -45,6 +45,11 @@ public class Config {
         }
     }
     
+    /**
+     * Grab the property and convert the value to a boolean.
+     * @param key The key desired
+     * @return The value as a boolean
+     */
     public static Boolean getPropertyBoolean(String key) {
         if (defaultProperties.containsKey(key)) {
             return Boolean.valueOf(defaultProperties.getProperty(key));
@@ -54,6 +59,11 @@ public class Config {
         }
     }
     
+    /**
+     * Grab the property and convert the value to an int.
+     * @param key The key desired
+     * @return The value as an int.
+     */
     public static int getPropertyInt(String key) {
         if (defaultProperties.containsKey(key)) {
             return Integer.parseInt(defaultProperties.getProperty(key));
