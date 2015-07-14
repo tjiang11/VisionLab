@@ -162,7 +162,7 @@ public class LetterGameController implements GameController {
                     gameController.prepareNextRound(); 
                     
                     /** Export data to CSV file in folder 'results/<subject_id>' */
-                    dataWriter.writeToCSV();  
+                    dataWriter.writeToCSV(); 
                 }
             }
         });
@@ -193,7 +193,6 @@ public class LetterGameController implements GameController {
         this.feedbackSound(feedbackSoundFileUrl, correct); 
         
         this.dataWriter.grabData(this);
-
     }
     
     /** Update the player appropriately.
@@ -269,7 +268,6 @@ public class LetterGameController implements GameController {
      * let the subject prepare for the first question.
      */
     public void prepareFirstRound() {
-        
         Task<Void> sleeper = new Task<Void>() {   
             @Override
             protected Void call() throws Exception {
@@ -300,8 +298,7 @@ public class LetterGameController implements GameController {
     public void prepareNextRound() {
         recordResponseTime();
         clearRound();
-        waitBeforeNextRoundAndUpdate(TIME_BETWEEN_ROUNDS);
-        gameController.apg.setDifficulty();     
+        waitBeforeNextRoundAndUpdate(TIME_BETWEEN_ROUNDS);   
         
         if (thePlayer.getNumRounds() >= NUM_ROUNDS) {
             this.finishGame();

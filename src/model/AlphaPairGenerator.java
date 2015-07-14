@@ -24,6 +24,9 @@ public class AlphaPairGenerator {
      */
     static final int MAX_TIMES_SAME_ANSWER = 3;
     
+    /** Number of times the same relative size (bigger or smaller) can be correct */
+    static final int MAX_TIMES_SAME_SIZE_CORRECT = 3;
+    
     /** Number of characters to choose from. */
     static final int NUM_LETTERS = 26;
     
@@ -43,19 +46,15 @@ public class AlphaPairGenerator {
     static final int NUM_MODES = 3;
     
     /** Define the lowest distance (in number of letters) each difficulty can have. */
-    static final int EASY_MODE_MIN = 14;
-    static final int MEDIUM_MODE_MIN = 8;
-    static final int HARD_MODE_MIN = 2;
+    public static final int EASY_MODE_MIN = 14;
+    public static final int MEDIUM_MODE_MIN = 8;
+    public static final int HARD_MODE_MIN = 2;
     
     /** The highest distance each difficulty can have is their minimum plus NUM_CHOICES_IN_MODE. */
-    static final int NUM_CHOICES_IN_MODE = 4;
+    public static final int NUM_CHOICES_IN_MODE = 4;
     
     /** Number of triplets of modes per set. See fillDifficultySet(). */
     static final int NUM_MODE_TRIPLETS = 2;
-//////////////////////////////////////////////////    
-    /** Number of times the same relative size (bigger or smaller) can be correct */
-    static final int MAX_TIMES_SAME_SIZE_CORRECT = 1;
-//////////////////////////////////////////////////
     
     /** Random number generator. */
     Random randomGenerator = new Random();
@@ -68,22 +67,19 @@ public class AlphaPairGenerator {
     
     /** The list containing the difficulties. */
     private ArrayList<Integer> difficultySet;
-    
-    /////////////////////////////////////////////////////
+
     /** A measure of how many times the same side has been correct. */
     private int sameChoiceCorrect;
     
     /** A measure of how many times the same size has been correct. */
     private int sameSizeCorrect;
-    //////////////////////////////////////////////////////////
-    
     
     /** True if the last correct choice was left. False otherwise. */
     private boolean lastWasLeft;
-    ////////////////////////////////////////////////////////////////////
+    
     /** True if the last correct choice was big. False otherwise. */
     private boolean lastWasBig;
-    ///////////////////////////////////////////////////////////////////
+
     /**
      * Constructor. 
      */
@@ -128,29 +124,11 @@ public class AlphaPairGenerator {
         }   
     }
     
-//    /**
-//     * Gets a new AlphaPair with random letters while
-//     * checking to make sure that the same choice will
-//     * not be picked more than three times in a row
-//     * as being correct.
-//     */
-//    public void getNewPair() {
-//        System.out.println(this.getSameChoiceCorrect());
-//        int letterOne, letterTwo;
-//        letterOne = this.randomGenerator.nextInt(NUM_LETTERS);
-//        do {
-//            letterTwo = this.randomGenerator.nextInt(NUM_LETTERS); 
-//        } while (letterOne == letterTwo);        
-//           
-//        this.checkAndSet(letterOne, letterTwo, 200, 200);
-//    }
-    
     /**
      * Get a new pair based on the current difficulty.
      */
     public void getNewDifficultyPair() {
-        
-///////////////////////////////////////////
+        this.setDifficulty();
         int baseFontSize = this.chooseBaseFontSize();
         int otherFontSize = 0;
         int difference = 0;
@@ -177,7 +155,6 @@ public class AlphaPairGenerator {
         this.getNewPair(difference, baseFontSize, otherFontSize);
     }
     
-//////////////////////////////////////////////////////////////
     /**
      * Determine the base font size to build the font ratio off of. The other
      * font size choice will be scaled down from this font size.
@@ -195,7 +172,7 @@ public class AlphaPairGenerator {
         }
         return 0;
     }
-/////////////////////////////////////////////////////////////////
+    
     /**
      * Gets a new AlphaPair with letters a certain distance apart.
      * @param difference distance between the letters.
@@ -205,9 +182,7 @@ public class AlphaPairGenerator {
         letterOne = this.randomGenerator.nextInt(NUM_LETTERS - difference);
         letterTwo = letterOne + difference;
         
-//////////////////////////////////////////////
         if (randomGenerator.nextBoolean()) {
-//////////////////////////////////////////////
             int temp = letterTwo;
             letterTwo = letterOne;
             letterOne = temp;
@@ -223,10 +198,8 @@ public class AlphaPairGenerator {
      */
     private void checkAndSet(int letterOne, int letterTwo, int fontSizeOne, int fontSizeTwo) {
         this.checkSameChoice(letterOne, letterTwo);
-        
-        ///////////////////////////////////////////////////
+
         this.checkSameSize(letterOne, letterTwo, fontSizeOne, fontSizeTwo);
-        ///////////////////////////////////////////////////
         
         if (this.getSameSizeCorrect() >= MAX_TIMES_SAME_SIZE_CORRECT) {
             int temp = fontSizeOne;
@@ -287,7 +260,6 @@ public class AlphaPairGenerator {
         }   
     }
     
-//////////////////////////////////////////////////    
     /**
      * Check if the same relative size (bigger or smaller) is correct
      * as the last round.
@@ -312,7 +284,7 @@ public class AlphaPairGenerator {
             this.lastWasBig = false;
         }
     }
-/////////////////////////////////////////////////
+
     /**
      * Toggles which of the last choices was correct.
      */
@@ -387,5 +359,4 @@ public class AlphaPairGenerator {
     public void incrementSameSizeCorrect() {
         this.sameSizeCorrect++;
     }
-
 }

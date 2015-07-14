@@ -46,10 +46,6 @@ public class DataWriter {
     private Player player;
     /** AlphaPair to grab data from. */
     private AlphaPair alphaPair;
-    /////////////////////////////////
-    /** AlphaPairGenerator to grab data from */
-    private AlphaPairGenerator alphaPairGenerator;
-    //////////////////////////////////////////
     
     /**
      * Constructor for data writer that takes in a controller
@@ -59,7 +55,6 @@ public class DataWriter {
     public DataWriter(LetterGameController lgc) {
         this.player = lgc.getThePlayer();
         this.alphaPair = lgc.getCurrentAlphaPair();
-        this.alphaPairGenerator = lgc.getApg();
     }
     
     /**
@@ -224,12 +219,18 @@ public class DataWriter {
     }
     
     private String generateDifficultyText() {
-        int difficulty = this.alphaPairGenerator.getDifficultyMode();
-        if (difficulty == 0) {
+        int difference = Math.abs(this.alphaPair.getDifference());
+        if (difference >= AlphaPairGenerator.EASY_MODE_MIN &&
+                difference < AlphaPairGenerator.EASY_MODE_MIN 
+                + AlphaPairGenerator.NUM_CHOICES_IN_MODE) {
             return "EASY";
-        } else if (difficulty == 1) {
+        } else if (difference >= AlphaPairGenerator.MEDIUM_MODE_MIN &&
+                difference < AlphaPairGenerator.MEDIUM_MODE_MIN
+                + AlphaPairGenerator.NUM_CHOICES_IN_MODE) {
             return "MEDIUM";
-        } else if (difficulty == 2) {
+        } else if (difference >= AlphaPairGenerator.HARD_MODE_MIN &&
+                difference < AlphaPairGenerator.HARD_MODE_MIN 
+                + AlphaPairGenerator.NUM_CHOICES_IN_MODE) {
             return "HARD";
         } 
         return "";

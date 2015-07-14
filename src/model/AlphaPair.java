@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Random;
 /** 
  * Object to represent a pair of capital alphabetical letters.
  * 
@@ -13,62 +12,23 @@ public class AlphaPair {
     /** Number added to get the proper ASCII capital letter. */
     static final int ASCII_DIFF = 65;
     
-//    static final int SMALL_CHOICE = 0;
-//    static final int MEDIUM_CHOICE = 1;
-//    static final int BIG_CHOICE = 2;
-    
-//    static final int SMALL_CHOICE_FONT_SIZE = 150;
-//    static final int MEDIUM_CHOICE_FONT_SIZE = 200;
-//    static final int BIG_CHOICE_FONT_SIZE = 300;
-    
-//    static final double EASY_MODE_FONT_RATIO = .4;
-//    static final double MEDIUM_MODE_FONT_RATIO = .7;
-//    static final double HARD_MODE_FONT_RATIO = .85;
-    
     /** The first letter. */
     private char letterOne;
     
     /** The second letter. */
     private char letterTwo;
     
+    /** Font size of the first letter */
     private int fontSizeOne;
+    
+    /** Font size of the second letter */
     private int fontSizeTwo;
     
     /** The distance between the letters. */
     private int difference;
-//    
-//    /** Difficulty of this pair, determined by distance */
-//    private int difficulty;
-//    
-//    public int getDifficulty() {
-//        return difficulty;
-//    }
-//
-//    public void setDifficulty(int difficulty) {
-//        this.difficulty = difficulty;
-//    }
 
     /** Whether the left answer is correct or not. */
     private boolean leftCorrect;
-    
-//    /** 
-//     * Constructor for AlphaPair.
-//     * @param posLetterOne The index of the first letter. A is 0, Z is 25.
-//     * @param posLetterTwo The index of the second letter.
-//     * @param difficultyMode the difficulty of this pair, used to determine font sizes.
-//     */
-//    public AlphaPair(int posLetterOne, int posLetterTwo, int difficultyMode) {
-//        this.difficulty = difficultyMode;
-//        this.letterOne = this.numToAlpha(posLetterOne);
-//        this.letterTwo = this.numToAlpha(posLetterTwo);
-//        this.setChoiceSizes(this.difficulty);
-//        this.difference = posLetterOne - posLetterTwo;
-//        if (this.difference > 0) {
-//            this.setLeftCorrect(true);
-//        } else if (this.difference < 0) {
-//            this.setLeftCorrect(false);
-//        }
-//    }
     
     /** 
      * Constructor for AlphaPair.
@@ -78,7 +38,6 @@ public class AlphaPair {
      * @param fontSizeTwo font size of the second letter..
      */
     public AlphaPair(int posLetterOne, int posLetterTwo, int fontSizeOne, int fontSizeTwo) {
-        
         this.letterOne = this.numToAlpha(posLetterOne);
         this.letterTwo = this.numToAlpha(posLetterTwo);
         this.setFontSizeOne(fontSizeOne);
