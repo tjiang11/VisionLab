@@ -19,6 +19,11 @@ public class AlphaPairGenerator implements PairGenerator {
     
     private static final Logger logger = Logger.getLogger("Global");
     
+    /**
+     * Max number of times the same side may be the correct choice.
+     */
+    static final int MAX_TIMES_SAME_ANSWER = 3;
+    
     /** Number of characters to choose from. */
     static final int NUM_LETTERS = 26;
     
