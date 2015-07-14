@@ -15,7 +15,7 @@ import org.apache.log4j.Logger;
  * 6-25-2015
  *
  */
-public class AlphaPairGenerator implements PairGenerator {
+public class AlphaPairGenerator {
     
     private static final Logger logger = Logger.getLogger("Global");
     
