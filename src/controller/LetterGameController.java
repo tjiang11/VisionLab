@@ -164,7 +164,6 @@ public class LetterGameController implements GameController {
                     /** Export data to CSV file in folder 'results/<subject_id>' */
                     dataWriter.writeToCSV();  
                 }
-
             }
         });
     }  
@@ -369,8 +368,8 @@ public class LetterGameController implements GameController {
         theView.getRightOption().setText(String.valueOf(letterTwo));
         
         if (SIZE_VARIATION) {
-            int letterSizeOne = this.currentAlphaPair.getLetterSizeOne();
-            int letterSizeTwo = this.currentAlphaPair.getLetterSizeTwo();
+            int letterSizeOne = this.currentAlphaPair.getFontSizeOne();
+            int letterSizeTwo = this.currentAlphaPair.getFontSizeTwo();
             
             theView.getLeftOption().setFont(new Font("Tahoma", letterSizeOne));
             theView.getRightOption().setFont(new Font("Tahoma", letterSizeTwo));

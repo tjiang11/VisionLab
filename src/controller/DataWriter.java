@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 import model.AlphaPair;
+import model.AlphaPairGenerator;
 import model.Player;
 
 
@@ -36,6 +37,7 @@ public class DataWriter {
     public static final String DISTANCE = "Distance";
     public static final String LEFT_CHOICE_SIZE = "Left Choice Size";
     public static final String RIGHT_CHOICE_SIZE = "Right Choice Size";
+    public static final String WHICH_SIZE_CORRECT = "Which Size Correct";
     public static final String RESPONSE_TIME = "Response Time";
     public static final String DATE_TIME = "Date/Time";
     public static final String CONSECUTIVE_ROUND = "Consecutive Rounds";
@@ -44,6 +46,10 @@ public class DataWriter {
     private Player player;
     /** AlphaPair to grab data from. */
     private AlphaPair alphaPair;
+    /////////////////////////////////
+    /** AlphaPairGenerator to grab data from */
+    private AlphaPairGenerator alphaPairGenerator;
+    //////////////////////////////////////////
     
     /**
      * Constructor for data writer that takes in a controller
@@ -53,6 +59,7 @@ public class DataWriter {
     public DataWriter(LetterGameController lgc) {
         this.player = lgc.getThePlayer();
         this.alphaPair = lgc.getCurrentAlphaPair();
+        this.alphaPairGenerator = lgc.getApg();
     }
     
     /**
@@ -128,6 +135,7 @@ public class DataWriter {
                 + DISTANCE + DELIMITER
                 + LEFT_CHOICE_SIZE + DELIMITER
                 + RIGHT_CHOICE_SIZE + DELIMITER
+                + WHICH_SIZE_CORRECT + DELIMITER
                 + RESPONSE_TIME + DELIMITER
                 + DATE_TIME + DELIMITER
                 + CONSECUTIVE_ROUND + "\n";
@@ -149,6 +157,7 @@ public class DataWriter {
         String distance = this.generateDistanceText();
         String leftChoiceSize = this.generateLeftChoiceSizeText();
         String rightChoiceSize = this.generateRightChoiceSizeText();
+        String whichSizeCorrect = this.generateSizeCorrectText(whichSideCorrect);
         String responseTime = this.generateResponseTimeText();
         String dateTime = this.generateDateTimeText();
         String consecutiveRounds = this.generateConsecutiveRoundsText();
@@ -163,6 +172,7 @@ public class DataWriter {
                 + distance + DELIMITER
                 + leftChoiceSize + DELIMITER
                 + rightChoiceSize + DELIMITER
+                + whichSizeCorrect + DELIMITER
                 + responseTime + DELIMITER
                 + dateTime + DELIMITER
                 + consecutiveRounds + "\n";
@@ -214,7 +224,7 @@ public class DataWriter {
     }
     
     private String generateDifficultyText() {
-        int difficulty = this.alphaPair.getDifficulty();
+        int difficulty = this.alphaPairGenerator.getDifficultyMode();
         if (difficulty == 0) {
             return "EASY";
         } else if (difficulty == 1) {
@@ -232,12 +242,21 @@ public class DataWriter {
     
     private String generateLeftChoiceSizeText() {
         return Integer.toString(
-                this.alphaPair.getLetterSizeOne());
+                this.alphaPair.getFontSizeOne());
     }
     
     private String generateRightChoiceSizeText() {
         return Integer.toString(
-                this.alphaPair.getLetterSizeTwo());
+                this.alphaPair.getFontSizeTwo());
+    }
+    
+    private String generateSizeCorrectText(String whichSideCorrect) {
+        if (whichSideCorrect.equals("left") && (this.alphaPair.getFontSizeOne() > this.alphaPair.getFontSizeTwo())
+                || whichSideCorrect.equals("right") && (this.alphaPair.getFontSizeTwo() > this.alphaPair.getFontSizeOne())) {
+            return "Bigger";
+        } else {
+            return "Smaller";
+        }
     }
     
     private String generateResponseTimeText() {

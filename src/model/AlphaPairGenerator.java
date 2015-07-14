@@ -27,6 +27,13 @@ public class AlphaPairGenerator implements PairGenerator {
     static final int MEDIUM_MODE = 1;
     static final int HARD_MODE = 2;
     
+    static final int SMALL_CHOICE_FONT_SIZE = 150;
+    static final int MEDIUM_CHOICE_FONT_SIZE = 200;
+    static final int BIG_CHOICE_FONT_SIZE = 300;
+    static final double EASY_MODE_FONT_RATIO = .4;
+    static final double MEDIUM_MODE_FONT_RATIO = .7;
+    static final double HARD_MODE_FONT_RATIO = .85;
+    
     /** Number of difficulty modes. */
     static final int NUM_MODES = 3;
     
@@ -38,10 +45,12 @@ public class AlphaPairGenerator implements PairGenerator {
     /** The highest distance each difficulty can have is their minimum plus NUM_CHOICES_IN_MODE. */
     static final int NUM_CHOICES_IN_MODE = 4;
     
-    /**
-     * Number of triplets of modes per set. See fillDifficultySet().
-     */
+    /** Number of triplets of modes per set. See fillDifficultySet(). */
     static final int NUM_MODE_TRIPLETS = 2;
+//////////////////////////////////////////////////    
+    /** Number of times the same relative size (bigger or smaller) can be correct */
+    static final int MAX_TIMES_SAME_SIZE_CORRECT = 1;
+//////////////////////////////////////////////////
     
     /** Random number generator. */
     Random randomGenerator = new Random();
@@ -55,19 +64,28 @@ public class AlphaPairGenerator implements PairGenerator {
     /** The list containing the difficulties. */
     private ArrayList<Integer> difficultySet;
     
+    /////////////////////////////////////////////////////
     /** A measure of how many times the same side has been correct. */
-    private int sameChoice;
+    private int sameChoiceCorrect;
+    
+    /** A measure of how many times the same size has been correct. */
+    private int sameSizeCorrect;
+    //////////////////////////////////////////////////////////
+    
     
     /** True if the last correct choice was left. False otherwise. */
     private boolean lastWasLeft;
-    
+    ////////////////////////////////////////////////////////////////////
+    /** True if the last correct choice was big. False otherwise. */
+    private boolean lastWasBig;
+    ///////////////////////////////////////////////////////////////////
     /**
      * Constructor. 
      */
     public AlphaPairGenerator() {
-        this.getNewPair();
-        this.setSameChoice(0);
+        this.setSameChoiceCorrect(0);
         this.setLastWasLeft(false);
+        this.setLastWasBig(false);
         this.difficultyMode = EASY_MODE;
         this.difficultySet = new ArrayList<Integer>();
         this.fillDifficultySet();
@@ -105,59 +123,91 @@ public class AlphaPairGenerator implements PairGenerator {
         }   
     }
     
-    /**
-     * Gets a new AlphaPair with random letters while
-     * checking to make sure that the same choice will
-     * not be picked more than three times in a row
-     * as being correct.
-     */
-    public void getNewPair() {
-        System.out.println(this.getSameChoice());
-        int letterOne, letterTwo;
-        letterOne = this.randomGenerator.nextInt(NUM_LETTERS);
-        do {
-            letterTwo = this.randomGenerator.nextInt(NUM_LETTERS); 
-        } while (letterOne == letterTwo);        
-           
-        this.checkAndSet(letterOne, letterTwo);
-    }
+//    /**
+//     * Gets a new AlphaPair with random letters while
+//     * checking to make sure that the same choice will
+//     * not be picked more than three times in a row
+//     * as being correct.
+//     */
+//    public void getNewPair() {
+//        System.out.println(this.getSameChoiceCorrect());
+//        int letterOne, letterTwo;
+//        letterOne = this.randomGenerator.nextInt(NUM_LETTERS);
+//        do {
+//            letterTwo = this.randomGenerator.nextInt(NUM_LETTERS); 
+//        } while (letterOne == letterTwo);        
+//           
+//        this.checkAndSet(letterOne, letterTwo, 200, 200);
+//    }
     
     /**
      * Get a new pair based on the current difficulty.
      */
     public void getNewDifficultyPair() {
         
+///////////////////////////////////////////
+        int baseFontSize = this.chooseBaseFontSize();
+        int otherFontSize = 0;
         int difference = 0;
         if (this.difficultyMode == EASY_MODE) {
             logger.info("Easy mode");
             difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + EASY_MODE_MIN;
+            otherFontSize = (int) (EASY_MODE_FONT_RATIO * baseFontSize);
         } else if (this.difficultyMode == MEDIUM_MODE) {
             logger.info("Medium mode");
             difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + MEDIUM_MODE_MIN;
+            otherFontSize = (int) (MEDIUM_MODE_FONT_RATIO * baseFontSize);
         } else if (this.difficultyMode == HARD_MODE) {
             logger.info("Hard mode");
             difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + HARD_MODE_MIN;
+            otherFontSize = (int) (HARD_MODE_FONT_RATIO * baseFontSize);
         }
-        this.getNewPair(difference);
+        
+        if (randomGenerator.nextBoolean()) {
+            int temp = baseFontSize;
+            baseFontSize = otherFontSize;
+            otherFontSize = temp;
+        }
+        
+        this.getNewPair(difference, baseFontSize, otherFontSize);
     }
     
+//////////////////////////////////////////////////////////////
+    /**
+     * Determine the base font size to build the font ratio off of. The other
+     * font size choice will be scaled down from this font size.
+     * @return int The base font size.
+     */
+    public int chooseBaseFontSize() {
+        int choiceOfSize = randomGenerator.nextInt(3);
+        switch (choiceOfSize) {
+        case 0:
+            return SMALL_CHOICE_FONT_SIZE;
+        case 1:
+            return MEDIUM_CHOICE_FONT_SIZE;
+        case 2:
+            return BIG_CHOICE_FONT_SIZE;
+        }
+        return 0;
+    }
+/////////////////////////////////////////////////////////////////
     /**
      * Gets a new AlphaPair with letters a certain distance apart.
      * @param difference distance between the letters.
      */
-    public void getNewPair(int difference) {
+    public void getNewPair(int difference, int fontSizeOne, int fontSizeTwo) {
         int letterOne, letterTwo;
         letterOne = this.randomGenerator.nextInt(NUM_LETTERS - difference);
         letterTwo = letterOne + difference;
         
-        //Swap the order
-        int x = this.randomGenerator.nextInt(2);
-        if (x == 1) {
+//////////////////////////////////////////////
+        if (randomGenerator.nextBoolean()) {
+//////////////////////////////////////////////
             int temp = letterTwo;
             letterTwo = letterOne;
             letterOne = temp;
         }
-        this.checkAndSet(letterOne, letterTwo);
+        this.checkAndSet(letterOne, letterTwo, fontSizeOne, fontSizeTwo);
     }
     
     /**
@@ -166,13 +216,26 @@ public class AlphaPairGenerator implements PairGenerator {
      * @param letterOne
      * @param letterTwo
      */
-    private void checkAndSet(int letterOne, int letterTwo) {
+    private void checkAndSet(int letterOne, int letterTwo, int fontSizeOne, int fontSizeTwo) {
         this.checkSameChoice(letterOne, letterTwo);
         
-        if (this.getSameChoice() >= MAX_TIMES_SAME_ANSWER) {
-            this.setReversePair(letterOne, letterTwo);
+        ///////////////////////////////////////////////////
+        this.checkSameSize(letterOne, letterTwo, fontSizeOne, fontSizeTwo);
+        ///////////////////////////////////////////////////
+        
+        if (this.getSameSizeCorrect() >= MAX_TIMES_SAME_SIZE_CORRECT) {
+            int temp = fontSizeOne;
+            fontSizeOne = fontSizeTwo;
+            fontSizeTwo = temp;
+            
+            this.setSameSizeCorrect(0);
+            this.toggleLastWasBig();
+        }
+        
+        if (this.getSameChoiceCorrect() >= MAX_TIMES_SAME_ANSWER) {
+            this.setReversePair(letterOne, letterTwo, fontSizeOne, fontSizeTwo);
         } else {
-            this.setAlphaPair(new AlphaPair(letterOne, letterTwo, this.difficultyMode));
+            this.setAlphaPair(new AlphaPair(letterOne, letterTwo, fontSizeOne, fontSizeTwo));
         }
     }
     
@@ -190,10 +253,10 @@ public class AlphaPairGenerator implements PairGenerator {
      * @param letterOne 
      * @param letterTwo
      */
-    public void setReversePair(int letterOne, int letterTwo) {
-        this.setAlphaPair(new AlphaPair(letterTwo, letterOne, this.difficultyMode));
+    public void setReversePair(int letterOne, int letterTwo, int fontSizeOne, int fontSizeTwo) {
+        this.setAlphaPair(new AlphaPair(letterTwo, letterOne, fontSizeTwo, fontSizeOne));
         this.toggleLastWasLeft();
-        this.setSameChoice(0);
+        this.setSameChoiceCorrect(0);
     }
 
     /**
@@ -206,19 +269,45 @@ public class AlphaPairGenerator implements PairGenerator {
             if (this.lastWasLeft) {
                 this.incrementSameChoice();
             } else {
-                this.setSameChoice(0);
+                this.setSameChoiceCorrect(0);
             }
             this.lastWasLeft = true;
         } else {
             if (!this.lastWasLeft) {
                 this.incrementSameChoice();
             } else {
-                this.setSameChoice(0);
+                this.setSameChoiceCorrect(0);
             }
             this.lastWasLeft = false;
         }   
     }
-
+    
+//////////////////////////////////////////////////    
+    /**
+     * Check if the same relative size (bigger or smaller) is correct
+     * as the last round.
+     * @param fontSizeOne
+     * @param fontSizeTwo
+     */
+    private void checkSameSize(int letterOne, int letterTwo, int fontSizeOne, int fontSizeTwo) {
+        if (letterOne > letterTwo && fontSizeOne > fontSizeTwo ||
+                letterTwo > letterOne && fontSizeTwo > fontSizeOne) {
+            if (this.lastWasBig) {
+                this.incrementSameSizeCorrect();
+            } else {
+                this.setSameSizeCorrect(0);
+            }
+            this.lastWasBig = true;
+        } else {
+            if (!this.lastWasBig) {
+                this.incrementSameSizeCorrect();
+            } else {
+                this.setSameSizeCorrect(0);
+            }
+            this.lastWasBig = false;
+        }
+    }
+/////////////////////////////////////////////////
     /**
      * Toggles which of the last choices was correct.
      */
@@ -228,7 +317,14 @@ public class AlphaPairGenerator implements PairGenerator {
         } else {
             this.lastWasLeft = true;
         }
-        
+    }
+    
+    private void toggleLastWasBig() {
+        if (this.lastWasBig) {
+            this.lastWasBig = false;
+        } else {
+            this.lastWasBig = true;
+        }
     }
     
     public void increaseDifficulty() {
@@ -243,16 +339,16 @@ public class AlphaPairGenerator implements PairGenerator {
         this.alphaPair = alphaPair;
     }
 
-    public int getSameChoice() {
-        return this.sameChoice;
+    public int getSameChoiceCorrect() {
+        return this.sameChoiceCorrect;
     }
 
-    public void setSameChoice(int sameChoice) {
-        this.sameChoice = sameChoice;
+    public void setSameChoiceCorrect(int sameChoiceCorrect) {
+        this.sameChoiceCorrect = sameChoiceCorrect;
     }
 
     public void incrementSameChoice() {
-        this.sameChoice++;
+        this.sameChoiceCorrect++;
     }
     
     public boolean isLastWasLeft() {
@@ -266,4 +362,25 @@ public class AlphaPairGenerator implements PairGenerator {
     public int getDifficultyMode() {
         return this.difficultyMode;
     }
+
+    public boolean isLastWasBig() {
+        return lastWasBig;
+    }
+
+    public void setLastWasBig(boolean lastWasBig) {
+        this.lastWasBig = lastWasBig;
+    }
+
+    public int getSameSizeCorrect() {
+        return sameSizeCorrect;
+    }
+
+    public void setSameSizeCorrect(int sameSizeCorrect) {
+        this.sameSizeCorrect = sameSizeCorrect;
+    }
+    
+    public void incrementSameSizeCorrect() {
+        this.sameSizeCorrect++;
+    }
+
 }
