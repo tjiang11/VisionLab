@@ -81,14 +81,12 @@ public class LetterGameController implements GameController {
     /** Current state of the game. */
     public static CurrentState state;
     
-    ////////////////////////////////////////////////////////////////////////////////
     private static GameState gameState;
     
     private enum GameState {
         WAITING_BETWEEN_ROUNDS,
         WAITING_FOR_RESPONSE,
     }
-    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     
     /** Alternate reference to "this" to be used in inner methods */
     private LetterGameController gameController;
@@ -121,8 +119,7 @@ public class LetterGameController implements GameController {
         TIME_BETWEEN_ROUNDS = Config.getPropertyInt("time.between.rounds");
         SIZE_VARIATION = Config.getPropertyBoolean("size.variation");
     }
-    
-/////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Sets event listener for when subject clicks the start button OR presses Enter.
      * Pass in the subject's ID number entered.
@@ -144,9 +141,7 @@ public class LetterGameController implements GameController {
             }
         });
     }
-    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    
-    //////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Action to be executed upon clicking of Start on Login screen.
      */
@@ -160,16 +155,17 @@ public class LetterGameController implements GameController {
             theView.getFeedback().setText("That's not your ID, silly!");
         }
     }
-    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    
-    /////////////////////////////////////////////////////////////////////////////////////////
-    /** Set event listener on the Next button and record the user's subject ID */
+
+    /** 
+     * Set event listener on the Next button and record the user's subject ID 
+     */
     public void setInstructionsHandlers() {
         this.theView.getNext().setOnAction(e -> {
             theView.setGameScreen(); 
+            state = CurrentState.PRACTICE;
         });
     }
-    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    
     /** 
      * Sets event listener for when subject presses 'F' or 'J' key
      * during a round. 
@@ -206,9 +202,7 @@ public class LetterGameController implements GameController {
      * Update models and view appropriately according to correctness
      * of subject's response.  
      * @param e The key event to check which key the user pressed.
-     * @param ap The current AlphaPair being evaluated.
-     * @param currentPlayer The subject.
-     * @param pb the ProgressBar to update.
+     * @param view the graphical user interface
      * @return True if the player is correct. False otherwise.
      */
     public void responseAndUpdate (
@@ -345,7 +339,6 @@ public class LetterGameController implements GameController {
      */
     private void finishGame() {
         state = CurrentState.FINISHED;
-        System.out.println("Done");
         theView.setFinishScreen(gameController);
     }
 
@@ -440,14 +433,6 @@ public class LetterGameController implements GameController {
                 }), new KeyFrame(Duration.seconds(0.065)));
         drainer.setCycleCount(Animation.INDEFINITE);
         drainer.play();
-    }
-    
-    /**
-     * Reorients the Controller to the current scene and reorients the DataWriter to current data (Player and AlphaPair)
-     * @param theView The graphical user interface.
-     */
-    public void grabSetting(GameGUI theView) {
-        this.theScene = theView.getScene();
     }
 
     public Player getThePlayer() {
