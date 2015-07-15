@@ -81,6 +81,15 @@ public class LetterGameController implements GameController {
     /** Current state of the game. */
     public static CurrentState state;
     
+    ////////////////////////////////////////////////////////////////////////////////
+    private static GameState gameState;
+    
+    private enum GameState {
+        WAITING_BETWEEN_ROUNDS,
+        WAITING_FOR_RESPONSE,
+    }
+    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    
     /** Alternate reference to "this" to be used in inner methods */
     private LetterGameController gameController;
     
@@ -113,7 +122,7 @@ public class LetterGameController implements GameController {
         SIZE_VARIATION = Config.getPropertyBoolean("size.variation");
     }
     
-    
+/////////////////////////////////////////////////////////////////////////////////////
     /**
      * Sets event listener for when subject clicks the start button OR presses Enter.
      * Pass in the subject's ID number entered.
@@ -122,20 +131,45 @@ public class LetterGameController implements GameController {
         
         this.theScene = theView.getScene();
         
-        this.theView.getStart().setOnAction(e -> theView.setGameScreen(
-                theView.getEnterId().getText(), this));
-        
+        this.theView.getStart().setOnAction(e -> 
+            {
+                onClickStartButton();
+            });
         this.theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
-                if (event.getCode() == KeyCode.ENTER) {
-                    theView.setGameScreen(
-                            theView.getEnterId().getText(), gameController);
+                if (event.getCode() == KeyCode.ENTER) {                
+                    onClickStartButton();
                 }
             }
         });
     }
+    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     
+    //////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Action to be executed upon clicking of Start on Login screen.
+     */
+    private void onClickStartButton() {
+        try {
+            gameController.thePlayer.setSubjectID(Integer.parseInt(theView.getEnterId().getText()));
+            theView.setInstructionsScreen(); 
+        } catch (NumberFormatException ex) {
+            theView.getEnterId().setText("");
+            theView.getEnterId().requestFocus();
+            theView.getFeedback().setText("That's not your ID, silly!");
+        }
+    }
+    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    
+    /////////////////////////////////////////////////////////////////////////////////////////
+    /** Set event listener on the Next button and record the user's subject ID */
+    public void setInstructionsHandlers() {
+        this.theView.getNext().setOnAction(e -> {
+            theView.setGameScreen(); 
+        });
+    }
+    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     /** 
      * Sets event listener for when subject presses 'F' or 'J' key
      * during a round. 
@@ -147,11 +181,11 @@ public class LetterGameController implements GameController {
             public void handle(KeyEvent event) {
                 if ((event.getCode() == KeyCode.F 
                         || event.getCode() == KeyCode.J) 
-                        && state == CurrentState.WAITING_FOR_RESPONSE) {
+                        && gameState == GameState.WAITING_FOR_RESPONSE) {
                     
                     /** Set the state to prevent mass input from holding down
                      * 'F' or 'J' key. */
-                    state = CurrentState.WAITING_BETWEEN_ROUNDS;
+                    gameState = GameState.WAITING_BETWEEN_ROUNDS;
                     
                     /** Update models and view appropriately according to correctness
                      * of subject's response.
@@ -283,7 +317,7 @@ public class LetterGameController implements GameController {
             @Override
             public void handle(WorkerStateEvent e) {
                 setOptions();
-                state = CurrentState.WAITING_FOR_RESPONSE;
+                gameState = GameState.WAITING_FOR_RESPONSE;
                 responseTimeMetric = System.nanoTime();
                 theView.getGetReadyBox().setVisible(false);
             }
@@ -342,7 +376,7 @@ public class LetterGameController implements GameController {
             @Override
             public void handle(WorkerStateEvent e) {
                 setOptions();
-                state = CurrentState.WAITING_FOR_RESPONSE;
+                gameState = GameState.WAITING_FOR_RESPONSE;
                 responseTimeMetric = System.nanoTime();
             }
         });

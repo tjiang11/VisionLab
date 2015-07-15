@@ -52,6 +52,9 @@ public class GameGUI {
     /** Login Box to contain start button, feedback label, and enterId TextField. */
     private VBox loginBox;
     
+    /** Instructions Screen - Next button */
+    private Button next;
+    
     /** Game Screen - The left choice. */
     private Label leftOption;
     /** Game Screen - The right choice. */
@@ -101,7 +104,6 @@ public class GameGUI {
         LGC.setLoginHandlers();
         
         this.primaryStage.setResizable(false);
-        
         this.primaryStage.sizeToScene();
         
         this.primaryStage.setScene(this.scene);
@@ -117,40 +119,44 @@ public class GameGUI {
         this.primaryStage.setFullScreen(true);
     }
     
+    /////////////////////////////////////////////////////////////////////
+    /**
+     * Sets the screen where instructions are shown.
+     */
+    public void setInstructionsScreen() {
+        Scene instructionsScene = SetUp.setUpInstructionsScreen(this, this.primaryStage);
+        this.primaryStage.setScene(instructionsScene);
+        this.primaryStage.setFullScreen(true);
+        this.getNext().setLayoutX(getNext().getLayoutX() - this.getNext().getWidth() / 2);
+        this.LGC.setInstructionsHandlers();
+    }
+    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     /**
      * Sets the game screen where subject will be presented with two letters.
      * @param stage The user interface stage.
      * @param subjectID The subject's ID number.
      */
-    public void setGameScreen(String subjectID, LetterGameController lgc) {
-        try {
-            Scene gameScene = SetUp.setUpGameScreen(
-                    this, this.primaryStage, subjectID, lgc);  
-            
-            this.scene = gameScene;
-            this.primaryStage.setScene(this.scene);
-            
-            System.out.println(this.getReadyBar.getWidth());
-            this.getGetReadyBox().setLayoutY((SetUp.SCREEN_HEIGHT / 2) - this.getGetReadyBox().getHeight());
-            this.getGetReadyBox().setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.getGetReadyBox().getWidth() / 2));
-            
-            this.getReadyBar.setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.getReady.getWidth() / 2));
-            
-            this.primaryStage.setFullScreen(true);
-            
-            this.LGC.prepareFirstRound();
-            
-            /** Set event handlers for gameplay */
-            
-            if (PROGRESS_DRAIN) { this.LGC.beginProgressBarDrainage(); }
-            this.LGC.setGameHandlers();
-            
-        } catch (NumberFormatException e) {
-            System.out.println("Oops!");
-            this.enterId.setText("");
-            this.enterId.requestFocus();
-            this.feedback.setText("That's not your ID, silly!");
-        }
+    public void setGameScreen() {
+        Scene gameScene = SetUp.setUpGameScreen(
+                this, this.primaryStage);  
+        
+        this.scene = gameScene;
+        this.primaryStage.setScene(this.scene);
+        
+        System.out.println(this.getReadyBar.getWidth());
+        this.getGetReadyBox().setLayoutY((SetUp.SCREEN_HEIGHT / 2) - this.getGetReadyBox().getHeight());
+        this.getGetReadyBox().setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.getGetReadyBox().getWidth() / 2));
+        
+        this.getReadyBar.setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.getReady.getWidth() / 2));
+        
+        this.primaryStage.setFullScreen(true);
+        
+        this.LGC.prepareFirstRound();
+        
+        /** Set event handlers for gameplay */
+        
+        if (PROGRESS_DRAIN) { this.LGC.beginProgressBarDrainage(); }
+        this.LGC.setGameHandlers();
     }
     
     /** 
@@ -302,6 +308,14 @@ public class GameGUI {
 
     public void setFinishMessage(VBox finishMessage) {
         this.finishMessage = finishMessage;
+    }
+
+    public Button getNext() {
+        return next;
+    }
+
+    public void setNext(Button next) {
+        this.next = next;
     }
 
 }

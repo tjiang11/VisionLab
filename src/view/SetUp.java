@@ -3,6 +3,7 @@ package view;
 import controller.LetterGameController;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -18,6 +19,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.stage.Screen;
@@ -103,6 +105,45 @@ public final class SetUp {
         
     }
     
+    ////////////////////////////////////////////////////
+
+    /**
+     * Sets up the elements of the instructions screen.
+     * @param gameGUI GameGUI
+     * @param primaryStage stage
+     * @return Scene the instructions scene
+     */
+    public static Scene setUpInstructionsScreen(GameGUI gameGUI,
+            Stage primaryStage) {
+        
+        AnchorPane layout = new AnchorPane();
+        
+        Text instructionsText = new Text();
+        instructionsText.setText("In this assessment, you will be shown pairs of letters. "
+                + "For each pair, decide which one comes later in the alphabet. "
+                + "Press the 'F' key if you think the left letter comes later, "
+                + "and press the 'J' key if you think the right letter comes later. "
+                + "There is no time limit. Click Next to try a practice question.");
+        instructionsText.setFont(new Font("Century Gothic", 55));
+        instructionsText.setLayoutX(SCREEN_WIDTH * .1);
+        instructionsText.setLayoutY(SCREEN_HEIGHT * .15);
+        instructionsText.setWrappingWidth(SCREEN_WIDTH * .8);
+        
+        gameGUI.setNext(new Button("Next"));
+        gameGUI.getNext().setLayoutX(SCREEN_WIDTH / 2); 
+        gameGUI.getNext().setLayoutY(SCREEN_HEIGHT * .83);
+        gameGUI.getNext().setFont(new Font("Tahoma", 20));
+        gameGUI.getNext().setPrefHeight(SCREEN_HEIGHT * .06);
+        gameGUI.getNext().setPrefWidth(SCREEN_WIDTH * .06);
+        
+        layout.getChildren().addAll(instructionsText, gameGUI.getNext());
+        setBackground(layout, 0);
+        Scene scene = new Scene(layout, SCREEN_WIDTH, SCREEN_HEIGHT);
+        return scene;
+    }
+    
+    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    
     /**
      * Set up the game screen where subject will undergo trials.
      * @param view The graphical user interface.
@@ -111,11 +152,9 @@ public final class SetUp {
      * @return The game scene.
      */
     public static Scene setUpGameScreen(GameGUI view, 
-            Stage primaryStage, String subjectID, LetterGameController lgc) {
+            Stage primaryStage) {
         
         view.setLayout(new AnchorPane());
-        lgc.getThePlayer().setSubjectID(Integer.parseInt(subjectID));
-        System.out.println(lgc.getThePlayer().getSubjectID());
         setUpOptions(view);
         initialOptionSetUp(view);
         
@@ -142,7 +181,9 @@ public final class SetUp {
         
         view.getLayout().getChildren().addAll(view.getGetReadyBox(), view.getProgressBar(), view.getLeftOption(), view.getRightOption());
         setBackground(view.getLayout(), 0);
-        return new Scene(view.getLayout(), SCREEN_WIDTH, SCREEN_HEIGHT);
+        Scene scene = new Scene(view.getLayout(), SCREEN_WIDTH, SCREEN_HEIGHT);
+        scene.setCursor(Cursor.NONE);
+        return scene;
     }
     
     private static void setStars(GameGUI view, AnchorPane layout) {
@@ -250,5 +291,4 @@ public final class SetUp {
                 BackgroundSize.DEFAULT);
         layout.setBackground(new Background(bg));
     }
-    
 }
