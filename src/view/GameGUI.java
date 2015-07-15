@@ -82,7 +82,7 @@ public class GameGUI {
         
         this.setPrimaryStage(stage);
         
-        this.setLoginScreen(stage);
+        this.setLoginScreen();
     }
     
     /**
@@ -90,7 +90,7 @@ public class GameGUI {
      * @param stage The user interface stage.
      * @throws IOException
      */
-    private void setLoginScreen(Stage stage) {
+    private void setLoginScreen() {
         this.primaryStage.setTitle("Game");
         this.enterId = new TextField();
         
@@ -122,10 +122,10 @@ public class GameGUI {
      * @param stage The user interface stage.
      * @param subjectID The subject's ID number.
      */
-    public void setGameScreen(Stage stage, String subjectID, LetterGameController lgc) {
+    public void setGameScreen(String subjectID, LetterGameController lgc) {
         try {
             Scene gameScene = SetUp.setUpGameScreen(
-                    this, stage, subjectID, lgc);  
+                    this, this.primaryStage, subjectID, lgc);  
             
             this.scene = gameScene;
             this.primaryStage.setScene(this.scene);
@@ -157,8 +157,8 @@ public class GameGUI {
      * Sets the ending screen informing the subject of their completion.
      * @param stage The user interface stage.
      */
-    public void setFinishScreen(Stage stage, LetterGameController lgc) {
-        Scene finishScene = SetUp.setUpFinishScreen(this, stage, lgc);
+    public void setFinishScreen(LetterGameController lgc) {
+        Scene finishScene = SetUp.setUpFinishScreen(this, this.primaryStage, lgc);
         this.scene = finishScene;
         this.primaryStage.setScene(this.scene);
 

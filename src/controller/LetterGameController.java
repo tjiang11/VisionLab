@@ -123,14 +123,14 @@ public class LetterGameController implements GameController {
         this.theScene = theView.getScene();
         
         this.theView.getStart().setOnAction(e -> theView.setGameScreen(
-                theView.getPrimaryStage(), theView.getEnterId().getText(), this));
+                theView.getEnterId().getText(), this));
         
         this.theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
                 if (event.getCode() == KeyCode.ENTER) {
                     theView.setGameScreen(
-                            theView.getPrimaryStage(), theView.getEnterId().getText(), gameController);
+                            theView.getEnterId().getText(), gameController);
                 }
             }
         });
@@ -312,7 +312,7 @@ public class LetterGameController implements GameController {
     private void finishGame() {
         state = CurrentState.FINISHED;
         System.out.println("Done");
-        theView.setFinishScreen(theView.getPrimaryStage(), gameController);
+        theView.setFinishScreen(gameController);
     }
 
     /**

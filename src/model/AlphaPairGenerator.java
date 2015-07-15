@@ -87,7 +87,6 @@ public class AlphaPairGenerator {
         this.setSameChoiceCorrect(0);
         this.setLastWasLeft(false);
         this.setLastWasBig(false);
-        this.difficultyMode = EASY_MODE;
         this.difficultySet = new ArrayList<Integer>();
         this.fillDifficultySet();
     }
