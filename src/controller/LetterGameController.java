@@ -11,6 +11,7 @@ import model.Player;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
@@ -165,7 +166,18 @@ public class LetterGameController implements GameController {
             state = CurrentState.PRACTICE;
         });
     }
-    
+/////////////////////////////////////////////////////////////////////////////////////////////
+    public void setPracticeCompleteHandlers() {
+        this.theView.getStartAssessment().setOnAction( e-> {
+            theView.setGameScreen();
+            theView.getPractice().setVisible(false);
+            state = CurrentState.GAMEPLAY;
+            gameState = null;
+            SimpleIntegerProperty subjectID = new SimpleIntegerProperty(thePlayer.getSubjectID());
+            thePlayer = new Player(subjectID);
+        });
+    }
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     /** 
      * Sets event listener for when subject presses 'F' or 'J' key
      * during a round. 
@@ -179,6 +191,8 @@ public class LetterGameController implements GameController {
                         || event.getCode() == KeyCode.J) 
                         && gameState == GameState.WAITING_FOR_RESPONSE) {
                     
+                    logger.info(state.toString());
+
                     /** Set the state to prevent mass input from holding down
                      * 'F' or 'J' key. */
                     gameState = GameState.WAITING_BETWEEN_ROUNDS;
@@ -190,9 +204,17 @@ public class LetterGameController implements GameController {
                     
                     /** Prepare the next round */
                     gameController.prepareNextRound(); 
-                    
+                    ////////////////////////////////////////////////////////////////////////////////////////
                     /** Export data to CSV file in folder 'results/<subject_id>' */
-                    dataWriter.writeToCSV(); 
+                    if (state == CurrentState.GAMEPLAY) {
+                        dataWriter.writeToCSV();    
+                    }
+                    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+                    ///////////////
+                    if (state == CurrentState.PRACTICE && thePlayer.getNumRounds() >= NUM_PRACTICE_ROUNDS) {
+                        theView.setPracticeCompleteScreen();
+                    }
+                    //\\\\\\\\\\\\\\\\\\
                 }
             }
         });
@@ -328,7 +350,7 @@ public class LetterGameController implements GameController {
         clearRound();
         waitBeforeNextRoundAndUpdate(TIME_BETWEEN_ROUNDS);   
         
-        if (thePlayer.getNumRounds() >= NUM_ROUNDS) {
+        if (thePlayer.getNumRounds() > NUM_ROUNDS) {
             this.finishGame();
         }
     }

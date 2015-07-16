@@ -20,6 +20,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.stage.Screen;
@@ -104,8 +105,6 @@ public final class SetUp {
         return scene;
         
     }
-    
-    ////////////////////////////////////////////////////
 
     /**
      * Sets up the elements of the instructions screen.
@@ -119,8 +118,8 @@ public final class SetUp {
         AnchorPane layout = new AnchorPane();
         
         Text instructionsText = new Text();
-        instructionsText.setText("In this assessment, you will be shown pairs of letters. "
-                + "For each pair, decide which one comes later in the alphabet. "
+        instructionsText.setText("In this assessment, for each question you will be shown a pair of letters. "
+                + "Decide which letter comes later in the alphabet. "
                 + "Press the 'F' key if you think the left letter comes later, "
                 + "and press the 'J' key if you think the right letter comes later. "
                 + "There is no time limit. Click Next to try a practice question.");
@@ -142,8 +141,20 @@ public final class SetUp {
         return scene;
     }
     
-    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-    
+/////////////////////////////////////////////////////////////////////////////////////////////////
+    public static Scene setUpPracticeCompleteScreen(GameGUI gameGUI) {       
+        AnchorPane layout = new AnchorPane();
+        gameGUI.setPracticeComplete(new Text("Practice Complete!\nReady to begin?"));
+        gameGUI.getPracticeComplete().setTextAlignment(TextAlignment.CENTER);
+        gameGUI.getPracticeComplete().setFont(new Font("Tahoma", 50));
+        gameGUI.getPracticeComplete().setWrappingWidth(600.0);
+        gameGUI.setStartAssessment(new Button("Start Assessment"));
+        layout.getChildren().addAll(gameGUI.getPracticeComplete(), gameGUI.getStartAssessment());
+        setBackground(layout, 0);
+        Scene scene = new Scene(layout, SCREEN_WIDTH, SCREEN_HEIGHT);
+        return scene;
+    }
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     /**
      * Set up the game screen where subject will undergo trials.
      * @param view The graphical user interface.
@@ -177,9 +188,13 @@ public final class SetUp {
         view.getGetReadyBox().setAlignment(Pos.CENTER);
         view.getGetReadyBox().getChildren().addAll(view.getGetReady(), view.getGetReadyBar());
         
+        view.setPractice(new Label("PRACTICE"));
+        view.getPractice().setFont(new Font("Tahoma", 50));
+        
         setStars(view, view.getLayout());
         
-        view.getLayout().getChildren().addAll(view.getGetReadyBox(), view.getProgressBar(), view.getLeftOption(), view.getRightOption());
+        view.getLayout().getChildren().addAll(view.getGetReadyBox(), view.getProgressBar(), 
+                view.getLeftOption(), view.getRightOption(), view.getPractice());
         setBackground(view.getLayout(), 0);
         Scene scene = new Scene(view.getLayout(), SCREEN_WIDTH, SCREEN_HEIGHT);
         scene.setCursor(Cursor.NONE);
