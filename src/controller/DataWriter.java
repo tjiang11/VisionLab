@@ -38,6 +38,7 @@ public class DataWriter {
     public static final String LEFT_CHOICE_SIZE = "Left Choice Size";
     public static final String RIGHT_CHOICE_SIZE = "Right Choice Size";
     public static final String WHICH_SIZE_CORRECT = "Which Size Correct";
+    public static final String WHICH_SIZE_PICKED = "Which Size Picked";
     public static final String RESPONSE_TIME = "Response Time";
     public static final String DATE_TIME = "Date/Time";
     public static final String CONSECUTIVE_ROUND = "Consecutive Rounds";
@@ -131,6 +132,7 @@ public class DataWriter {
                 + LEFT_CHOICE_SIZE + DELIMITER
                 + RIGHT_CHOICE_SIZE + DELIMITER
                 + WHICH_SIZE_CORRECT + DELIMITER
+                + WHICH_SIZE_PICKED + DELIMITER
                 + RESPONSE_TIME + DELIMITER
                 + DATE_TIME + DELIMITER
                 + CONSECUTIVE_ROUND + "\n";
@@ -153,6 +155,7 @@ public class DataWriter {
         String leftChoiceSize = this.generateLeftChoiceSizeText();
         String rightChoiceSize = this.generateRightChoiceSizeText();
         String whichSizeCorrect = this.generateSizeCorrectText(whichSideCorrect);
+        String whichSizePicked = this.generateSizePickedText(whichSizeCorrect);
         String responseTime = this.generateResponseTimeText();
         String dateTime = this.generateDateTimeText();
         String consecutiveRounds = this.generateConsecutiveRoundsText();
@@ -168,6 +171,7 @@ public class DataWriter {
                 + leftChoiceSize + DELIMITER
                 + rightChoiceSize + DELIMITER
                 + whichSizeCorrect + DELIMITER
+                + whichSizePicked + DELIMITER
                 + responseTime + DELIMITER
                 + dateTime + DELIMITER
                 + consecutiveRounds + "\n";
@@ -254,6 +258,15 @@ public class DataWriter {
     private String generateSizeCorrectText(String whichSideCorrect) {
         if (whichSideCorrect.equals("left") && (this.alphaPair.getFontSizeOne() > this.alphaPair.getFontSizeTwo())
                 || whichSideCorrect.equals("right") && (this.alphaPair.getFontSizeTwo() > this.alphaPair.getFontSizeOne())) {
+            return "Bigger";
+        } else {
+            return "Smaller";
+        }
+    }
+    
+    private String generateSizePickedText(String whichSizeCorrect) {
+        if ((whichSizeCorrect.equals("Bigger") && this.player.isRight())
+                || (whichSizeCorrect.equals("Smaller") && !this.player.isRight())) {
             return "Bigger";
         } else {
             return "Smaller";

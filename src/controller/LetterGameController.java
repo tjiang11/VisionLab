@@ -210,11 +210,11 @@ public class LetterGameController implements GameController {
                         dataWriter.writeToCSV();    
                     }
                     //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-                    ///////////////
+                    ///////////////////////////////////////////////////////////////////////////////////////
                     if (state == CurrentState.PRACTICE && thePlayer.getNumRounds() >= NUM_PRACTICE_ROUNDS) {
                         theView.setPracticeCompleteScreen();
                     }
-                    //\\\\\\\\\\\\\\\\\\
+                    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
                 }
             }
         });
@@ -290,8 +290,7 @@ public class LetterGameController implements GameController {
             if (PUNISH) {
                 view.getProgressBar().setProgress(view.getProgressBar().getProgress() - .125);
                 if (view.getProgressBar().isIndeterminate()) {
-                    view.getProgressBar().setStyle("-fx-accent: red;");
-                    
+                    view.getProgressBar().setStyle("-fx-accent: red;");                    
                 }
             }
         }
