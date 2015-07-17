@@ -1,6 +1,5 @@
 package view;
 
-import controller.LetterGameController;
 import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
@@ -272,13 +271,13 @@ public final class SetUp {
      * @param primaryStage The stage.
      * @return The finishing scene.
      */
-    public static Scene setUpFinishScreen(GameGUI view, Stage primaryStage, LetterGameController lgc) {
+    public static Scene setUpFinishScreen(GameGUI view, int points) {
         
         AnchorPane layout = new AnchorPane();
         
         Label score = new Label();
         score.setText("You scored " 
-                + lgc.getThePlayer().getNumCorrect() + " points!");
+                + points + " points!");
         view.setCongratulations(new Label("You did it!"));
         view.getCongratulations().setFont(Font.font("Verdana", 20));
         score.setFont(Font.font("Tahoma", 16));
