@@ -139,6 +139,9 @@ public class GameGUI {
     }
     
 ////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Sets the screen whre user has finished practice trials and is about to begin assessment.
+     */
     public void setPracticeCompleteScreen() {
         Scene practiceCompleteScene = SetUp.setUpPracticeCompleteScreen(this);
         this.primaryStage.setScene(practiceCompleteScene);
@@ -167,9 +170,10 @@ public class GameGUI {
         this.getGetReadyBox().setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.getGetReadyBox().getWidth() / 2));
         
         this.getReadyBar.setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.getReady.getWidth() / 2));
+        ////////////////////////////////////////////////////////////////////////////////////////////////
         this.getPractice().setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.practice.getWidth() / 2));
         this.getPractice().setLayoutY(SetUp.SCREEN_HEIGHT * .1);
-        
+        //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         this.primaryStage.setFullScreen(true);
         
         this.LGC.prepareFirstRound();

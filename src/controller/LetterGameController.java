@@ -79,13 +79,17 @@ public class LetterGameController implements GameController {
     /** Used to measure response time. */
     private static long responseTimeMetric;
     
-    /** Current state of the game. */
+    /** Current state of the overall game. */
     public static CurrentState state;
     
+    /** Describes the current state of gameplay */
     private static GameState gameState;
     
     private enum GameState {
+        /** Player has responded and next round is loading. */
         WAITING_BETWEEN_ROUNDS,
+        
+        /** Player has not responded and question is being displayed. */
         WAITING_FOR_RESPONSE,
     }
     
@@ -163,10 +167,17 @@ public class LetterGameController implements GameController {
     public void setInstructionsHandlers() {
         this.theView.getNext().setOnAction(e -> {
             theView.setGameScreen(); 
+            //////////////////////////////////////////////////////////
             state = CurrentState.PRACTICE;
+            //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         });
     }
 /////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Set handler upon clicking the "Start Assessment" button, preparing for actual assessment.
+     * Sets the game screen and the state to GAMEPLAY from PRACTICE. Removes the "Practice" Label.
+     * Resets the player's data.
+     */
     public void setPracticeCompleteHandlers() {
         this.theView.getStartAssessment().setOnAction( e-> {
             theView.setGameScreen();
@@ -401,24 +412,39 @@ public class LetterGameController implements GameController {
      * Set the next round's choices.
      */
     public void setOptions() {
-        char letterOne, letterTwo;
-        
+        this.prepareNextPair();
+        this.showPair();
+    }
+    
+    /**
+     * Prepare the next pair.
+     */
+    private void prepareNextPair() {
         apg.getNewDifficultyPair();
         this.currentAlphaPair = apg.getAlphaPair();
-        
-        letterOne = this.currentAlphaPair.getLetterOne();
-        letterTwo = this.currentAlphaPair.getLetterTwo();
-        
+    }
+    
+    /**
+     * Show the pair.
+     */
+    private void showPair() {
+        char letterOne = this.currentAlphaPair.getLetterOne();
+        char letterTwo = this.currentAlphaPair.getLetterTwo();
         theView.getLeftOption().setText(String.valueOf(letterOne));
         theView.getRightOption().setText(String.valueOf(letterTwo));
-        
         if (SIZE_VARIATION) {
-            int letterSizeOne = this.currentAlphaPair.getFontSizeOne();
-            int letterSizeTwo = this.currentAlphaPair.getFontSizeTwo();
-            
-            theView.getLeftOption().setFont(new Font("Tahoma", letterSizeOne));
-            theView.getRightOption().setFont(new Font("Tahoma", letterSizeTwo));
-        }
+            this.setFontSizes();
+        };
+    }
+    
+    /**
+     * Set the font sizes of the pair.
+     */
+    private void setFontSizes() {
+        int letterSizeOne = this.currentAlphaPair.getFontSizeOne();
+        int letterSizeTwo = this.currentAlphaPair.getFontSizeTwo();
+        theView.getLeftOption().setFont(new Font("Tahoma", letterSizeOne));
+        theView.getRightOption().setFont(new Font("Tahoma", letterSizeTwo));
     }
     
     /** 

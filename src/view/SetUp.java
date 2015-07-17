@@ -142,6 +142,12 @@ public final class SetUp {
     }
     
 /////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Sets up the practice complete screen where user has finished completing the practice trials and
+     * is about to begin assessment.
+     * @param gameGUI The graphical user interface.
+     * @return scene the Scene containing the elements of this scene.
+     */
     public static Scene setUpPracticeCompleteScreen(GameGUI gameGUI) {       
         AnchorPane layout = new AnchorPane();
         gameGUI.setPracticeComplete(new Text("Practice Complete!\nReady to begin?"));
@@ -188,13 +194,16 @@ public final class SetUp {
         view.getGetReadyBox().setAlignment(Pos.CENTER);
         view.getGetReadyBox().getChildren().addAll(view.getGetReady(), view.getGetReadyBar());
         
+        //////////////////////////////////////////////////////////////////
         view.setPractice(new Label("PRACTICE"));
         view.getPractice().setFont(new Font("Tahoma", 50));
-        
+        //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         setStars(view, view.getLayout());
         
+        ////////////////////////////////////////////////////////////////////////////////////////
         view.getLayout().getChildren().addAll(view.getGetReadyBox(), view.getProgressBar(), 
                 view.getLeftOption(), view.getRightOption(), view.getPractice());
+        //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         setBackground(view.getLayout(), 0);
         Scene scene = new Scene(view.getLayout(), SCREEN_WIDTH, SCREEN_HEIGHT);
         scene.setCursor(Cursor.NONE);
