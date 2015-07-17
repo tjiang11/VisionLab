@@ -167,12 +167,10 @@ public class LetterGameController implements GameController {
     public void setInstructionsHandlers() {
         this.theView.getNext().setOnAction(e -> {
             theView.setGameScreen(); 
-            //////////////////////////////////////////////////////////
             state = CurrentState.PRACTICE;
-            //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         });
     }
-/////////////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Set handler upon clicking the "Start Assessment" button, preparing for actual assessment.
      * Sets the game screen and the state to GAMEPLAY from PRACTICE. Removes the "Practice" Label.
@@ -188,7 +186,7 @@ public class LetterGameController implements GameController {
             thePlayer = new Player(subjectID);
         });
     }
-//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
     /** 
      * Sets event listener for when subject presses 'F' or 'J' key
      * during a round. 
@@ -201,35 +199,32 @@ public class LetterGameController implements GameController {
                 if ((event.getCode() == KeyCode.F 
                         || event.getCode() == KeyCode.J) 
                         && gameState == GameState.WAITING_FOR_RESPONSE) {
-                    
-                    logger.info(state.toString());
-
-                    /** Set the state to prevent mass input from holding down
-                     * 'F' or 'J' key. */
-                    gameState = GameState.WAITING_BETWEEN_ROUNDS;
-                    
-                    /** Update models and view appropriately according to correctness
-                     * of subject's response.
-                     */
-                    gameController.responseAndUpdate(event, theView);
-                    
-                    /** Prepare the next round */
-                    gameController.prepareNextRound(); 
-                    ////////////////////////////////////////////////////////////////////////////////////////
-                    /** Export data to CSV file in folder 'results/<subject_id>' */
-                    if (state == CurrentState.GAMEPLAY) {
-                        dataWriter.writeToCSV();    
-                    }
-                    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
-                    ///////////////////////////////////////////////////////////////////////////////////////
-                    if (state == CurrentState.PRACTICE && thePlayer.getNumRounds() >= NUM_PRACTICE_ROUNDS) {
-                        theView.setPracticeCompleteScreen();
-                    }
-                    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+                    gameController.handlePressForJ(event);
                 }
             }
         });
     }  
+    
+    /**
+     * Actions to be executed on the pressing of the F or J key.
+     * Update the models/data, prepare the next round, and export data to CSV.
+     * @param event
+     */
+    private void handlePressForJ(KeyEvent event) {
+        logger.info(state.toString());
+        this.responseAndUpdate(event, theView);
+        this.prepareNextRound(); 
+        this.exportDataToCSV();
+    }
+    
+    /** 
+     * Export data to CSV file.
+     */
+    private void exportDataToCSV() {
+        if (state == CurrentState.GAMEPLAY) {
+            dataWriter.writeToCSV();    
+        }
+    }
     
     /**
      * Update models and view appropriately according to correctness
@@ -240,19 +235,13 @@ public class LetterGameController implements GameController {
      */
     public void responseAndUpdate (
             KeyEvent e, GameGUI view) {
-        boolean correct;
+        gameState = GameState.WAITING_BETWEEN_ROUNDS;
         AlphaPair ap = this.currentAlphaPair;
         Player currentPlayer = this.thePlayer;
-        URL feedbackSoundFileUrl = null;
-        
-        correct = GameLogic.checkAnswerCorrect(e, ap);
-        
+        boolean correct = GameLogic.checkAnswerCorrect(e, ap);
         this.updateProgressBar(view, correct);
-        
         this.updatePlayer(currentPlayer, correct);   
-        
-        this.feedbackSound(feedbackSoundFileUrl, correct); 
-        
+        this.feedbackSound(correct); 
         this.dataWriter.grabData(this);
     }
     
@@ -312,7 +301,8 @@ public class LetterGameController implements GameController {
      * @param feedbackSoundFileUrl the File Url of the Sound to be played.
      * @param correct whether the subject answered correctly or not.
      */
-    private void feedbackSound(URL feedbackSoundFileUrl, boolean correct) {
+    private void feedbackSound(boolean correct) {
+        URL feedbackSoundFileUrl;
         if (correct) {
             feedbackSoundFileUrl = 
                     getClass().getResource("/res/sounds/Ping.aiff");
@@ -362,6 +352,9 @@ public class LetterGameController implements GameController {
         
         if (thePlayer.getNumRounds() > NUM_ROUNDS) {
             this.finishGame();
+        }
+        if (state == CurrentState.PRACTICE && thePlayer.getNumRounds() >= NUM_PRACTICE_ROUNDS) {
+            theView.setPracticeCompleteScreen();
         }
     }
     
