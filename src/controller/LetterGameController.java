@@ -251,6 +251,7 @@ public class LetterGameController implements GameController {
      * @param correct True if subject's reponse is correct. False otherwise.
      */
     private void updatePlayer(Player currentPlayer, boolean correct) {
+        this.recordResponseTime();
         if (correct) {
             currentPlayer.addPoint();
             currentPlayer.setRight(true);
@@ -342,19 +343,24 @@ public class LetterGameController implements GameController {
     }
     
     /**
-     * Prepares the next round by recording reponse time,
-     * clearing the previous round, waiting, and creating the next round.
+     * Prepares the next round by clearing the previous round, 
+     * waiting, and creating the next round.
      */
     public void prepareNextRound() {
-        recordResponseTime();
-        clearRound();
-        waitBeforeNextRoundAndUpdate(TIME_BETWEEN_ROUNDS);   
-        
-        if (thePlayer.getNumRounds() > NUM_ROUNDS) {
+        this.clearRound();
+        this.waitBeforeNextRoundAndUpdate(TIME_BETWEEN_ROUNDS); 
+        this.checkIfDone();
+    }
+    
+    /** 
+     * Check if subject has completed practice or assessment.
+     */
+    private void checkIfDone() {
+        if (thePlayer.getNumRounds() >= NUM_ROUNDS) {
             this.finishGame();
         }
         if (state == CurrentState.PRACTICE && thePlayer.getNumRounds() >= NUM_PRACTICE_ROUNDS) {
-            theView.setPracticeCompleteScreen();
+            this.finishPractice();
         }
     }
     
@@ -363,8 +369,15 @@ public class LetterGameController implements GameController {
      * then change the scene to the finish screen.
      */
     private void finishGame() {
-        state = CurrentState.FINISHED;
         theView.setFinishScreen(gameController);
+    }
+    
+    /**
+     * If subject has completed the total number of rounds specified,
+     * then change the scene to the practice complete screen.
+     */
+    private void finishPractice() {
+        theView.setPracticeCompleteScreen();
     }
 
     /**
