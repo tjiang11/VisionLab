@@ -55,6 +55,9 @@ public class LetterGameController implements GameController {
     /** Time in milliseconds for the player to get ready after pressing start */
     final static int GET_READY_TIME = 2000;
     
+    /** Integer representing each each background. */
+    private static int backgroundNumber = 0;
+    
     /** True if choices should vary in physical size */
     public static boolean SIZE_VARIATION;
     
@@ -89,6 +92,8 @@ public class LetterGameController implements GameController {
      * The player earns a star for every time the
      * progress bar is filled. */
     private static int numStars = 0;
+    
+    private static int roundsperBackground = 2;
     
     private enum GameState {
         /** Player has responded and next round is loading. */
@@ -286,9 +291,8 @@ public class LetterGameController implements GameController {
                 theView.getStarNodes()[starToReveal].setVisible(true);
                 numStars++;
                 
-                if (numStars > 2) {
-                    theView.changeBackground(1);
-                }
+                this.checkBackground();
+
             }
         } else {
             theView.getProgressBar().setStyle("-fx-accent: #0094C5;");
@@ -302,6 +306,12 @@ public class LetterGameController implements GameController {
         this.feedbackSound(correct); 
     }
     
+    private void checkBackground() {
+        if (numStars % roundsperBackground == 0) {
+            theView.changeBackground(++backgroundNumber);
+        }    
+    }
+
     /** If user inputs correct answer play positive feedback sound,
      * if not then play negative feedback sound.
      * @param feedbackSoundFileUrl the File Url of the Sound to be played.
@@ -374,7 +384,7 @@ public class LetterGameController implements GameController {
      * then change the scene to the finish screen.
      */
     private void finishGame() {
-        theView.setFinishScreen(thePlayer.getNumCorrect());
+        theView.setFinishScreen(thePlayer.getNumCorrect(), backgroundNumber);
     }
     
     /**
@@ -386,6 +396,7 @@ public class LetterGameController implements GameController {
         ////////////////////////////////////////////////////////////////////////////////
         numStars = 0;
         //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+        backgroundNumber = 0;
     }
 
     /**

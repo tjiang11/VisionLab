@@ -188,8 +188,8 @@ public class GameGUI {
      * Sets the ending screen informing the subject of their completion.
      * @param stage The user interface stage.
      */
-    public void setFinishScreen(int points) {
-        Scene finishScene = SetUp.setUpFinishScreen(this, points);
+    public void setFinishScreen(int points, int level) {
+        Scene finishScene = SetUp.setUpFinishScreen(this, points, level);
         this.scene = finishScene;
         this.primaryStage.setScene(this.scene);
 

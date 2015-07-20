@@ -42,7 +42,7 @@ import javafx.stage.Stage;
 public final class SetUp {
     
     /** Background */
-    static final String BACKGROUNDS[] = {"sky", "journey"};
+    static final String BACKGROUNDS[] = {"sky", "journey", "mountains", "beach"};
 
     /** Width and height of the computer's screen */
     static final Rectangle2D primaryScreenBounds = Screen.getPrimary().getBounds();
@@ -271,7 +271,7 @@ public final class SetUp {
      * @param primaryStage The stage.
      * @return The finishing scene.
      */
-    public static Scene setUpFinishScreen(GameGUI view, int points) {
+    public static Scene setUpFinishScreen(GameGUI view, int points, int level) {
         
         AnchorPane layout = new AnchorPane();
         
@@ -288,7 +288,7 @@ public final class SetUp {
         
         layout.getChildren().addAll(view.getFinishMessage());
         
-        setBackground(layout, 0);
+        setBackground(layout, level);
         
         return new Scene(layout, SCREEN_WIDTH, SCREEN_HEIGHT);
     }
@@ -298,8 +298,10 @@ public final class SetUp {
      * @param view The graphical user interface.
      * @param layout The layout.
      */
-    public static void setBackground(AnchorPane layout, int level) {
-        
+    public static void setBackground(AnchorPane layout, int level) { 
+        if (level >= BACKGROUNDS.length) {
+            level = BACKGROUNDS.length - 1;
+        }
         String backgroundName = BACKGROUNDS[level];
         
         BackgroundImage bg = new BackgroundImage(
