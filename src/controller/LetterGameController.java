@@ -173,13 +173,29 @@ public class LetterGameController implements GameController {
     }
 
     /** 
-     * Set event listener on the Next button and record the user's subject ID 
+     * Set event listener on the Next button. 
      */
     public void setInstructionsHandlers() {
+        this.theScene = theView.getScene();
         this.theView.getNext().setOnAction(e -> {
-            theView.setGameScreen(); 
-            state = CurrentState.PRACTICE;
+            onClickNextInstructions();
         });
+        this.theScene.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent event) {
+                if (event.getCode() == KeyCode.ENTER) {
+                    onClickNextInstructions();
+                }
+            }
+        });
+    }
+    
+    /**
+     *  Actions to be executed on clicking the Next button 
+     */
+    private void onClickNextInstructions() {
+        theView.setGameScreen(); 
+        state = CurrentState.PRACTICE;
     }
 
     /**

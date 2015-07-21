@@ -132,13 +132,13 @@ public class GameGUI {
      */
     public void setInstructionsScreen() {
         Scene instructionsScene = SetUp.setUpInstructionsScreen(this, this.primaryStage);
+        this.scene = instructionsScene;
         this.primaryStage.setScene(instructionsScene);
         this.primaryStage.setFullScreen(true);
         this.getNext().setLayoutX(getNext().getLayoutX() - this.getNext().getWidth() / 2);
         this.LGC.setInstructionsHandlers();
     }
     
-////////////////////////////////////////////////////////////////////////////////////
     /**
      * Sets the screen whre user has finished practice trials and is about to begin assessment.
      */
@@ -152,7 +152,7 @@ public class GameGUI {
         this.getStartAssessment().setLayoutY(SetUp.SCREEN_HEIGHT * .6);
         this.getStartAssessment().setLayoutX(SetUp.SCREEN_WIDTH / 2 - this.getStartAssessment().getWidth() / 2);
     }
-//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
     /**
      * Sets the game screen where subject will be presented with two letters.
      * @param stage The user interface stage.
@@ -170,10 +170,8 @@ public class GameGUI {
         this.getGetReadyBox().setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.getGetReadyBox().getWidth() / 2));
         
         this.getReadyBar.setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.getReady.getWidth() / 2));
-        ////////////////////////////////////////////////////////////////////////////////////////////////
         this.getPractice().setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.practice.getWidth() / 2));
         this.getPractice().setLayoutY(SetUp.SCREEN_HEIGHT * .1);
-        //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         this.primaryStage.setFullScreen(true);
         
         this.LGC.prepareFirstRound();
