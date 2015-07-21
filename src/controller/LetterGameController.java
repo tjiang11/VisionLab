@@ -93,7 +93,8 @@ public class LetterGameController implements GameController {
      * progress bar is filled. */
     private static int numStars = 0;
     
-    private static int roundsperBackground = 2;
+    /** Number of stars earned before changing to next background. */
+    private static final int STARS_PER_BACKGROUND = 2;
     
     private enum GameState {
         /** Player has responded and next round is loading. */
@@ -221,7 +222,7 @@ public class LetterGameController implements GameController {
      * @param event
      */
     private void handlePressForJ(KeyEvent event) {
-        logger.info(state.toString());
+     //   logger.info(state.toString());
         this.responseAndUpdate(event);
         this.prepareNextRound(); 
         this.exportDataToCSV();
@@ -306,8 +307,11 @@ public class LetterGameController implements GameController {
         this.feedbackSound(correct); 
     }
     
+    /**
+     * Check to see if background needs to be switched and if so change the background.
+     */
     private void checkBackground() {
-        if (numStars % roundsperBackground == 0) {
+        if (numStars % STARS_PER_BACKGROUND == 0) {
             theView.changeBackground(++backgroundNumber);
         }    
     }
@@ -393,9 +397,7 @@ public class LetterGameController implements GameController {
      */
     private void finishPractice() {
         theView.setPracticeCompleteScreen();
-        ////////////////////////////////////////////////////////////////////////////////
         numStars = 0;
-        //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
         backgroundNumber = 0;
     }
 

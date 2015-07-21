@@ -58,9 +58,9 @@ public class AlphaPairGenerator {
     
     /** Random number generator. */
     Random randomGenerator = new Random();
-
+    
     /** The most recent AlphaPair produced by AlphaPairGenerator. */
-    private AlphaPair alphaPair; 
+    private AlphaPair alphaPair;    
     
     /** The difficulty setting: EASY, MEDIUM, HARD */
     private int difficultyMode;
@@ -132,23 +132,18 @@ public class AlphaPairGenerator {
         int otherFontSize = 0;
         int difference = 0;
         if (this.difficultyMode == EASY_MODE) {
-            logger.info("Easy mode");
             difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + EASY_MODE_MIN;
             otherFontSize = (int) (EASY_MODE_FONT_RATIO * baseFontSize);
         } else if (this.difficultyMode == MEDIUM_MODE) {
-            logger.info("Medium mode");
             difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + MEDIUM_MODE_MIN;
             otherFontSize = (int) (MEDIUM_MODE_FONT_RATIO * baseFontSize);
         } else if (this.difficultyMode == HARD_MODE) {
-            logger.info("Hard mode");
             difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + HARD_MODE_MIN;
             otherFontSize = (int) (HARD_MODE_FONT_RATIO * baseFontSize);
         }
         
         if (randomGenerator.nextBoolean()) {
-            int temp = baseFontSize;
-            baseFontSize = otherFontSize;
-            otherFontSize = temp;
+            baseFontSize = swap(otherFontSize, otherFontSize = baseFontSize);
         }
         
         this.getNewPair(difference, baseFontSize, otherFontSize);
@@ -182,29 +177,24 @@ public class AlphaPairGenerator {
         letterTwo = letterOne + difference;
         
         if (randomGenerator.nextBoolean()) {
-            int temp = letterTwo;
-            letterTwo = letterOne;
-            letterOne = temp;
+            letterOne = swap(letterTwo, letterTwo = letterOne);           
         }
+        
         this.checkAndSet(letterOne, letterTwo, fontSizeOne, fontSizeTwo);
     }
     
     /**
-     * Check if the same side is correct as last round and set the reverse if the same side has been
-     * correct for MAX_TIMES_SAME_ANSWER times in a row.
+     * Perform a series of checks to see if/how this pair should be set and set.
      * @param letterOne
      * @param letterTwo
      */
     private void checkAndSet(int letterOne, int letterTwo, int fontSizeOne, int fontSizeTwo) {
-        this.checkSameChoice(letterOne, letterTwo);
+        if (this.performChecks(letterOne, letterTwo, fontSizeOne, fontSizeTwo)) {
+            return;
+        }
 
-        this.checkSameSize(letterOne, letterTwo, fontSizeOne, fontSizeTwo);
-        
         if (this.getSameSizeCorrect() >= MAX_TIMES_SAME_SIZE_CORRECT) {
-            int temp = fontSizeOne;
-            fontSizeOne = fontSizeTwo;
-            fontSizeTwo = temp;
-            
+            fontSizeOne = swap(fontSizeTwo, fontSizeTwo = fontSizeOne);
             this.setSameSizeCorrect(0);
             this.toggleLastWasBig();
         }
@@ -214,6 +204,64 @@ public class AlphaPairGenerator {
         } else {
             this.setAlphaPair(new AlphaPair(letterOne, letterTwo, fontSizeOne, fontSizeTwo));
         }
+    }
+    
+    /**
+     * Perform checks.
+     * @param letterOne
+     * @param letterTwo
+     * @param fontSizeOne
+     * @param fontSizeTwo
+     * @return true if this pair should NOT be set.
+     */
+    private boolean performChecks(int letterOne, int letterTwo, int fontSizeOne, int fontSizeTwo) {
+        if (this.checkSamePair(letterOne, letterTwo, fontSizeOne, fontSizeTwo)) {
+            return true;
+        }
+        this.checkSameChoice(letterOne, letterTwo);
+        this.checkSameSize(letterOne, letterTwo, fontSizeOne, fontSizeTwo);
+        return false;
+    }
+    
+    /**
+     * Check if this pair is the same as the last
+     * @param letterOne
+     * @param letterTwo
+     * @param fontSizeOne
+     * @param fontSizeTwo
+     * @return true if this pair is the same as the last
+     */
+    private boolean checkSamePair(int letterOne, int letterTwo, int fontSizeOne, int fontSizeTwo) {
+        if (this.isSamePair(letterOne, letterTwo)) {
+            logger.info("isSamePair TRUE");
+            int difference = Math.abs(letterOne - letterTwo);
+            this.getNewPair(difference, fontSizeOne, fontSizeTwo);
+            return true;
+        }
+        return false;
+    }
+    
+    /**
+     * Tests if the content of the current pair is the same as the last pair.
+     * @param numberOne first element of the current pair.
+     * @param numberTwo second element of the current pair.
+     * @return true if same as last pair.
+     */
+    private boolean isSamePair(int letterOne, int letterTwo) {     
+        if (this.alphaPair == null) {
+            return false;
+        }      
+        
+        char charOne = (char) (letterOne + 65);
+        char charTwo = (char) (letterTwo + 65);
+        
+        if (this.alphaPair.getLetterOne() == charOne
+                && this.alphaPair.getLetterTwo() == charTwo) {
+            System.out.println("TRUE");
+            return true;
+
+        }
+        return false;
     }
     
     /**
@@ -301,6 +349,16 @@ public class AlphaPairGenerator {
         } else {
             this.lastWasBig = true;
         }
+    }
+    
+    /** 
+     * Swap values of x and y.
+     * 
+     * @param x
+     * @param y This parameter should be an assignment.
+     */
+    private int swap(int x, int y) {
+        return x;
     }
     
     public void increaseDifficulty() {
