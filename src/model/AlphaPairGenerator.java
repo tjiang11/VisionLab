@@ -128,25 +128,48 @@ public class AlphaPairGenerator {
      */
     public void getNewDifficultyPair() {
         this.setDifficulty();
+        int difference = this.decideDifference();
         int baseFontSize = this.chooseBaseFontSize();
-        int otherFontSize = 0;
-        int difference = 0;
-        if (this.difficultyMode == EASY_MODE) {
-            difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + EASY_MODE_MIN;
-            otherFontSize = (int) (EASY_MODE_FONT_RATIO * baseFontSize);
-        } else if (this.difficultyMode == MEDIUM_MODE) {
-            difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + MEDIUM_MODE_MIN;
-            otherFontSize = (int) (MEDIUM_MODE_FONT_RATIO * baseFontSize);
-        } else if (this.difficultyMode == HARD_MODE) {
-            difference = this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + HARD_MODE_MIN;
-            otherFontSize = (int) (HARD_MODE_FONT_RATIO * baseFontSize);
-        }
-        
+        int otherFontSize = this.decideFontSize(baseFontSize);
         if (randomGenerator.nextBoolean()) {
             baseFontSize = swap(otherFontSize, otherFontSize = baseFontSize);
-        }
-        
+        }    
         this.getNewPair(difference, baseFontSize, otherFontSize);
+    }
+    
+    /**
+     * Decide the distance between the two choices, based on current difficulty.
+     * @return int distance between the choices.
+     */
+    private int decideDifference() {
+        switch (this.difficultyMode) {
+        case EASY_MODE:
+            return this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + EASY_MODE_MIN;
+        case MEDIUM_MODE:
+            return this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + MEDIUM_MODE_MIN;
+        case HARD_MODE:
+            return this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + HARD_MODE_MIN;
+        }
+        System.err.println("Error on decideDifference");
+        return 0;
+    }
+    
+    /**
+     * Decide the font size of another letter given the font size of one letter and the current difficulty.
+     * @param baseFontSize font size of the first choice.
+     * @return font size of the other choice.
+     */
+    private int decideFontSize(int baseFontSize) {
+        switch (this.difficultyMode) {
+        case EASY_MODE:
+            return (int) (EASY_MODE_FONT_RATIO * baseFontSize);
+        case MEDIUM_MODE:
+            return (int) (MEDIUM_MODE_FONT_RATIO * baseFontSize);
+        case HARD_MODE:
+            return (int) (HARD_MODE_FONT_RATIO * baseFontSize);
+        }
+        System.err.println("Error on decideFontSize");
+        return 0;
     }
     
     /**
@@ -154,7 +177,7 @@ public class AlphaPairGenerator {
      * font size choice will be scaled down from this font size.
      * @return int The base font size.
      */
-    public int chooseBaseFontSize() {
+    private int chooseBaseFontSize() {
         int choiceOfSize = randomGenerator.nextInt(3);
         switch (choiceOfSize) {
         case 0:
