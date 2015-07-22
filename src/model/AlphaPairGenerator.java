@@ -280,7 +280,6 @@ public class AlphaPairGenerator {
         
         if (this.alphaPair.getLetterOne() == charOne
                 && this.alphaPair.getLetterTwo() == charTwo) {
-            System.out.println("TRUE");
             return true;
 
         }

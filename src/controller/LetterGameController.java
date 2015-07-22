@@ -238,7 +238,6 @@ public class LetterGameController implements GameController {
      * @param event
      */
     private void handlePressForJ(KeyEvent event) {
-     //   logger.info(state.toString());
         this.responseAndUpdate(event);
         this.prepareNextRound(); 
         this.exportDataToCSV();
@@ -309,7 +308,6 @@ public class LetterGameController implements GameController {
                 numStars++;
                 
                 this.checkBackground();
-
             }
         } else {
             theView.getProgressBar().setStyle("-fx-accent: #0094C5;");
@@ -405,6 +403,7 @@ public class LetterGameController implements GameController {
      */
     private void finishGame() {
         theView.setFinishScreen(thePlayer.getNumCorrect(), backgroundNumber);
+        this.theScene.setOnKeyPressed(null);
     }
     
     /**

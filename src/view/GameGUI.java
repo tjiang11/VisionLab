@@ -29,9 +29,6 @@ import javafx.stage.Stage;
  */
 public class GameGUI {
     
-    /** Whether or not to slowly drain the progress bar as time pressure. */
-    static final boolean PROGRESS_DRAIN = false;
-    
     /** Controller for setting event handlers */
     private LetterGameController LGC;
 
@@ -90,10 +87,17 @@ public class GameGUI {
      * @throws IOException 
      */
     public GameGUI(Stage stage) {
-        
+        LGC = new LetterGameController(this);
         this.setPrimaryStage(stage);
-        
+        this.layout = new AnchorPane();
+        this.scene = new Scene(this.layout, SetUp.SCREEN_WIDTH, SetUp.SCREEN_HEIGHT);
+        this.primaryStage.setScene(this.scene);
+        this.primaryStage.setTitle("Letter Game");  
         this.setLoginScreen();
+        this.primaryStage.setResizable(false);
+        this.primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        this.primaryStage.setFullScreen(true);
+        this.primaryStage.sizeToScene();
     }
     
     /**
@@ -102,55 +106,25 @@ public class GameGUI {
      * @throws IOException
      */
     private void setLoginScreen() {
-        this.primaryStage.setTitle("Game");
-        this.enterId = new TextField();
-        
-        Scene loginScene = SetUp.setUpLoginScreen(this, this.primaryStage);
-        this.scene = loginScene;
-        
-        LGC = new LetterGameController(this);
-        LGC.setLoginHandlers();
-        
-        this.primaryStage.setResizable(false);
-        this.primaryStage.sizeToScene();
-        
-        this.primaryStage.setScene(this.scene);
-
-        this.primaryStage.show(); 
-        
-        System.out.println("Width: " + this.getLoginBox().getHeight());
-        
-        this.getLoginBox().setLayoutY(SetUp.SCREEN_HEIGHT / 2 - this.getLoginBox().getHeight());
-        this.getLoginBox().setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.getLoginBox().getWidth() / 2));
-        
-        this.primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
-        this.primaryStage.setFullScreen(true);
+        SetUp.setUpLoginScreen(this, this.primaryStage);
+        LGC.setLoginHandlers(); 
     }
 
     /**
      * Sets the screen where instructions are shown.
      */
     public void setInstructionsScreen() {
-        Scene instructionsScene = SetUp.setUpInstructionsScreen(this, this.primaryStage);
-        this.scene = instructionsScene;
-        this.primaryStage.setScene(instructionsScene);
-        this.primaryStage.setFullScreen(true);
-        this.getNext().setLayoutX(getNext().getLayoutX() - this.getNext().getWidth() / 2);
+        SetUp.setUpInstructionsScreen(this, this.primaryStage);
         this.LGC.setInstructionsHandlers();
     }
     
     /**
-     * Sets the screen whre user has finished practice trials and is about to begin assessment.
+     * Sets the screen where user has finished practice trials and is about to begin assessment.
      */
     public void setPracticeCompleteScreen() {
-        Scene practiceCompleteScene = SetUp.setUpPracticeCompleteScreen(this);
-        this.primaryStage.setScene(practiceCompleteScene);
-        this.primaryStage.setFullScreen(true);
+        SetUp.setUpPracticeCompleteScreen(this);
         this.LGC.setPracticeCompleteHandlers();
-        this.getPracticeComplete().setLayoutY(SetUp.SCREEN_HEIGHT * .4);
-        this.getPracticeComplete().setLayoutX(SetUp.SCREEN_WIDTH / 2 - this.getPracticeComplete().getWrappingWidth() / 2);
-        this.getStartAssessment().setLayoutY(SetUp.SCREEN_HEIGHT * .6);
-        this.getStartAssessment().setLayoutX(SetUp.SCREEN_WIDTH / 2 - this.getStartAssessment().getWidth() / 2);
+
     }
 
     /**
@@ -159,26 +133,8 @@ public class GameGUI {
      * @param subjectID The subject's ID number.
      */
     public void setGameScreen() {
-        Scene gameScene = SetUp.setUpGameScreen(
-                this, this.primaryStage);  
-        
-        this.scene = gameScene;
-        this.primaryStage.setScene(this.scene);
-        
-        System.out.println(this.getReadyBar.getWidth());
-        this.getGetReadyBox().setLayoutY((SetUp.SCREEN_HEIGHT / 2) - this.getGetReadyBox().getHeight());
-        this.getGetReadyBox().setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.getGetReadyBox().getWidth() / 2));
-        
-        this.getReadyBar.setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.getReady.getWidth() / 2));
-        this.getPractice().setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.practice.getWidth() / 2));
-        this.getPractice().setLayoutY(SetUp.SCREEN_HEIGHT * .1);
-        this.primaryStage.setFullScreen(true);
-        
+        SetUp.setUpGameScreen(this);          
         this.LGC.prepareFirstRound();
-        
-        /** Set event handlers for gameplay */
-        
-        if (PROGRESS_DRAIN) { this.LGC.beginProgressBarDrainage(); }
         this.LGC.setGameHandlers();
     }
     
@@ -187,14 +143,7 @@ public class GameGUI {
      * @param stage The user interface stage.
      */
     public void setFinishScreen(int points, int level) {
-        Scene finishScene = SetUp.setUpFinishScreen(this, points, level);
-        this.scene = finishScene;
-        this.primaryStage.setScene(this.scene);
-
-        this.getFinishMessage().setLayoutX((SetUp.SCREEN_WIDTH / 2) - (this.getFinishMessage().getWidth() / 2));
-        this.getFinishMessage().setLayoutY((SetUp.SCREEN_HEIGHT / 2) - this.getFinishMessage().getHeight());
-        
-        this.primaryStage.setFullScreen(true);
+        SetUp.setUpFinishScreen(this, points, level);
     }
     
     /**
