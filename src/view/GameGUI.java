@@ -106,7 +106,7 @@ public class GameGUI {
      * @throws IOException
      */
     private void setLoginScreen() {
-        SetUp.setUpLoginScreen(this, this.primaryStage);
+        SetUp.setUpLoginScreen(this);
         LGC.setLoginHandlers(); 
     }
 
@@ -114,7 +114,7 @@ public class GameGUI {
      * Sets the screen where instructions are shown.
      */
     public void setInstructionsScreen() {
-        SetUp.setUpInstructionsScreen(this, this.primaryStage);
+        SetUp.setUpInstructionsScreen(this);
         this.LGC.setInstructionsHandlers();
     }
     

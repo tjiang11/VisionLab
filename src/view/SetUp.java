@@ -22,7 +22,6 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import javafx.stage.Screen;
-import javafx.stage.Stage;
 
 /**
  * Functions to set up various scenes of the GameGUI.
@@ -77,7 +76,7 @@ public final class SetUp {
      * @param primaryStage The stage.
      * @return The login scene.
      */
-    public static void setUpLoginScreen(GameGUI view, Stage primaryStage) {
+    public static void setUpLoginScreen(GameGUI view) {
         Label label = new Label("Enter your Subject ID");
         view.setStart(new Button("Start"));
         view.setEnterId(new TextField());
@@ -100,7 +99,7 @@ public final class SetUp {
      * @param primaryStage stage
      * @return Scene the instructions scene
      */
-    public static void setUpInstructionsScreen(GameGUI view, Stage primaryStage) {
+    public static void setUpInstructionsScreen(GameGUI view) {
         Text instructionsText = new Text();
         instructionsText.setText("In this assessment, for each question you will be shown a pair of letters. "
                 + "Decide which letter comes later in the alphabet. "
