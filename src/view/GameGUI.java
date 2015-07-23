@@ -107,7 +107,7 @@ public class GameGUI {
      */
     private void setLoginScreen() {
         SetUp.setUpLoginScreen(this);
-        LGC.setLoginHandlers(); 
+        this.LGC.setLoginHandlers(); 
     }
 
     /**

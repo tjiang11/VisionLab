@@ -3,6 +3,8 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import org.apache.log4j.BasicConfigurator;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
 /**
@@ -17,7 +19,7 @@ import org.apache.log4j.Logger;
  */
 public class AlphaPairGenerator {
     
-    private static final Logger logger = Logger.getLogger("Global");
+    private static final Logger logger = Logger.getLogger(AlphaPairGenerator.class);
     
     /**
      * Max number of times the same side may be the correct choice.
@@ -89,6 +91,8 @@ public class AlphaPairGenerator {
         this.setLastWasBig(false);
         this.difficultySet = new ArrayList<Integer>();
         this.fillDifficultySet();
+        BasicConfigurator.configure();
+        logger.log(Level.INFO, "AlphaPairGenerator constructed.");
     }
     
     /**
@@ -134,6 +138,7 @@ public class AlphaPairGenerator {
         if (randomGenerator.nextBoolean()) {
             baseFontSize = swap(otherFontSize, otherFontSize = baseFontSize);
         }    
+        logger.log(Level.INFO, "NEW PAIR WITH DIFFICULTY:" + this.difficultyMode + " DIFFERENCE: " + difference);
         this.getNewPair(difference, baseFontSize, otherFontSize);
     }
     
@@ -150,7 +155,7 @@ public class AlphaPairGenerator {
         case HARD_MODE:
             return this.randomGenerator.nextInt(NUM_CHOICES_IN_MODE) + HARD_MODE_MIN;
         }
-        System.err.println("Error on decideDifference");
+        logger.log(Level.ERROR, "in decideDifference(): no difficulty found.");
         return 0;
     }
     
@@ -168,7 +173,7 @@ public class AlphaPairGenerator {
         case HARD_MODE:
             return (int) (HARD_MODE_FONT_RATIO * baseFontSize);
         }
-        System.err.println("Error on decideFontSize");
+        logger.log(Level.ERROR, "in decideFontSize(): no difficulty found.");
         return 0;
     }
     
@@ -256,7 +261,7 @@ public class AlphaPairGenerator {
      */
     private boolean checkSamePair(int letterOne, int letterTwo, int fontSizeOne, int fontSizeTwo) {
         if (this.isSamePair(letterOne, letterTwo)) {
-            logger.info("isSamePair TRUE");
+            logger.log(Level.INFO, "checkSamePair(): Found a pair repetition");
             int difference = Math.abs(letterOne - letterTwo);
             this.getNewPair(difference, fontSizeOne, fontSizeTwo);
             return true;
@@ -382,11 +387,6 @@ public class AlphaPairGenerator {
     private int swap(int x, int y) {
         return x;
     }
-    
-    public void increaseDifficulty() {
-        this.difficultyMode++;
-    }
-
     public AlphaPair getAlphaPair() {
         return this.alphaPair;
     }
