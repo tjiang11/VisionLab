@@ -357,6 +357,11 @@ public class LetterGameController implements GameController {
     private void checkBackground() {
         if (numStars % STARS_PER_BACKGROUND == 0) {
             theView.changeBackground(++backgroundNumber);
+            
+            URL applauseSound = getClass().getResource("/res/sounds/Applause.wav");
+            AudioClip applause = new AudioClip(applauseSound.toString());
+            applause.setRate(1.4);
+            applause.play();
         }    
     }
 
