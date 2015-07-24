@@ -28,10 +28,8 @@ public class DataWriter {
     
     public static final String DELIMITER = ",";
     public static final String SUBJECT_ID = "Subject ID";
-    //////////////////////////////////////////////////////////////////////
     public static final String SUBJECT_AGE = "Subject Age";
     public static final String SUBJECT_GENDER = "Subject Gender";
-    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\         
     public static final String LEFT_CHOICE = "Left Choice";
     public static final String RIGHT_CHOICE = "Right Choice";
     public static final String WHICH_SIDE_CORRECT = "Side Correct";

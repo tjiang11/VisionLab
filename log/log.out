@@ -1,9 +1,26 @@
-(INFO) [2015-07-24 11:34:55,702] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:0 DIFFERENCE: 16
-(INFO) [2015-07-24 11:34:56,294] JavaFX Application Thread controller.LetterGameController - Response time: 0.5911156 seconds
-(INFO) [2015-07-24 11:34:57,581] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:2 DIFFERENCE: 2
-(INFO) [2015-07-24 11:34:58,134] JavaFX Application Thread controller.LetterGameController - Response time: 0.55261166 seconds
-(INFO) [2015-07-24 11:34:59,436] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:0 DIFFERENCE: 14
-(INFO) [2015-07-24 11:35:00,053] JavaFX Application Thread controller.LetterGameController - Response time: 0.616502654 seconds
-(INFO) [2015-07-24 11:35:01,328] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:1 DIFFERENCE: 11
-(INFO) [2015-07-24 11:35:01,585] JavaFX Application Thread controller.LetterGameController - Response time: 0.256303358 seconds
-(INFO) [2015-07-24 11:35:02,890] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:1 DIFFERENCE: 11
+(INFO) [2015-07-24 12:42:22,483] JavaFX Application Thread controller.LetterGameController - Response time: 0.597092672 seconds
+(INFO) [2015-07-24 12:42:23,770] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:1 DIFFERENCE: 9
+(INFO) [2015-07-24 12:42:24,422] JavaFX Application Thread controller.LetterGameController - Response time: 0.650625033 seconds
+(INFO) [2015-07-24 12:42:25,695] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:2 DIFFERENCE: 5
+(INFO) [2015-07-24 12:42:27,179] JavaFX Application Thread controller.LetterGameController - Response time: 1.483603571 seconds
+(INFO) [2015-07-24 12:42:28,495] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:2 DIFFERENCE: 4
+(INFO) [2015-07-24 12:42:29,322] JavaFX Application Thread controller.LetterGameController - Response time: 0.825645004 seconds
+(INFO) [2015-07-24 12:42:30,645] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:0 DIFFERENCE: 17
+(INFO) [2015-07-24 12:42:34,233] JavaFX Application Thread controller.LetterGameController - Response time: 3.586495418 seconds
+(INFO) [2015-07-24 12:42:35,498] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:0 DIFFERENCE: 17
+(INFO) [2015-07-24 12:42:36,720] JavaFX Application Thread controller.LetterGameController - Response time: 1.221190573 seconds
+(INFO) [2015-07-24 12:42:38,005] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:0 DIFFERENCE: 14
+(INFO) [2015-07-24 12:42:39,689] JavaFX Application Thread controller.LetterGameController - Response time: 1.682685778 seconds
+(INFO) [2015-07-24 12:42:40,983] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:1 DIFFERENCE: 10
+(INFO) [2015-07-24 12:42:41,527] JavaFX Application Thread controller.LetterGameController - Response time: 0.543671497 seconds
+(INFO) [2015-07-24 12:42:42,855] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:2 DIFFERENCE: 4
+(INFO) [2015-07-24 12:42:44,098] JavaFX Application Thread controller.LetterGameController - Response time: 1.241750897 seconds
+(INFO) [2015-07-24 12:42:45,397] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:2 DIFFERENCE: 5
+(INFO) [2015-07-24 12:42:45,992] JavaFX Application Thread controller.LetterGameController - Response time: 0.594243332 seconds
+(INFO) [2015-07-24 12:42:47,252] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:1 DIFFERENCE: 10
+(INFO) [2015-07-24 12:42:47,892] JavaFX Application Thread controller.LetterGameController - Response time: 0.638342464 seconds
+(INFO) [2015-07-24 12:42:49,173] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:2 DIFFERENCE: 4
+(INFO) [2015-07-24 12:42:49,833] JavaFX Application Thread controller.LetterGameController - Response time: 0.658617554 seconds
+(INFO) [2015-07-24 12:42:51,090] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:0 DIFFERENCE: 16
+(INFO) [2015-07-24 12:42:51,649] JavaFX Application Thread controller.LetterGameController - Response time: 0.558283828 seconds
+(INFO) [2015-07-24 12:42:53,011] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:2 DIFFERENCE: 5

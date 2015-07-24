@@ -17,14 +17,16 @@ public class Player {
     /** The subject's assigned ID number. */
     private IntegerProperty subjectID;
     
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /** Enum for gender */
     public enum Gender {
         MALE,
         FEMALE,
     }
     
+    /** The subject's gender */
     private Gender subjectGender;
     
+    /** The subject's age. */
     private IntegerProperty subjectAge;
     
     /** The number of correct answers the subject has input. */

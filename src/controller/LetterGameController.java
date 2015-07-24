@@ -156,9 +156,11 @@ public class LetterGameController implements GameController {
             }
         });
     }
-//////////////////////////////////////////////////////////////////////////////////////////
+    
     /**
      * Action to be executed upon clicking of Start on Login screen.
+     * 
+     * Records user inputted data and sets instructions screen.
      */
     private void onClickStartButton() {
         theView.getFeedback().setVisible(false);
@@ -190,7 +192,7 @@ public class LetterGameController implements GameController {
         }
         theView.setInstructionsScreen(); 
     }
-//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
     /** 
      * Set event listener on the Next button. 
      */
@@ -231,7 +233,7 @@ public class LetterGameController implements GameController {
             this.resetPlayer();
         });
     }
-////////////////////////////////////////////////////////////////////////////////////////// 
+
     /** 
      * Reset the player data, but retain intrinsic subject data 
      */
@@ -241,7 +243,7 @@ public class LetterGameController implements GameController {
         SimpleIntegerProperty subjectAge = new SimpleIntegerProperty(thePlayer.getSubjectAge());
         thePlayer = new Player(subjectID, subjectGender, subjectAge);
     }
-//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
     /** 
      * Sets event listener for when subject presses 'F' or 'J' key
      * during a round. 
@@ -324,7 +326,7 @@ public class LetterGameController implements GameController {
                 theView.getProgressBar().setProgress(0.0);
                 theView.getProgressBar().setStyle("-fx-accent: #0094C5;");
             }
-            theView.getProgressBar().setProgress(theView.getProgressBar().getProgress() + .25);
+            theView.getProgressBar().setProgress(theView.getProgressBar().getProgress() + .1666667);
             if (theView.getProgressBar().getProgress() >= 1.00) {
                 theView.getProgressBar().setProgress(0.25);
                 
@@ -528,7 +530,7 @@ public class LetterGameController implements GameController {
                 + responseTimeSec + " seconds");
     }
     
-//    /** (This metho id not in use)
+//    /** (This method is not in use)
 //     * 
 //     * Slowly drains the progress bar to encourage the user not to spend too much time thinking.
 //     */

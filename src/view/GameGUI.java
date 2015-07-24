@@ -48,19 +48,20 @@ public class GameGUI {
     private Label feedback;
     /** Login Screen - Text field for user to enter their 
      * Subject ID. */
-    private TextField enterId;
-    /** Login Box to contain start button, feedback label, and enterId TextField. */
-    
-    ////////////////////////////////////////////////////////////////////////////////
-    private ToggleGroup pickGender = new ToggleGroup();
+    private TextField enterId;    
+    /** Login Screen - Toggle group for gender */
+    private ToggleGroup pickGender;
+    /** Login Screen - Radio Button "Male" */
     private RadioButton pickMale;
+    /** Login Screen - Radio Button "Female" */
     private RadioButton pickFemale; 
+    /** Login Screen - Text field for user to enter age. */ 
     private TextField enterAge;
-    
+    /** Login Screen - feedback to tell if user needs to correctly input their gender. */
     private Label feedbackGender;
+    /** Login Screen - feedback to tell if user needs to correctly input their age. */
     private Label feedbackAge;
-    
-    //\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+    /** Login Box to contain login elements */
     private VBox loginBox;
     
     /** Instructions Screen - Next button */
