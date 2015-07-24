@@ -1,5 +1,7 @@
 package main;
 
+import org.apache.log4j.BasicConfigurator;
+
 import view.GameGUI;
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -22,6 +24,7 @@ public class LettersMain extends Application {
     * @param args command line arguments
      */
     public static void main(String[] args) {
+        BasicConfigurator.configure();
         launch(args);
     }
 

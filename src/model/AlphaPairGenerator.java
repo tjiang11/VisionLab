@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.Random;
 
-import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
@@ -91,7 +90,6 @@ public class AlphaPairGenerator {
         this.setLastWasBig(false);
         this.difficultySet = new ArrayList<Integer>();
         this.fillDifficultySet();
-        BasicConfigurator.configure();
         logger.log(Level.INFO, "AlphaPairGenerator constructed.");
     }
     

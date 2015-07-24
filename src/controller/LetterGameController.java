@@ -1,16 +1,14 @@
 package controller;
 
 import java.net.URL;
-import java.util.logging.Logger;
+
+import org.apache.log4j.Logger;
 
 import config.Config;
 import model.AlphaPair;
 import model.AlphaPairGenerator;
 import model.GameLogic;
 import model.Player;
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
@@ -20,7 +18,6 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
 import javafx.scene.text.Font;
-import javafx.util.Duration;
 import view.GameGUI;
 
 /**
@@ -47,7 +44,7 @@ import view.GameGUI;
  * 
  */
 public class LetterGameController implements GameController {
-    private static Logger logger = Logger.getLogger("mylog");
+    private static Logger logger = Logger.getLogger(LetterGameController.class);
     
     /** Punish for wrong answers */
     static final boolean PUNISH = true;
@@ -134,6 +131,8 @@ public class LetterGameController implements GameController {
         new Config();
         TIME_BETWEEN_ROUNDS = Config.getPropertyInt("time.between.rounds");
         SIZE_VARIATION = Config.getPropertyBoolean("size.variation");
+        logger.info("TIME_BETWEEN_ROUNDS: " + TIME_BETWEEN_ROUNDS);
+        logger.info("SIZE_VARIATION: " + SIZE_VARIATION);
     }
 
     /**
@@ -157,21 +156,41 @@ public class LetterGameController implements GameController {
             }
         });
     }
-
+//////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Action to be executed upon clicking of Start on Login screen.
      */
     private void onClickStartButton() {
+        theView.getFeedback().setVisible(false);
+        theView.getFeedbackAge().setVisible(false);
+        theView.getFeedbackGender().setVisible(false);
         try {
             gameController.thePlayer.setSubjectID(Integer.parseInt(theView.getEnterId().getText()));
-            theView.setInstructionsScreen(); 
         } catch (NumberFormatException ex) {
-            theView.getEnterId().setText("");
             theView.getEnterId().requestFocus();
-            theView.getFeedback().setText("That's not your ID, silly!");
+            theView.getEnterId().setText("");
+            theView.getFeedback().setVisible(true);
+            return;
+        }    
+        if (theView.getPickMale().isSelected()) {
+            gameController.thePlayer.setSubjectGender(Player.Gender.MALE);
+        } else if (theView.getPickFemale().isSelected()) {
+            gameController.thePlayer.setSubjectGender(Player.Gender.FEMALE);
+        } else {
+            theView.getFeedbackGender().setVisible(true);
+            return;
         }
+        try {
+            gameController.thePlayer.setSubjectAge(Integer.parseInt(theView.getEnterAge().getText()));
+        } catch (NumberFormatException ex) {
+            theView.getEnterAge().requestFocus();
+            theView.getEnterAge().setText("");
+            theView.getFeedbackAge().setVisible(true);
+            return;
+        }
+        theView.setInstructionsScreen(); 
     }
-
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     /** 
      * Set event listener on the Next button. 
      */
@@ -209,11 +228,20 @@ public class LetterGameController implements GameController {
             theView.getPractice().setVisible(false);
             state = CurrentState.GAMEPLAY;
             gameState = null;
-            SimpleIntegerProperty subjectID = new SimpleIntegerProperty(thePlayer.getSubjectID());
-            thePlayer = new Player(subjectID);
+            this.resetPlayer();
         });
     }
-
+////////////////////////////////////////////////////////////////////////////////////////// 
+    /** 
+     * Reset the player data, but retain intrinsic subject data 
+     */
+    private void resetPlayer() {
+        SimpleIntegerProperty subjectID = new SimpleIntegerProperty(thePlayer.getSubjectID());
+        Player.Gender subjectGender = thePlayer.getSubjectGender();
+        SimpleIntegerProperty subjectAge = new SimpleIntegerProperty(thePlayer.getSubjectAge());
+        thePlayer = new Player(subjectID, subjectGender, subjectAge);
+    }
+//\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
     /** 
      * Sets event listener for when subject presses 'F' or 'J' key
      * during a round. 
@@ -495,34 +523,32 @@ public class LetterGameController implements GameController {
     public void recordResponseTime() {
         long responseTime = System.nanoTime() - responseTimeMetric;
         thePlayer.setResponseTime(responseTime);
-        
-        //Convert from nanoseconds to seconds.
-        double responseTimeSec = responseTime / 1000000000.0;
-
-        logger.info("Your response time was: " 
+        double responseTimeSec = responseTime / 1000000000.0;        
+        logger.info("Response time: " 
                 + responseTimeSec + " seconds");
     }
     
-    /**
-     * Slowly drains the progress bar to encourage the user not to spend too much time thinking.
-     */
-    public void beginProgressBarDrainage() {
-        theView.getProgressBar().setProgress(0.6);
-        
-        Timeline drainer = new Timeline(
-                new KeyFrame(Duration.seconds(0), evt -> {
-                    if (gameController.theView.getProgressBar().getProgress() > 1.0) {
-                        gameController.theView.getProgressBar().setStyle("-fx-accent: #00CC00;");
-                    } else {
-                        gameController.theView.getProgressBar().setStyle("-fx-accent: #0094C5;");
-                    }
-                    if (gameController.theView.getProgressBar().getProgress() > .005) {
-                        gameController.theView.getProgressBar().setProgress(theView.getProgressBar().getProgress() - .0035);
-                    }
-                }), new KeyFrame(Duration.seconds(0.065)));
-        drainer.setCycleCount(Animation.INDEFINITE);
-        drainer.play();
-    }
+//    /** (This metho id not in use)
+//     * 
+//     * Slowly drains the progress bar to encourage the user not to spend too much time thinking.
+//     */
+//    public void beginProgressBarDrainage() {
+//        theView.getProgressBar().setProgress(0.6);
+//        
+//        Timeline drainer = new Timeline(
+//                new KeyFrame(Duration.seconds(0), evt -> {
+//                    if (gameController.theView.getProgressBar().getProgress() > 1.0) {
+//                        gameController.theView.getProgressBar().setStyle("-fx-accent: #00CC00;");
+//                    } else {
+//                        gameController.theView.getProgressBar().setStyle("-fx-accent: #0094C5;");
+//                    }
+//                    if (gameController.theView.getProgressBar().getProgress() > .005) {
+//                        gameController.theView.getProgressBar().setProgress(theView.getProgressBar().getProgress() - .0035);
+//                    }
+//                }), new KeyFrame(Duration.seconds(0.065)));
+//        drainer.setCycleCount(Animation.INDEFINITE);
+//        drainer.play();
+//    }
 
     public Player getThePlayer() {
         return thePlayer;
