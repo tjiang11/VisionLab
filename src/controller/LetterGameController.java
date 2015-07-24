@@ -91,7 +91,7 @@ public class LetterGameController implements GameController {
     private static int numStars = 0;
     
     /** Number of stars earned before changing to next background. */
-    private static final int STARS_PER_BACKGROUND = 2;
+    private static final int STARS_PER_BACKGROUND = 3;
     
     private enum GameState {
         /** Player has responded and next round is loading. */
