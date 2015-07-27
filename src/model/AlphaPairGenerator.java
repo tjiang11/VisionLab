@@ -36,9 +36,9 @@ public class AlphaPairGenerator {
     static final int MEDIUM_MODE = 1;
     static final int HARD_MODE = 2;
     
-    static final int SMALL_CHOICE_FONT_SIZE = 150;
-    static final int MEDIUM_CHOICE_FONT_SIZE = 200;
-    static final int BIG_CHOICE_FONT_SIZE = 300;
+    static final int SMALL_CHOICE_FONT_SIZE = 225;
+    static final int MEDIUM_CHOICE_FONT_SIZE = 325;
+    static final int BIG_CHOICE_FONT_SIZE = 425;
     static final double EASY_MODE_FONT_RATIO = .4;
     static final double MEDIUM_MODE_FONT_RATIO = .7;
     static final double HARD_MODE_FONT_RATIO = .85;
