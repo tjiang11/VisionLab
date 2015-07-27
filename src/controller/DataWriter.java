@@ -39,6 +39,7 @@ public class DataWriter {
     public static final String DISTANCE = "Distance";
     public static final String LEFT_CHOICE_SIZE = "Left Choice Size";
     public static final String RIGHT_CHOICE_SIZE = "Right Choice Size";
+    public static final String FONT_RATIO = "Font Ratio (Greater to smaller)";
     public static final String WHICH_SIZE_CORRECT = "Which Size Correct";
     public static final String WHICH_SIZE_PICKED = "Which Size Picked";
     public static final String RESPONSE_TIME = "Response Time";
@@ -135,6 +136,7 @@ public class DataWriter {
                 + DISTANCE + DELIMITER
                 + LEFT_CHOICE_SIZE + DELIMITER
                 + RIGHT_CHOICE_SIZE + DELIMITER
+                + FONT_RATIO + DELIMITER
                 + WHICH_SIZE_CORRECT + DELIMITER
                 + WHICH_SIZE_PICKED + DELIMITER
                 + RESPONSE_TIME + DELIMITER
@@ -160,6 +162,7 @@ public class DataWriter {
         String distance = this.generateDistanceText();
         String leftChoiceSize = this.generateLeftChoiceSizeText();
         String rightChoiceSize = this.generateRightChoiceSizeText();
+        String fontRatio = this.generateFontRatioText();
         String whichSizeCorrect = this.generateSizeCorrectText(whichSideCorrect);
         String whichSizePicked = this.generateSizePickedText(whichSizeCorrect);
         String responseTime = this.generateResponseTimeText();
@@ -178,6 +181,7 @@ public class DataWriter {
                 + distance + DELIMITER
                 + leftChoiceSize + DELIMITER
                 + rightChoiceSize + DELIMITER
+                + fontRatio + DELIMITER
                 + whichSizeCorrect + DELIMITER
                 + whichSizePicked + DELIMITER
                 + responseTime + DELIMITER
@@ -270,6 +274,14 @@ public class DataWriter {
     private String generateRightChoiceSizeText() {
         return Integer.toString(
                 this.alphaPair.getFontSizeTwo());
+    }
+    
+    private String generateFontRatioText() {
+        double ratio = (double) this.alphaPair.getFontSizeOne() / this.alphaPair.getFontSizeTwo();
+        if (ratio < 1) {
+            ratio = 1 / ratio;
+        }
+        return Double.toString(ratio);
     }
     
     private String generateSizeCorrectText(String whichSideCorrect) {
