@@ -44,6 +44,8 @@ import javafx.stage.Screen;
  */
 public final class SetUp {
     
+    static final boolean NO_INSTRUCTIONS = false;
+    
     /** Background */
     static final String BACKGROUNDS[] = {"sky", "mountains", "journey", "beach", "17", "25"};
 
@@ -140,6 +142,10 @@ public final class SetUp {
                 + "Press the 'F' key if you think the left letter comes later, "
                 + "and press the 'J' key if you think the right letter comes later. "
                 + "There is no time limit. Click Next to try some practice questions.");
+        if (NO_INSTRUCTIONS) {
+            instructionsText.setText("Click 'Next' when you're ready!");
+            instructionsText.setTextAlignment(TextAlignment.CENTER);
+        }
         instructionsText.setFont(new Font("Century Gothic", 55));
         instructionsText.setLayoutX(SCREEN_WIDTH * .1);
         instructionsText.setLayoutY(SCREEN_HEIGHT * .15);

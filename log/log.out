@@ -1,1 +1,17 @@
 (INFO) [2015-07-27 17:10:52,985] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:0 DIFFERENCE: 14
+(INFO) [2015-07-27 17:42:07,066] JavaFX Application Thread controller.LetterGameController - TIME_BETWEEN_ROUNDS: 1
+(INFO) [2015-07-27 17:42:07,067] JavaFX Application Thread controller.LetterGameController - SIZE_VARIATION: true
+(INFO) [2015-07-27 17:42:07,069] JavaFX Application Thread model.AlphaPairGenerator - AlphaPairGenerator constructed.
+(INFO) [2015-07-27 17:44:35,606] JavaFX Application Thread controller.LetterGameController - TIME_BETWEEN_ROUNDS: 1
+(INFO) [2015-07-27 17:44:35,608] JavaFX Application Thread controller.LetterGameController - SIZE_VARIATION: true
+(INFO) [2015-07-27 17:44:35,609] JavaFX Application Thread model.AlphaPairGenerator - AlphaPairGenerator constructed.
+(INFO) [2015-07-27 17:45:14,051] JavaFX Application Thread model.AlphaPairGenerator - NEW PAIR WITH DIFFICULTY:1 DIFFERENCE: 9
+(INFO) [2015-07-27 17:45:26,703] JavaFX Application Thread controller.LetterGameController - TIME_BETWEEN_ROUNDS: 1
+(INFO) [2015-07-27 17:45:26,704] JavaFX Application Thread controller.LetterGameController - SIZE_VARIATION: true
+(INFO) [2015-07-27 17:45:26,705] JavaFX Application Thread model.AlphaPairGenerator - AlphaPairGenerator constructed.
+(INFO) [2015-07-27 21:47:51,188] JavaFX Application Thread controller.LetterGameController - TIME_BETWEEN_ROUNDS: 1
+(INFO) [2015-07-27 21:47:51,189] JavaFX Application Thread controller.LetterGameController - SIZE_VARIATION: true
+(INFO) [2015-07-27 21:47:51,191] JavaFX Application Thread model.AlphaPairGenerator - AlphaPairGenerator constructed.
+(INFO) [2015-07-28 10:27:48,797] JavaFX Application Thread controller.LetterGameController - TIME_BETWEEN_ROUNDS: 1
+(INFO) [2015-07-28 10:27:48,800] JavaFX Application Thread controller.LetterGameController - SIZE_VARIATION: true
+(INFO) [2015-07-28 10:27:48,804] JavaFX Application Thread model.AlphaPairGenerator - AlphaPairGenerator constructed.
