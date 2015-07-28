@@ -87,15 +87,15 @@ public class DataWriter {
             path = path.substring(0, path.length() - 1);
             
             /** Create results folder if doesn't exist */
-            File resultsDir = new File("results");
+            File resultsDir = new File("results_letters");
             resultsDir.mkdir();
             
             /** Create subject folder if doesn't exist */
-            File subjectDir = new File("results\\" + subjectId);
+            File subjectDir = new File("results_letters\\" + subjectId);
             subjectDir.mkdir();    
             
             /** Create new csv file for subject if doesn't exist */
-            File file = new File(path + "\\results\\" + subjectId 
+            File file = new File(path + "\\results_letters\\" + subjectId 
                     + "\\results_" + subjectId + ".csv");            
             logger.info(file.getPath());
             String text = "";
