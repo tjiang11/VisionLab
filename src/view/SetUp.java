@@ -21,6 +21,7 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
@@ -136,6 +137,14 @@ public final class SetUp {
      * @return Scene the instructions scene
      */
     public static void setUpInstructionsScreen(GameGUI view) {
+        Rectangle r = new Rectangle();
+        r.setLayoutX(SCREEN_WIDTH * .09);
+        r.setLayoutY(SCREEN_HEIGHT * .07);
+        r.setWidth(SCREEN_WIDTH * .82);
+        r.setHeight(SCREEN_HEIGHT * .84);
+        r.setFill(Color.BEIGE);
+        r.setOpacity(0.5);
+        
         Text instructionsText = new Text();
         instructionsText.setText("In this assessment, for each question you will be shown a pair of letters. "
                 + "Decide which letter comes later in the alphabet. "
@@ -156,7 +165,7 @@ public final class SetUp {
         view.getNext().setPrefWidth(SCREEN_WIDTH * .06);
         view.getNext().setLayoutX(SCREEN_WIDTH / 2 - view.getNext().getPrefWidth() / 2);        
         view.getNext().setLayoutY(SCREEN_HEIGHT * .83);
-        view.getLayout().getChildren().setAll(instructionsText, view.getNext());
+        view.getLayout().getChildren().setAll(r, instructionsText, view.getNext());
     }
     
     /**
