@@ -273,8 +273,6 @@ public final class SetUp {
         view.getLeftOption().setLayoutY(LEFT_OPTION_Y);
         view.getRightOption().setLayoutX(RIGHT_OPTION_X);
         view.getRightOption().setLayoutY(RIGHT_OPTION_Y);
-        view.getLeftOption().setTextFill(FONT_COLORS[0]);
-        view.getRightOption().setTextFill(FONT_COLORS[0]);
     }
     
     /**
@@ -298,6 +296,8 @@ public final class SetUp {
 
         view.getLeftOption().setAlignment(Pos.CENTER);
         view.getRightOption().setAlignment(Pos.CENTER);
+        view.getLeftOption().setTextFill(FONT_COLORS[0]);
+        view.getRightOption().setTextFill(FONT_COLORS[0]);
     }
 
     /**
