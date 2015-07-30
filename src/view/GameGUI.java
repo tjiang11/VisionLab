@@ -161,11 +161,18 @@ public class GameGUI {
     }
     
     /**
-     * Change the background in real time.
+     * Change the background.
      */
     public void changeBackground(int level) { 
         SetUp.setBackground(this.layout, level);
         this.scene.setRoot(this.layout);
+    }
+    
+    /**
+     * Change font colors.
+     */
+    public void changeFontColors(int level) {
+        SetUp.setFontColors(this, level);
     }
     
     public Scene getScene() {
