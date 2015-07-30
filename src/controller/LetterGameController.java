@@ -17,6 +17,9 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.scene.text.Font;
 import view.GameGUI;
 
@@ -358,11 +361,19 @@ public class LetterGameController implements GameController {
         if (numStars % STARS_PER_BACKGROUND == 0) {
             theView.changeBackground(++backgroundNumber);
             theView.changeFontColors(backgroundNumber);
-            URL applauseSound = getClass().getResource("/res/sounds/Applause.wav");
-            AudioClip applause = new AudioClip(applauseSound.toString());
-            applause.setRate(1.4);
-            applause.play();
+            this.applauseSound();
         }    
+    }
+    
+    /** Play applause sound */
+    private void applauseSound() {
+        URL applauseSound = getClass().getResource("/res/sounds/Applause.mp3");
+        Media applause = new Media(applauseSound.toString());
+        MediaPlayer applausePlayer = new MediaPlayer(applause);
+        applausePlayer.setAutoPlay(true);
+        applausePlayer.setRate(1.4);
+        MediaView mediaView = new MediaView(applausePlayer);
+        theView.getLayout().getChildren().add(mediaView);
     }
 
     /** If user inputs correct answer play positive feedback sound,
