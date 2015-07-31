@@ -13,6 +13,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 
 /**
@@ -67,6 +68,9 @@ public class GameGUI {
     /** Instructions Screen - Next button */
     private Button next;
     
+    /** Exit pop up asking if user wants to quit. */
+    private Popup exitPopup;
+    
     /** Practice Complete screen */
     /** Label informing user has complete the practice trials. */
     private Text practiceComplete;
@@ -112,6 +116,7 @@ public class GameGUI {
         this.primaryStage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
         this.primaryStage.setFullScreen(true);
         this.primaryStage.sizeToScene();
+        SetUp.setExitPopup(this);
     }
     
     /**
@@ -173,6 +178,14 @@ public class GameGUI {
      */
     public void changeFontColors(int level) {
         SetUp.setFontColors(this, level);
+    }
+    
+
+    /**
+     * Show the exit pop up asking if user wants to quit.
+     */
+    public void showExitPopup() {
+        SetUp.showExitPopup(this);     
     }
     
     public Scene getScene() {
@@ -381,5 +394,13 @@ public class GameGUI {
 
     public void setFeedbackAge(Label feedbackAge) {
         this.feedbackAge = feedbackAge;
+    }
+
+    public Popup getExitPopup() {
+        return exitPopup;
+    }
+
+    public void setExitPopup(Popup exitPopup) {
+        this.exitPopup = exitPopup;
     }
 }
