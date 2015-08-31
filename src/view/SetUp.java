@@ -277,8 +277,10 @@ public final class SetUp {
     public static void initialOptionSetUp(GameGUI view) {
         view.getLeftOption().setFont(new Font("Tahoma", INITIAL_LETTER_SIZE));
         view.getRightOption().setFont(new Font("Tahoma", INITIAL_LETTER_SIZE));
-        view.getLeftOption().setStyle("-fx-background-color: transparent;");
-        view.getRightOption().setStyle("-fx-background-color: transparent;");
+        view.getLeftOption().setStyle("-fx-background-color: rgba(255,255,255,.65);");
+        view.getRightOption().setStyle("-fx-background-color: rgba(255,255,255,.65);");
+        view.getLeftOption().setVisible(false);
+        view.getRightOption().setVisible(false);
         view.getLeftOption().setMinWidth(SCREEN_WIDTH / 2);
         view.getLeftOption().setMaxWidth(SCREEN_WIDTH / 2);
         view.getLeftOption().setMaxHeight(SCREEN_HEIGHT * .75);

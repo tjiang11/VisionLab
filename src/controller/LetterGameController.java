@@ -424,6 +424,8 @@ public class LetterGameController implements GameController {
                 gameState = GameState.WAITING_FOR_RESPONSE;
                 responseTimeMetric = System.nanoTime();
                 theView.getGetReadyBox().setVisible(false);
+                theView.getLeftOption().toBack();
+                theView.getRightOption().toBack();
             }
         });
         new Thread(sleeper).start();
@@ -478,7 +480,9 @@ public class LetterGameController implements GameController {
      */
     public void clearRound() {
         getTheView().getLeftOption().setText("");
+        getTheView().getLeftOption().setVisible(false);
         getTheView().getRightOption().setText("");
+        getTheView().getRightOption().setVisible(false);
     }
 
     /**
@@ -530,7 +534,9 @@ public class LetterGameController implements GameController {
         char letterOne = this.currentAlphaPair.getLetterOne();
         char letterTwo = this.currentAlphaPair.getLetterTwo();
         theView.getLeftOption().setText(String.valueOf(letterOne));
+        theView.getLeftOption().setVisible(true);
         theView.getRightOption().setText(String.valueOf(letterTwo));
+        theView.getRightOption().setVisible(true);
         if (SIZE_VARIATION) {
             this.setFontSizes();
         };
